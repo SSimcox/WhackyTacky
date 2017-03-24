@@ -1,0 +1,58 @@
+/*@font-face*/
+/*{*/
+    /*font-family: myFont;*/
+    /*src: url('./resources/INVASION2000.ttf');*/
+/*}*/
+
+body{
+    font-family: "myFont", "Comic Sans MS", serif;
+    font-size: 1.5em;
+    font-variant: small-caps;
+    background-color: #000012;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+}
+
+div{
+    width: 100%
+}
+
+canvas{
+    display: inline-block;
+    margin: 4vh;
+    width: 45vw;
+    height: 90vh;
+    background-color: white;
+}
+
+h1{
+    text-align: center;
+    outline-color: yellow;
+}
+
+#menu{
+    width: 50%;
+    margin: 0 auto;
+    align-content: center;
+}
+
+button{
+    display: block;
+    margin: 5px auto;
+    font-family: "myFont", "Comic Sans MS", serif;
+}
+
+#score-table{
+    margin: 10px auto;
+}
+
+#fps{
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+.hidden{
+    display:none;
+}
