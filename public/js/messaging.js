@@ -6,8 +6,6 @@ var socket = io()
 var room
 socket.on('connect',function(){console.log(socket.id)})
 
-
-
 socket.on('change color',changeYourColor)
 
 function changeYourColor(colorString){
@@ -51,4 +49,8 @@ socket.on('list games',function(list){
       socket.emit('join game', list[i].id)
     })
   }
+})
+
+socket.on('player left', function(){
+  Game.game.showScreen('main-menu')
 })
