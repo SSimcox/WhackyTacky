@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var server = require('http').Server(app)
 var io = require('./routes/io')(server)
+var port = process.env.PORT || 3000
 
 //var exampleRoute = require('./routes/exampleRoute');
 
@@ -23,6 +24,6 @@ app.get('/', function (req, res) {
  res.sendFile(__dirname + '/views/index.html')
 });
 
-server.listen(3000, function () {
+server.listen(port, function () {
   console.log("Listening on 3000")
 });
