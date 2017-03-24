@@ -5,13 +5,38 @@
     <title>Whacky Tacky Tower Defense</title>
     <link rel="stylesheet" href="public/css/index.css">
 </head>
-<body>
-    <canvas id="my-canvas"></canvas>
-    <canvas id="your-canvas"></canvas>
+<body onload="Game.game.initialize()">
+    <div id="game">
+        <div id="game-play" class="screen active">
+            <canvas id="my-canvas"></canvas>
+            <canvas id="your-canvas"></canvas>
+        </div>
+        <div id = "main-menu" class = "screen">
+            <ul class = "menu">
+                <li><button id = "id-new-game">Create&nbsp;Game</button></li>
+                <li><button id = "id-find-game">Find Game</button></li>
+            </ul>
+        </div>
+        <div id="create-game" class="screen">
+            <label>Room Name:</label>
+            <input id="room-name" type="text">
+            <ul class="menu">
+                <li><button id = "id-start-game">Start&nbsp;Game</button></li>
+            </ul>
+        </div>
+        <div id = "find-game" class = "screen">
+            <ul id="available-games" class = "menu">
 
-
-
+            </ul>
+        </div>
+    </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <script src="/public/js/index.js"></script>
     <script src="/public/js/messaging.js"></script>
+    <script src="/public/js/menu.js"></script>
+    <script src="/public/js/createGame.js"></script>
+    <script src="/public/js/gamePlay.js"></script>
+    <script src="/public/js/findGame.js"></script>
 </body>
+
 </html>

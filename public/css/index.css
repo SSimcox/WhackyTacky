@@ -10,12 +10,23 @@ body{
     font-variant: small-caps;
     background-color: #000012;
     color: white;
-    display: flex;
-    justify-content: space-around;
+    margin:0;
 }
 
 div{
     width: 100%
+}
+
+div #game{
+    font-family: "myFont", "Comic Sans MS", serif;
+    font-size: 1.5em;
+    font-variant: small-caps;
+    background-color: #000012;
+    color: white;
+}
+
+#game-play{
+    justify-content: space-around;
 }
 
 canvas{
@@ -55,4 +66,20 @@ button{
 
 .hidden{
     display:none;
+}
+
+#game .screen{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 10;
+}
+
+#game .screen.active{
+    display: block;
+}
+
+#game-play.screen.active{
+    display: flex;
 }
