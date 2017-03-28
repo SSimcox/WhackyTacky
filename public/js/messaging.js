@@ -25,13 +25,30 @@ function changeMyColor(){
   context.save()
   context.fillStyle = colorString
   context.fillRect(0,0,context.canvas.width,context.canvas.height)
+
+  var gridWidth = context.canvas.width / 10;
+  var gridHeight= context.canvas.height / 10;
+  console.log(document.getElementById("my-canvas").width)
+  console.log(document.getElementById("my-canvas").height)
+  context.lineWidth = 1
+  context.beginPath()
+  for(let i = 0; i < 10; i++){
+    for(let j = 0; j < 10; j++){
+
+      context.moveTo(j*gridWidth,i*gridHeight)
+      context.lineTo((j+1)*gridWidth,i*gridHeight)
+      context.lineTo((j+1)*gridWidth,(i+1)*gridHeight)
+      context.lineTo(j*gridWidth,(i+1)*gridHeight)
+      context.lineTo(j*gridWidth,i*gridHeight)
+    }
+  }
+  context.stroke()
   context.restore()
   socket.emit('change color', {colorString: colorString, id:room})
 }
 
 function requestGame(roomName){
   socket.emit('request room', roomName)
-  console.log("request Sent")
 }
 
 socket.on('start game', function(roomName){
@@ -40,7 +57,6 @@ socket.on('start game', function(roomName){
 })
 
 socket.on('list games',function(list){
-  console.log(list)
   var element = document.getElementById("available-games")
   element.innerHTML = ""
   for(let i = 0; i < list.length; ++i){

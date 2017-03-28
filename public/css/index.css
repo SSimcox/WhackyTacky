@@ -31,7 +31,7 @@ div #game{
 
 canvas{
     display: inline-block;
-    margin: 4vh;
+    margin: 5vh;
     width: 45vw;
     height: 90vh;
     background-color: white;

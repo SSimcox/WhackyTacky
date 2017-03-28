@@ -9,6 +9,11 @@
 //
 // ------------------------------------------------------------------
 
+var myOffset = {x:0,y:0}
+var yourOffset = {x:0,y:0}
+var scaleOffset = 1
+
+
 let Game = {
   screens: {}
 }
@@ -56,6 +61,24 @@ Game.game = (function(screens) {
     //
     // Make the main-menu screen the active one
     showScreen('main-menu');
+
+    var myCanvas = document.getElementById('my-canvas')
+    var yourCanvas = document.getElementById('your-canvas')
+
+    myCanvas.width = yourCanvas.width = 1000;
+    myCanvas.height = yourCanvas.height = 1000;
+    resizeCanvas(myCanvas, myOffset)
+    resizeCanvas(yourCanvas, yourOffset)
+    window.onresize = function(){
+      resizeCanvas(myCanvas, myOffset)
+      resizeCanvas(yourCanvas, yourOffset)
+    }
+    window.onclick = function(event){
+      let x = (event.pageX - myOffset.x) / scaleOffset
+      let y = (event.pageY - myOffset.y) / scaleOffset
+      console.log(`x: ${x}`)
+      console.log(`y: ${y}`)
+    }
   }
 
   return {
@@ -63,3 +86,22 @@ Game.game = (function(screens) {
     showScreen : showScreen
   };
 }(Game.screens));
+
+function resizeCanvas(canvas, offset){
+  var h = window.innerHeight
+  var w = window.innerWidth
+  if(window.innerHeight * 2 < window.innerWidth){
+    canvas.style.height = "90vh";
+    canvas.style.width = "90vh";
+    offset.x = (w - (2*h*.9))/4
+    scaleOffset = window.innerHeight * .9 / 1000
+  }
+  else{
+    canvas.style.height = "45vw";
+    canvas.style.width = "45vw";
+    offset.x = ((w - (2*w*.45))/4)
+    scaleOffset = window.innerWidth * .45 / 1000
+  }
+  offset.y = .05 * h
+
+}
