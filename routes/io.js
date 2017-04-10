@@ -7,6 +7,7 @@ module.exports = function(app) {
   let io = require('socket.io')(app)
   let connections = {}
   let pendingGames = []
+  let activeGames = []
 
   io.on('connection', function(socket){
     connections[socket.id] = socket
