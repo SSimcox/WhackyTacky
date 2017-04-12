@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Whacky Tacky Tower Defense</title>
     <link rel="stylesheet" href="public/css/index.css">
+
 </head>
 <body onload="Game.game.initialize()">
     <div id="game">
@@ -31,12 +32,35 @@
         </div>
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+
     <script src="/public/scripts/index.js"></script>
-    <script src="/public/scripts/Networking/messaging.js"></script>
     <script src="/public/scripts/Screens/menu.js"></script>
     <script src="/public/scripts/Screens/createGame.js"></script>
     <script src="/public/scripts/Screens/gamePlay.js"></script>
     <script src="/public/scripts/Screens/findGame.js"></script>
+
+    <script src="/public/scripts/Input/Keyboard.js"></script>
+
+    <script src="/public/scripts/Rendering/core.js"></script>
+    <script src="/public/scripts/Rendering/AnimatedSprite.js"></script>
+    <script src="/public/scripts/Rendering/Text.js"></script>
+    <script src="/public/scripts/Rendering/Tower.js"></script>
+
+    <script src="/public/scripts/Components/AnimatedSprite.js"></script>
+    <script src="/public/scripts/Components/Tower.js"></script>
+    <script src="/public/scripts/Components/Charmander.js"></script>
+    <script src="/public/scripts/Components/Bulbasaur.js"></script>
+    <script src="/public/scripts/Components/Squirtle.js"></script>
+    <script src="/public/scripts/Components/Text.js"></script>
+
+    <script src="/public/scripts/model.js"></script>
+    <script src="/public/scripts/main.js"></script>
+
+    <script data-main = "/public/scripts/loader" src = "/public/scripts/require.js"></script>
+
+
+    <script src="/public/scripts/Networking/messaging.js"></script>
+
 </body>
 
 </html>

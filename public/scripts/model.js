@@ -5,9 +5,7 @@
 // ------------------------------------------------------------------
 Demo.model = (function(input, components) {
 	'use strict';
-	var birdLittle = null,
-		birdBig = null,
-		charmander = null,
+	var towers = [], creeps = [],
 		myKeyboard = input.Keyboard(),
 		that = {};
 
@@ -21,56 +19,28 @@ Demo.model = (function(input, components) {
 
 		//
 		// Get our animated bird model and renderer created
-		charmander = components.Charmander({
-      size: { width: 0.1, height: 0.1 },
-      center: { x: 0.05, y: 0.05 },
-      rotation: 0,
-      moveRate: 0.2 / 1000,		// World units per second
-      rotateRate: Math.PI / 1000	// Radians per second
-		})
+		towers.push(components.Charmander({
+      spriteCenter: { x: 500, y: 500 },
+		}))
+    towers.push(components.Bulbasaur({
+      spriteCenter: {x: 250, y : 500}
+    }))
+    towers.push(components.Squirtle({
+      spriteCenter: {x: 750, y : 500}
+    }))
 
-		birdLittle = components.Bird({
-			size: { width: 0.1, height: 0.1 },
-			center: { x: 0.05, y: 0.05 },
-			rotation: 0,
-			moveRate: 0.2 / 1000,		// World units per second
-			rotateRate: Math.PI / 1000	// Radians per second
-		});
+    //Example of how upgrading could work
+    // towers[i] = components.Charmeleon({
+    //   center: towers[i].center,
+    //   exp: towers[i].exp
+    // })
 
-		birdBig = components.Bird({
-			size: { width: 0.2, height: 0.2 },
-			center: { x: 0.1, y: 0.9 },
-			rotation: 0,
-			moveRate: 0.15/ 1000,
-			rotateRate: Math.PI / 1000,
-			animationScale: 1.5
-		});
+		// myKeyboard.registerHandler(function(elapsedTime) {
+		// 		birdLittle.moveForward(elapsedTime);
+		// 	},
+		// 	input.KeyEvent.DOM_VK_W, true);
 
-		myKeyboard.registerHandler(function(elapsedTime) {
-				birdLittle.moveForward(elapsedTime);
-			},
-			input.KeyEvent.DOM_VK_W, true);
-		myKeyboard.registerHandler(function(elapsedTime) {
-				birdLittle.rotateRight(elapsedTime);
-			},
-			input.KeyEvent.DOM_VK_D, true);
-		myKeyboard.registerHandler(function(elapsedTime) {
-				birdLittle.rotateLeft(elapsedTime);
-			},
-			input.KeyEvent.DOM_VK_A, true);
 
-		myKeyboard.registerHandler(function(elapsedTime) {
-				birdBig.moveForward(elapsedTime);
-			},
-			input.KeyEvent.DOM_VK_I, true);
-		myKeyboard.registerHandler(function(elapsedTime) {
-				birdBig.rotateRight(elapsedTime);
-			},
-			input.KeyEvent.DOM_VK_L, true);
-		myKeyboard.registerHandler(function(elapsedTime) {
-				birdBig.rotateLeft(elapsedTime);
-			},
-			input.KeyEvent.DOM_VK_J, true);
 	};
 
 	// ------------------------------------------------------------------
@@ -88,8 +58,9 @@ Demo.model = (function(input, components) {
 	//
 	// ------------------------------------------------------------------
 	that.update = function(elapsedTime) {
-		birdLittle.update(elapsedTime);
-		birdBig.update(elapsedTime);
+    for(let i = 0; i < towers.length; i++){
+      towers[i].update(elapsedTime)
+    }
 	};
 
 	// ------------------------------------------------------------------
@@ -103,8 +74,10 @@ Demo.model = (function(input, components) {
 		// Draw a border around the unit world.
 		renderer.core.drawRectangle('rgba(255, 255, 255, 1)', 0, 0, 1, 1);
 
-		renderer.Bird.render(birdLittle);
-		renderer.Bird.render(birdBig);
+
+		for(let i = 0; i < towers.length; i++){
+		  renderer.Tower.render(towers[i])
+    }
 	};
 
 	return that;

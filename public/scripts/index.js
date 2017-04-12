@@ -13,6 +13,13 @@ var myOffset = {x:0,y:0}
 var yourOffset = {x:0,y:0}
 var scaleOffset = 1
 
+Demo = {
+  input: {},
+  components: {},
+  renderer: {},
+  assets: {},
+  main: {}
+};
 
 let Game = {
   screens: {}
@@ -49,6 +56,7 @@ Game.game = (function(screens) {
   //
   //------------------------------------------------------------------
   function initialize() {
+
     var screen = null;
     //
     // Go through each of the screens and tell them to initialize

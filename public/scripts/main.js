@@ -80,7 +80,7 @@ Demo.main = (function(renderer, components, model) {
 	//------------------------------------------------------------------
 	function initialize() {
 		renderer.core.initialize();
-
+		lastTimeStamp = performance.now()
 		textFPS.height = renderer.core.measureTextHeight(textFPS);
 		textFPS.width = renderer.core.measureTextWidth(textFPS);
 

@@ -1,4 +1,8 @@
 /**
+ * Created by Steven on 4/11/2017.
+ */
+
+/**
  * Created by Steven on 4/10/2017.
  */
 
@@ -16,15 +20,15 @@
 //	}
 //
 //------------------------------------------------------------------
-Demo.components.Charmander = function(spec) {
+Demo.components.Squirtle = function(spec) {
   'use strict';
   var tower = null;
 
   // Get our animated bird model and renderer created
   tower = Demo.components.Tower({
-    spriteSheet: Demo.assets['charmander'],
-    spriteCount: 19,
-    spriteTime: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19,14,16],
+    spriteSheet: Demo.assets['squirtle'],
+    spriteCount: 17,
+    spriteTime: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19],
     animationScale: 1.0,
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{

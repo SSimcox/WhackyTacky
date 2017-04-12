@@ -1,9 +1,3 @@
-Demo = {
-	input: {},
-	components: {},
-	renderer: {},
-	assets: {}
-};
 
 
 //------------------------------------------------------------------
@@ -19,9 +13,15 @@ Demo.loader = (function() {
 	var assetOrder = [{
 			// Source: http://www.xojo3d.com/tut015.php
 			// License: Public domain as noted at the bottom of the page
-			key: 'animated-bird',
-			source: '/assets/graphics/spritesheet.png'
-		}];
+			key: 'charmander',
+			source: '/public/assets/graphics/towers/charmander.png'
+		},{
+		key: 'bulbasaur',
+		source: '/public/assets/graphics/towers/bulbasaur.png'
+	},{
+    key: 'squirtle',
+    source: '/public/assets/graphics/towers/squirtle.png'
+  }];
 
 	//------------------------------------------------------------------
 	//
@@ -104,11 +104,11 @@ Demo.loader = (function() {
 			fileExtension = source.substr(source.lastIndexOf('.') + 1);	// Source: http://stackoverflow.com/questions/680929/how-to-extract-extension-from-filename-string-in-javascript
 
 		if (fileExtension) {
-			xhr.open('GET', source, true);
-			xhr.responseType = 'blob';
-
-			xhr.onload = function() {
-				if (xhr.status === 200) {
+			// xhr.open('GET', source, true);
+			// xhr.responseType = 'blob';
+      //
+      // xhr.onload = function() {
+				// if (xhr.status === 200) {
 					if (fileExtension === 'png' || fileExtension === 'jpg') {
 						asset = new Image();
 					} else if (fileExtension === 'mp3') {
@@ -117,19 +117,21 @@ Demo.loader = (function() {
 						if (onError) { onError('Unknown file extension: ' + fileExtension); }
 					}
 					asset.onload = function() {
-						window.URL.revokeObjectURL(asset.src);
+						console.log('loaded')
+						//window.URL.revokeObjectURL(asset.src);
 					};
-					asset.src = window.URL.createObjectURL(xhr.response);
+					asset.src = source//window.URL.createObjectURL(xhr.response);
 					if (onSuccess) { onSuccess(asset); }
-				} else {
-					if (onError) { onError('Failed to retrieve: ' + source); }
-				}
-			};
-		} else {
+			// 	} else {
+			// 		if (onError) { onError('Failed to retrieve: ' + source); }
+			// 	}
+			// };
+		}
+		else {
 			if (onError) { onError('Unknown file extension: ' + fileExtension); }
 		}
 
-		xhr.send();
+		//xhr.send();
 	}
 
 	//------------------------------------------------------------------
@@ -139,7 +141,7 @@ Demo.loader = (function() {
 	//------------------------------------------------------------------
 	function mainComplete() {
 		console.log('it is all loaded up');
-		Demo.main.initialize();
+		//Demo.main.initialize();
 	}
 
 	//
@@ -155,7 +157,7 @@ Demo.loader = (function() {
 		function() {
 			console.log('All assets loaded');
 			console.log('Starting to dynamically load project scripts');
-			loadScripts(scriptOrder, mainComplete);
+			//loadScripts(scriptOrder, mainComplete);
 		}
 	);
 

@@ -26,14 +26,16 @@ function changeMyColor(){
   context.fillStyle = colorString
   context.fillRect(0,0,context.canvas.width,context.canvas.height)
 
-  var gridWidth = context.canvas.width / 10;
-  var gridHeight= context.canvas.height / 10;
+  var divisions = 20
+
+  var gridWidth = context.canvas.width / divisions;
+  var gridHeight= context.canvas.height / divisions;
   console.log(document.getElementById("my-canvas").width)
   console.log(document.getElementById("my-canvas").height)
   context.lineWidth = 1
   context.beginPath()
-  for(let i = 0; i < 10; i++){
-    for(let j = 0; j < 10; j++){
+  for(let i = 0; i < divisions; i++){
+    for(let j = 0; j < divisions; j++){
 
       context.moveTo(j*gridWidth,i*gridHeight)
       context.lineTo((j+1)*gridWidth,i*gridHeight)
@@ -54,6 +56,7 @@ function requestGame(roomName){
 socket.on('start game', function(roomName){
   Game.game.showScreen("game-play")
   room = roomName
+  Demo.main.initialize()
 })
 
 socket.on('list games',function(list){

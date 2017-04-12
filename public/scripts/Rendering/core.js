@@ -8,7 +8,7 @@ Demo.renderer.core = (function() {
 	var canvas = null,
 		context = null,
 		world = {
-			size: 0,
+			size: 1,
 			top: 0,
 			left: 0
 		},
@@ -103,23 +103,23 @@ Demo.renderer.core = (function() {
 	//
 	//------------------------------------------------------------------
 	function initialize() {
-		canvas = document.getElementById('canvas-main');
+		canvas = document.getElementById('my-canvas');
 		context = canvas.getContext('2d');
 
-		window.addEventListener('resize', function() {
-			resizeCanvas();
-		}, false);
-		window.addEventListener('orientationchange', function() {
-			resizeCanvas();
-		}, false);
-		window.addEventListener('deviceorientation', function() {
-			resizeCanvas();
-		}, false);
+		// window.addEventListener('resize', function() {
+		// 	resizeCanvas();
+		// }, false);
+		// window.addEventListener('orientationchange', function() {
+		// 	resizeCanvas();
+		// }, false);
+		// window.addEventListener('deviceorientation', function() {
+		// 	resizeCanvas();
+		// }, false);
 
 		//
 		// Force the canvas to resize to the window first time in, otherwise
 		// the canvas is a default we don't want.
-		resizeCanvas();
+		//resizeCanvas();
 	}
 
 	//------------------------------------------------------------------
