@@ -10,18 +10,26 @@
 //------------------------------------------------------------------
 Demo.loader = (function() {
 	'use strict';
-	var assetOrder = [{
+	var assetOrder = [
+	  {
 			// Source: http://www.xojo3d.com/tut015.php
 			// License: Public domain as noted at the bottom of the page
 			key: 'charmander',
 			source: '/public/assets/graphics/towers/charmander.png'
-		},{
-		key: 'bulbasaur',
-		source: '/public/assets/graphics/towers/bulbasaur.png'
-	},{
-    key: 'squirtle',
-    source: '/public/assets/graphics/towers/squirtle.png'
-  }];
+		},
+    {
+      key: 'bulbasaur',
+      source: '/public/assets/graphics/towers/bulbasaur.png'
+    },
+    {
+      key: 'bulbasaur-back',
+      source: '/public/assets/graphics/towers/bulbasaur-back.png'
+    },
+    {
+      key: 'squirtle',
+      source: '/public/assets/graphics/towers/squirtle.png'
+    }
+  ];
 
 	//------------------------------------------------------------------
 	//

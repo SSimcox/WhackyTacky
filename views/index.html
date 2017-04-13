@@ -7,12 +7,15 @@
 
 </head>
 <body onload="Game.game.initialize()">
+    <script>
+        var pageStart = Date.now()
+    </script>
     <div id="game">
-        <div id="game-play" class="screen active">
+        <div id="game-play" class="screen">
             <canvas id="my-canvas"></canvas>
             <canvas id="your-canvas"></canvas>
         </div>
-        <div id = "main-menu" class = "screen">
+        <div id = "main-menu" class = "screen active">
             <ul class = "menu">
                 <li><button id = "id-new-game">Create&nbsp;Game</button></li>
                 <li><button id = "id-find-game">Find Game</button></li>

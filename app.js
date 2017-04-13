@@ -6,7 +6,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var server = require('http').Server(app)
-var io = require('./routes/io')(server)
+var io = require('./scripts/io')(server)
 var port = process.env.PORT || 3000
 var http = require('http'),
   path = require('path'),
@@ -18,7 +18,7 @@ var mimeTypes = {
   '.css' : 'text/css'
 };
 
-//var exampleRoute = require('./routes/exampleRoute');
+//var exampleRoute = require('./scripts/exampleRoute');
 
 
 app.use('/public', express.static('public'));

@@ -5,7 +5,7 @@
 
 // ------------------------------------------------------------------
 //
-// Rendering function for an /Components/Bird object.
+// Rendering function for an /Components/Tower object.
 //
 // ------------------------------------------------------------------
 Demo.renderer.Tower = (function(core) {
@@ -14,9 +14,10 @@ Demo.renderer.Tower = (function(core) {
 
   // ------------------------------------------------------------------
   //
-  // Renders a Bird model.  Because the model can be rotated, that needs
-  // to be done here, because the underlying animated sprite doesn't know
-  // anything about rotation.
+  // Renders a Tower model.  Because the model can be facing down or up,
+  // that needs to be done here, because the underlying animated sprite
+  // doesn't know anything about changing the way it faces.
+  // Maybe should be done in Tower component update function?
   //
   // ------------------------------------------------------------------
   that.render = function(sprite) {

@@ -1,5 +1,5 @@
 /**
- * Created by Steven on 4/11/2017.
+ * Created by Steven on 4/12/2017.
  */
 
 //------------------------------------------------------------------
@@ -20,6 +20,8 @@ Demo.components.Tower = function(spec) {
   'use strict';
   var spriteFront = null,
     spriteBack = null,
+    spriteLeft = null,
+    spriteRight = null,
     facingDown = true,
     that = {
       get center() { return sprite.center; },
@@ -36,17 +38,15 @@ Demo.components.Tower = function(spec) {
   //
   //------------------------------------------------------------------
   that.update = function(elapsedTime) {
-    if(spec.spriteSheetBack != spec.spriteSheetFront) facingDown = false;
-    spriteFront.update(elapsedTime, true);
-    spriteBack.update(elapsedTime, true);
+    sprite.update(elapsedTime, true);
   };
 
   //
   // Get our animated bird model and renderer created
   spriteFront = Demo.components.AnimatedSprite({
     spriteSheet: spec.spriteSheetFront,
-    spriteCount: spec.spriteCountFront,
-    spriteTime: spec.spriteTimeFront,
+    spriteCount: spec.spriteCount,
+    spriteTime: spec.spriteTime,
     animationScale: spec.animationScale,
     spriteSize: { width: 75, height: 75},			// Maintain the size on the sprite
     spriteCenter: spec.spriteCenter		// Maintain the center on the sprite
@@ -54,8 +54,8 @@ Demo.components.Tower = function(spec) {
 
   spriteBack = Demo.components.AnimatedSprite({
     spriteSheet: spec.spriteSheetBack,
-    spriteCount: spec.spriteCountBack,
-    spriteTime: spec.spriteTimeBack,
+    spriteCount: spec.spriteCount,
+    spriteTime: spec.spriteTime,
     animationScale: spec.animationScale,
     spriteSize: { width: 75, height: 75},			// Maintain the size on the sprite
     spriteCenter: spec.spriteCenter		// Maintain the center on the sprite

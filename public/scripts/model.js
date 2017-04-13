@@ -5,7 +5,17 @@
 // ------------------------------------------------------------------
 Demo.model = (function(input, components) {
 	'use strict';
-	var towers = [], creeps = [],
+	var players = [
+	  {
+      towers: [],
+      creeps: [],
+      money: 0
+    },
+    {
+      towers: [],
+      creeps: [],
+      money: 0
+    }],
 		myKeyboard = input.Keyboard(),
 		that = {};
 
@@ -19,13 +29,13 @@ Demo.model = (function(input, components) {
 
 		//
 		// Get our animated bird model and renderer created
-		towers.push(components.Charmander({
+		players[0].towers.push(components.Charmander({
       spriteCenter: { x: 500, y: 500 },
 		}))
-    towers.push(components.Bulbasaur({
+    players[0].towers.push(components.Bulbasaur({
       spriteCenter: {x: 250, y : 500}
     }))
-    towers.push(components.Squirtle({
+    players[0].towers.push(components.Squirtle({
       spriteCenter: {x: 750, y : 500}
     }))
 
@@ -58,8 +68,13 @@ Demo.model = (function(input, components) {
 	//
 	// ------------------------------------------------------------------
 	that.update = function(elapsedTime) {
-    for(let i = 0; i < towers.length; i++){
-      towers[i].update(elapsedTime)
+	  for(let p = 0; p < players.length; ++p) {
+      for (let i = 0; i < players[p].towers.length; i++) {
+        players[p].towers[i].update(elapsedTime)
+      }
+      for (let i = 0; i < players[p].creeps.length; i++) {
+        players[p].creeps[i].update(elapsedTime)
+      }
     }
 	};
 
@@ -75,9 +90,15 @@ Demo.model = (function(input, components) {
 		renderer.core.drawRectangle('rgba(255, 255, 255, 1)', 0, 0, 1, 1);
 
 
-		for(let i = 0; i < towers.length; i++){
-		  renderer.Tower.render(towers[i])
+		for(let p = 0; p < players.length; ++p) {
+      for (let i = 0; i < players[p].towers.length; i++) {
+        renderer.Tower.render(players[p].towers[i])
+      }
+      for (let i = 0; i < players[p].creeps.length; i++) {
+        renderer.Creep.render(players[p].creeps[i])
+      }
     }
+
 	};
 
 	return that;

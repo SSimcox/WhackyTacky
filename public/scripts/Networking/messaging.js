@@ -8,10 +8,11 @@ socket.on('connect',function(){console.log(socket.id)})
 
 socket.on('change color',changeYourColor)
 
-function changeYourColor(colorString){
+function changeYourColor(message){
+  socket.emit('send ping')
   var context = document.getElementById("your-canvas").getContext("2d")
   context.save()
-  context.fillStyle = colorString
+  context.fillStyle = message.color
   context.fillRect(0,0,context.canvas.width,context.canvas.height)
   context.restore()
 }
@@ -30,8 +31,8 @@ function changeMyColor(){
 
   var gridWidth = context.canvas.width / divisions;
   var gridHeight= context.canvas.height / divisions;
-  console.log(document.getElementById("my-canvas").width)
-  console.log(document.getElementById("my-canvas").height)
+  // console.log(document.getElementById("my-canvas").width)
+  // console.log(document.getElementById("my-canvas").height)
   context.lineWidth = 1
   context.beginPath()
   for(let i = 0; i < divisions; i++){

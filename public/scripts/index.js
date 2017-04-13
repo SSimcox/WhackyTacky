@@ -84,8 +84,8 @@ Game.game = (function(screens) {
     window.onclick = function(event){
       let x = (event.pageX - myOffset.x) / scaleOffset
       let y = (event.pageY - myOffset.y) / scaleOffset
-      console.log(`x: ${x}`)
-      console.log(`y: ${y}`)
+      // console.log(`x: ${x}`)
+      // console.log(`y: ${y}`)
     }
   }
 
