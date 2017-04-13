@@ -16,7 +16,7 @@
 //	}
 //
 //------------------------------------------------------------------
-Demo.components.Tower = function(spec) {
+Demo.components.Creep = function(spec) {
   'use strict';
   var spriteFront = null,
     spriteBack = null,
