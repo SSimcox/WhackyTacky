@@ -84,8 +84,11 @@ Game.game = (function(screens) {
     window.onclick = function(event){
       let x = (event.pageX - myOffset.x) / scaleOffset
       let y = (event.pageY - myOffset.y) / scaleOffset
-      // console.log(`x: ${x}`)
-      // console.log(`y: ${y}`)
+      if(x < 1000 && x > 0 && y > 900 && y < 1000){
+        console.log("starting area")
+      }
+      //console.log(`x: ${x}`)
+      //console.log(`y: ${y}`)
     }
   }
 

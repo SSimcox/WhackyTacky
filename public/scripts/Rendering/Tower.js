@@ -25,7 +25,6 @@ Demo.renderer.Tower = (function(core) {
     // Do any necessary rotation.
     core.saveContext();
     //core.rotateCanvas(sprite.center, sprite.rotation);
-
     Demo.renderer.AnimatedSprite.render(sprite.sprite);
 
     //

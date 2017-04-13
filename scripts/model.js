@@ -36,6 +36,15 @@ module.exports = function(){
     players[0].towers.push(components.Squirtle({
       spriteCenter: {x: 750, y : 500}
     }))
+    players[0].towers.push(components.BulbasaurHover({
+			imageCenter: {x:50, y: 950}
+		}))
+    players[0].buildTowers.push(components.SquirtleHover({
+			imageCenter: {x:150, y: 950}
+		}))
+		players[0].buildTowers.push(components.CharmanderHover({
+			imageCenter: {x:250, y: 950}
+		}))
 
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({
@@ -73,6 +82,9 @@ module.exports = function(){
       for (let i = 0; i < players[p].creeps.length; i++) {
         players[p].creeps[i].update(elapsedTime)
       }
+      for(let i = 0; i < players[p].buildTowers.length; i++){
+				//does nothing
+			}
     }
   };
 
