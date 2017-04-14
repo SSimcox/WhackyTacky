@@ -19,6 +19,7 @@ Demo.model = (function(input, components) {
       money: 0
     }],
 		myKeyboard = input.Keyboard(),
+    socket,
 		that = {};
 
 	// ------------------------------------------------------------------
@@ -116,6 +117,10 @@ Demo.model = (function(input, components) {
     }
 
 	};
+
+  that.setSocket = function(s){
+    socket = s;
+  }
 
 	return that;
 

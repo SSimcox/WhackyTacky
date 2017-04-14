@@ -64,12 +64,15 @@
     <script src="/public/scripts/Components/Text.js"></script>
 
     <script src="/public/scripts/model.js"></script>
+    <script src="/public/scripts/Networking/messaging.js"></script>
     <script src="/public/scripts/main.js"></script>
 
     <script data-main = "/public/scripts/loader" src = "/public/scripts/require.js"></script>
+    <script>
+      Game.game.initialize(socket)
+    </script>
 
 
-    <script src="/public/scripts/Networking/messaging.js"></script>
 
 </body>
 

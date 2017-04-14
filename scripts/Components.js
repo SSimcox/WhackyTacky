@@ -94,12 +94,9 @@ Components.AnimatedSprite = function(spec) {
 //------------------------------------------------------------------
 Components.Tower = function(spec) {
   'use strict';
-  var spriteFront = null,
-    spriteBack = null,
-    facingDown = true,
+  var facingDown = true,
     that = {
       get center() { return sprite.center; },
-      get sprite() { return facingDown ? spriteFront : spriteBack; },
       get rotation() { return spec.rotation; },
       get damage() { return spec.damage; },
       get attack() { return spec.attack; }
@@ -112,31 +109,8 @@ Components.Tower = function(spec) {
   //
   //------------------------------------------------------------------
   that.update = function(elapsedTime) {
-    if(spec.spriteSheetBack != spec.spriteSheetFront) facingDown = false;
-    spriteFront.update(elapsedTime, true);
-    spriteBack.update(elapsedTime, true);
+
   };
-
-  //
-  // Get our animated bird model and renderer created
-  spriteFront = Demo.components.AnimatedSprite({
-    spriteSheet: spec.spriteSheetFront,
-    spriteCount: spec.spriteCountFront,
-    spriteTime: spec.spriteTimeFront,
-    animationScale: spec.animationScale,
-    spriteSize: { width: 75, height: 75},			// Maintain the size on the sprite
-    spriteCenter: spec.spriteCenter		// Maintain the center on the sprite
-  });
-
-  spriteBack = Demo.components.AnimatedSprite({
-    spriteSheet: spec.spriteSheetBack,
-    spriteCount: spec.spriteCountBack,
-    spriteTime: spec.spriteTimeBack,
-    animationScale: spec.animationScale,
-    spriteSize: { width: 75, height: 75},			// Maintain the size on the sprite
-    spriteCenter: spec.spriteCenter		// Maintain the center on the sprite
-
-  })
 
   return that;
 };
@@ -146,14 +120,7 @@ Components.Bulbasaur = function(spec) {
   var tower = null;
 
   // Get our animated bird model and renderer created
-  tower = Demo.components.Tower({
-    spriteSheetFront: Demo.assets['bulbasaur'],
-    spriteSheetBack: Demo.assets['bulbasaur-back'],
-    spriteCountFront: 19,
-    spriteTimeFront: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19,14,16],
-    spriteCountBack: 24,
-    spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19,14,16,15,15,15,15,15],
-    animationScale: 1.0,
+  tower = Components.Tower({
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
       damage: 5,
@@ -172,14 +139,7 @@ Components.Charmander = function(spec) {
   var tower = null;
 
   // Get our animated bird model and renderer created
-  tower = Demo.components.Tower({
-    spriteSheetFront: Demo.assets['charmander'],
-    spriteSheetBack: Demo.assets['charmander'],
-    spriteCountFront: 19,
-    spriteTimeFront: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19,14,16],
-    spriteCountBack: 19,
-    spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19,14,16],
-    animationScale: 1.0,
+  tower = Components.Tower({
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
       damage: 5,
@@ -198,14 +158,7 @@ Components.Squirtle = function(spec) {
   var tower = null;
 
   // Get our animated bird model and renderer created
-  tower = Demo.components.Tower({
-    spriteSheetFront: Demo.assets['squirtle'],
-    spriteSheetBack: Demo.assets['squirtle'],
-    spriteCountFront: 17,
-    spriteTimeFront: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19],
-    spriteCountBack: 17,
-    spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19],
-    animationScale: 1.0,
+  tower = Components.Tower({
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
       damage: 5,
@@ -221,14 +174,8 @@ Components.Squirtle = function(spec) {
 
 Components.Creep = function(spec) {
   'use strict';
-  var spriteFront = null,
-    spriteBack = null,
-    spriteLeft = null,
-    spriteRight = null,
-    facingDown = true,
-    that = {
+  var that = {
       get center() { return sprite.center; },
-      get sprite() { return facingDown ? spriteFront : spriteBack; },
       get rotation() { return spec.rotation; },
       get damage() { return spec.damage; },
       get attack() { return spec.attack; }
@@ -241,30 +188,11 @@ Components.Creep = function(spec) {
   //
   //------------------------------------------------------------------
   that.update = function(elapsedTime) {
-    sprite.update(elapsedTime, true);
+
   };
 
   //
   // Get our animated bird model and renderer created
-  spriteFront = Demo.components.AnimatedSprite({
-    spriteSheet: spec.spriteSheetFront,
-    spriteCount: spec.spriteCount,
-    spriteTime: spec.spriteTime,
-    animationScale: spec.animationScale,
-    spriteSize: { width: 75, height: 75},			// Maintain the size on the sprite
-    spriteCenter: spec.spriteCenter		// Maintain the center on the sprite
-  });
-
-  spriteBack = Demo.components.AnimatedSprite({
-    spriteSheet: spec.spriteSheetBack,
-    spriteCount: spec.spriteCount,
-    spriteTime: spec.spriteTime,
-    animationScale: spec.animationScale,
-    spriteSize: { width: 75, height: 75},			// Maintain the size on the sprite
-    spriteCenter: spec.spriteCenter		// Maintain the center on the sprite
-
-  })
-
   return that;
 };
 
