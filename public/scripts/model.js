@@ -41,15 +41,17 @@ Demo.model = (function(input, components) {
         buildTowers: [],
         towers: [],
         creeps: [],
+				map: [],
         money: 0
       },
       {
         buildTowers: [],
         towers: [],
         creeps: [],
+				map: [],
         money: 0
       }]
-			
+
 		players[0].buildTowers.push(components.BulbasaurHover({
 			imageCenter: {x:50, y: 950}
 		}))
