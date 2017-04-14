@@ -17,14 +17,17 @@ Demo.input.Keyboard = function() {
 		delete keys[e.keyCode];
 	}
 
-	function changeCommand(key1, key2){
-//
-	}
-
-	that.changeCommands = function(key1, key2){
-		handlers[key2] = handlers[key1];
-		for(i in handlers)
-		delete handlers[key1]
+	that.changeCommands = function(gameCommands){
+    handlers = {};
+    that.registerCommand(KeyEvent[Persistance.getControls()['Bulbasaur']], gameCommands.buildTower1)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Charmander']], gameCommands.buildTower2)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Squirtle']], gameCommands.buildTower3)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Evolve']], gameCommands.evolveTower)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Biker']], gameCommands.sendBiker)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Pirate']], gameCommands.sendPirate)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Rocket']], gameCommands.sentRocket)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Scientist']], gameCommands.sendScientist)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Pause']], gameCommands.pause)
 	}
 
 	// ------------------------------------------------------------------

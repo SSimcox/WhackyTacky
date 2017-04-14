@@ -71,9 +71,7 @@ Demo.model = (function(input, components) {
 			}
 		}
 
-		myKeyboard.registerCommand(KeyEvent.DOM_VK_1, gameCommands.buildTower1)
-		myKeyboard.registerCommand(KeyEvent.DOM_VK_2, gameCommands.buildTower2)
-		myKeyboard.registerCommand(KeyEvent.DOM_VK_3, gameCommands.buildTower3)
+		myKeyboard.changeCommands(gameCommands);
 
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({

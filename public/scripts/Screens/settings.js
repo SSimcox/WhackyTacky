@@ -26,7 +26,6 @@ Game.screens['settings'] = (function(game) {
 
   function run() {
     //
-    // I know this is empty, there isn't anything to do.
   }
 
   return {

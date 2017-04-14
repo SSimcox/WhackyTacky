@@ -34,23 +34,23 @@
             <ul class = "menu">
                 <li> TOWERS
                     <ul class = "menu">
-                        <li>Bulbasaur:<input type = "text" size="2"> </li>
-                        <li>Charmander: <input type = "text" size="2"></li>
-                        <li>Squirtle: <input type = "text" size="2"></li>
-                        <li>Evolve: <input type = "text" size="2"></li>
+                        <li>Bulbasaur:<input type = "text" size="2" id="Bulbasaur"> </li>
+                        <li>Charmander: <input type = "text" size="2" id="Charmander"></li>
+                        <li>Squirtle: <input type = "text" size="2" id="Squirtle"></li>
+                        <li>Evolve: <input type = "text" size="2" id="Evolve"></li>
                     </ul>
                 </li>
                 <li> Creeps
                     <ul class = "menu">
-                        <li>Biker: <input type="text" size="2"></li>
-                        <li>Pirate: <input type="text" size="2"></li>
-                        <li>Team Rocker: <input type="text" size="2"></li>
-                        <li>Scientist: <input type="text" size="2"></li>
+                        <li>Biker: <input type="text" size="2" id="Biker"></li>
+                        <li>Pirate: <input type="text" size="2" id="Pirate"></li>
+                        <li>Team Rocket: <input type="text" size="2" id="Rocket"></li>
+                        <li>Scientist: <input type="text" size="2" id="Scientist"></li>
                     </ul>
                 </li>
                 <li> Utility
                     <ul class = "menu">
-                        <li>Pause: <input type="text" size="2"></li>
+                        <li>Pause: <input type="text" size="2" id="Pause"></li>
                     </ul>
                 </li>
                 <li><button id = "id-save">Save</button></li>
@@ -84,7 +84,9 @@
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
 
+    <script src="/public/scripts/Input/Configurable.js"></script>
     <script src="/public/scripts/index.js"></script>
+
     <script src="/public/scripts/Screens/menu.js"></script>
     <script src="/public/scripts/Screens/createGame.js"></script>
     <script src="/public/scripts/Screens/gamePlay.js"></script>

@@ -20,7 +20,7 @@ Game.screens['configure'] = (function(game) {
     // Setup each of menu events for the screens
     document.getElementById('id-save').addEventListener(
       'click',
-      function() {  });
+      function() { Persistance.update() ; game.showScreen('main-menu')});
 
     document.getElementById('id-configure-back').addEventListener(
       'click',
@@ -29,8 +29,7 @@ Game.screens['configure'] = (function(game) {
   }
 
   function run() {
-    //
-    // I know this is empty, there isn't anything to do.
+    Persistance.report();
   }
 
   return {

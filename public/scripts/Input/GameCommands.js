@@ -24,11 +24,27 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
     myMouse.buildTowerUpdate(3);
   }
 
-  that.removeTower = function(){
+  that.evolveTower = function(){
     //sell tower for moneys
   }
 
-  that.sendCreeps = function(){
+  that.sendBiker = function(){
+    //this will send creep waves
+  }
+
+  that.sendPirate = function(){
+    //this will send creep waves
+  }
+
+  that.sendRocket = function(){
+    //this will send creep waves
+  }
+
+  that.sendScientist = function(){
+    //this will send creep waves
+  }
+
+  that.pause = function(){
     //this will send creep waves
   }
 
