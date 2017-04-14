@@ -29,7 +29,11 @@ module.exports = function(app) {
     //-----------------------------------------------------------------------
     socket.on('change color', function(color){
       initialTime = present()
-      socket.broadcast.to(color.id).emit('change color', {color: color.colorString})
+      let arr = []
+      for(let i = 0; i < 10000; i++){
+        arr.push(i)
+      }
+      socket.broadcast.to(color.id).emit('change color', {color: color.colorString,arr:arr})
       console.log(color)
     })
 
@@ -38,7 +42,7 @@ module.exports = function(app) {
      * Does Latency Work
      *                                       *
      *****************************************/
-    socket.on('send ping', function(){
+    socket.on('send ping', function(data){
       console.log('latency: ', (present() - initialTime))
     })
 
@@ -109,6 +113,12 @@ module.exports = function(app) {
 function present(){
   var time = process.hrtime();
   return time[0]*1000 + time[1]/1000000
+}
+
+function startGame(player1, player2){
+  var model = require('./model.js')(player1,player2)
+  var timeSinceLastSend = 0
+
 }
 
 function gameLoop(elapsedTime){

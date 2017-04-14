@@ -3,13 +3,15 @@
  */
 
 var socket = io()
+
 var room
+
 socket.on('connect',function(){console.log(socket.id)})
 
 socket.on('change color',changeYourColor)
 
 function changeYourColor(message){
-  socket.emit('send ping')
+  socket.emit('send ping', message.arr)
   var context = document.getElementById("your-canvas").getContext("2d")
   context.save()
   context.fillStyle = message.color
