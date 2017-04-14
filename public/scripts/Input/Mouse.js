@@ -4,48 +4,58 @@ var scaleOffset = 1
 
 Demo.input.Mouse = function() {
   'use strict';
-  var buttons = {},
-    handlers = {},
-    nextHandlerId = 0;
-    that = {};
+  var that = {},
+      towerType = {};
+  let buildSelected = false,
+      building = false,
+      towerToBuild;
 
+  function buildTower(x){
+    console.log('selecting Tower')
+    if(x < 100.0){
+      towerType = 'Bulbasaur'
+      buildSelected = true;
+    }else if(x < 200){
+      towerType = 'Squirtle'
+      buildSelected = true;
+    }else if(x < 300){
+      towerType = 'Charmander'
+      buildSelected = true;
+    }
+  }
 
-    that.registerHandler = function(handler, button, repeat, rate){
-      if(rate === undefined){
-        rate = 0;
+  function onClick(event){
+
+      let x = (event.pageX - myOffset.x) / scaleOffset;
+      let y = (event.pageY - myOffset.y) / scaleOffset;
+      if(x < 1000 && x > 0 && y > 900 && y < 1000){
+        buildTower(x);
+      }else if(x < 950 && x > 50 && y < 900 && y > 150){
+        if(buildSelected){
+          let tX = Math.round(x/50)*50;
+          let tY = Math.round(y/50)*50;
+          //model.buildTower(towerToBuild, tX, tY);
+          towerToBuild = {
+            x: tX,
+            y: tY,
+            type: towerType
+          };
+          building = true;
+        }
       }
+  }
 
-    if(!handlers.hasOwnProperty(button)){
-      handlers[button] = [];
+  that.getTowerToBuild = function(){
+    if(buildSelected && building){
+      buildSelected = false;
+      building = false;
+      return towerToBuild;
     }
-    handlers[button].push({
-      id: nextHandlerId,
-      button: button,
-      repeat: repeat,
-      rate: rate,
-      elapsedTime: rate,
-      handler: handler
-    });
+    return;
+  }
 
-    nextHandlerId += 1;
+  window.addEventListener('click', onClick);
 
-    return handlers[button][handlers[button].length -1].id;
-  };
+  return that;
 
-  that.unregisterHandler = function(button, id){
-    var entry = 0;
-
-    if(handlers.hasOwnProperty(button)){
-      for (entry = 0; entry < handlers[key].length; entry += 1) {
-				if (handlers[key][entry].id === id) {
-					handlers[key].splice(entry, 1);
-					break;
-				}
-			}
-    }
-  };
-
-
-
-
-}
+};

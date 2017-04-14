@@ -19,6 +19,7 @@ Demo.model = (function(input, components) {
       money: 0
     }],
 		myKeyboard = input.Keyboard(),
+		myMouse = input.Mouse(),
 		that = {};
 
 	// ------------------------------------------------------------------
@@ -71,7 +72,29 @@ Demo.model = (function(input, components) {
 	// ------------------------------------------------------------------
 	that.processInput = function(elapsedTime) {
 		myKeyboard.update(elapsedTime);
+		let build = myMouse.getTowerToBuild();
+		if(build) buildTower(build.type, build.x, build.y)
 	};
+
+	function buildTower(type, x1, y1){
+		if(type === "Bulbasaur"){
+			players[0].towers.push(components.Bulbasaur({
+				spriteCenter: {x:x1, y:y1}
+			}))
+		}else if(type === "Squirtle"){
+			players[0].towers.push(components.Squirtle({
+				spriteCenter: {x:x1, y:y1}
+			}))
+		}else if(type === "Charmander"){
+			players[0].towers.push(components.Charmander({
+				spriteCenter: {x:x1, y:y1}
+			}))
+		}
+
+
+
+		socket.emit('event')
+	}
 
 	// ------------------------------------------------------------------
 	//
