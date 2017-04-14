@@ -243,6 +243,15 @@ Demo.renderer.core = (function() {
 			dWidth * world.size, dHeight * world.size);
 	}
 
+	function drawImage2(image, dx, dy, dWidth, dHeight) {
+		//
+		// Convert from pixel to world coordinates on a few items
+		context.drawImage(
+			image.image,
+			dx * world.size + world.left, dy * world.size + world.top,
+			dWidth * world.size, dHeight * world.size);
+	}
+
 	//------------------------------------------------------------------
 	//
 	// Simple pass-through to save the canvas context.
@@ -284,6 +293,7 @@ Demo.renderer.core = (function() {
 		drawRectangle: drawRectangle,
 		drawCircle: drawCircle,
 		drawImage: drawImage,
+		drawImage2: drawImage2,
 		saveContext: saveContext,
 		restoreContext: restoreContext,
 		rotateCanvas: rotateCanvas,

@@ -28,7 +28,19 @@ Demo.loader = (function() {
     {
       key: 'squirtle',
       source: '/public/assets/graphics/towers/squirtle.png'
-    }
+    },
+		{
+			key: 'bulbasaurHover',
+			source: '/public/assets/graphics/towerHover/bulbasaurHover.png'
+		},
+		{
+			key: 'squirtleHover',
+			source: '/public/assets/graphics/towerHover/squirtleHover.png'
+		},
+		{
+			key: 'charmanderHover',
+			source: '/public/assets/graphics/towerHover/charmanderHover.png'
+		}
   ];
 
 	//------------------------------------------------------------------

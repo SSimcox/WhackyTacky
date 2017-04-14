@@ -92,6 +92,9 @@ module.exports = function(player1, player2){
       for (let i = 0; i < players[p].creeps.length; i++) {
         players[p].creeps[i].update(elapsedTime)
       }
+      for(let i = 0; i < players[p].buildTowers.length; i++){
+				//does nothing
+			}
     }
   };
 
