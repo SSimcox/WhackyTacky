@@ -35,6 +35,7 @@ var Socket = function(Main) {
   })
 
   socket.on('update', function(message){
+    Demo.model.diffModels(message)
     console.log(message)
   })
 

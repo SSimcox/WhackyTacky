@@ -34,8 +34,8 @@ module.exports = function(player1, player2){
       players[player1].map.push([])
       players[player2].map.push([])
       for(let j = 0; j < 20; j++){
-        players[player1].map[i].push('open')
-        players[player2].map[i].push('open')
+        players[player1].map[i].push(-1)
+        players[player2].map[i].push(-1)
       }
     }
 

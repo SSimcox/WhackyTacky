@@ -26,6 +26,7 @@ Demo.components.Squirtle = function(spec) {
 
   // Get our animated bird model and renderer created
   tower = Demo.components.Tower({
+    type: 'Squirtle',
     spriteSheetFront: Demo.assets['squirtle'],
     spriteSheetBack: Demo.assets['squirtle'],
     spriteCountFront: 17,

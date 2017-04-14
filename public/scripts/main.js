@@ -52,7 +52,7 @@ Demo.main = (function(renderer, components, model) {
 			// truncating, then dividing by 10 to get back to seconds.
 			fps = Math.floor((1 / averageTime) * 10000) / 10;
 			textFPS.text = 'fps: ' + fps;
-			renderer.Text.render(textFPS);
+			renderer.Text.render(textFPS,0);
 		}
 	}
 
@@ -82,8 +82,8 @@ Demo.main = (function(renderer, components, model) {
 	function initialize() {
 		renderer.core.initialize();
 		lastTimeStamp = performance.now()
-		textFPS.height = renderer.core.measureTextHeight(textFPS);
-		textFPS.width = renderer.core.measureTextWidth(textFPS);
+		textFPS.height = renderer.core.measureTextHeight(textFPS,0);
+		textFPS.width = renderer.core.measureTextWidth(textFPS,0);
 
 		model.initialize();
 
