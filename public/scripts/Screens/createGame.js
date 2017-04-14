@@ -20,6 +20,10 @@ Game.screens['create-game'] = (function(game) {
         requestGame(document.getElementById("room-name").value)
       });
 
+    document.getElementById('id-create-back').addEventListener(
+      'click',
+      function() { game.showScreen('main-menu'); });
+
   }
 
   function run() {

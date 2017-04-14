@@ -33,15 +33,20 @@ Demo.model = (function(input, components) {
 
 		//
 		// Get our animated bird model and renderer created
-		players[0].towers.push(components.Charmander({
-      spriteCenter: { x: 500, y: 500 },
-		}))
-    players[0].towers.push(components.Bulbasaur({
-      spriteCenter: {x: 250, y : 500}
-    }))
-    players[0].towers.push(components.Squirtle({
-      spriteCenter: {x: 750, y : 500}
-    }))
+    players = [
+      {
+        buildTowers: [],
+        towers: [],
+        creeps: [],
+        money: 0
+      },
+      {
+        buildTowers: [],
+        towers: [],
+        creeps: [],
+        money: 0
+      }]
+
 		players[0].buildTowers.push(components.BulbasaurHover({
 			imageCenter: {x:50, y: 950}
 		}))
@@ -91,9 +96,6 @@ Demo.model = (function(input, components) {
 				spriteCenter: {x:x1, y:y1}
 			}))
 		}
-
-
-
 		socket.emit('event', {game:room, event: 'build', type: type, center: {x:x1, y:y1}, player: socket.id})
 	}
 
@@ -127,6 +129,8 @@ Demo.model = (function(input, components) {
 		// Draw a border around the unit world.
 		renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false,0);
     renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false,1);
+    renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 800, false,0);
+    renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 800, false,1);
 		if(myMouse.buildSelected()){
 		  for(let i = 2; i < 18; i++){
 		    for(let j = 0; j < 20; j++){

@@ -1,16 +1,21 @@
-/*@font-face*/
-/*{*/
-    /*font-family: myFont;*/
-    /*src: url('./resources/INVASION2000.ttf');*/
-/*}*/
+@font-face
+{
+    font-family: myFont;
+    src: url('https://fonts.googleapis.com/css?family=Oswald');
+}
 
 body{
-    font-family: "myFont", "Comic Sans MS", serif;
+    font-family: "Oswald", "Comic Sans MS", serif;
     font-size: 1.5em;
     font-variant: small-caps;
     background-color: #000012;
     color: white;
     margin:0;
+}
+
+ul{
+  list-style: none;
+    margin: 0 auto;
 }
 
 div{
@@ -42,7 +47,7 @@ h1{
     outline-color: yellow;
 }
 
-#menu{
+.menu{
     width: 50%;
     margin: 0 auto;
     align-content: center;
@@ -52,6 +57,7 @@ button{
     display: block;
     margin: 5px auto;
     font-family: "myFont", "Comic Sans MS", serif;
+    width: 25%;
 }
 
 #score-table{
@@ -82,4 +88,18 @@ button{
 
 #game-play.screen.active{
     display: flex;
+}
+
+.menu li{
+    position: relative;
+}
+
+li input{
+    display: inline;
+    position: absolute;
+}
+
+li input{
+    right:0;
+    top: 5px;
 }
