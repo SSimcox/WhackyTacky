@@ -108,6 +108,7 @@ module.exports = function(app) {
       }
 
       for(let key in connections[socket.id].myRooms){
+        if(activeGames[key]) activeGames[key].GameOver()
         io.to(key).emit('player left')
       }
       delete connections[socket.id]

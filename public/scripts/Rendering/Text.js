@@ -7,8 +7,8 @@ Demo.renderer.Text = (function(core) {
 	'use strict';
 	var that = {};
 
-	that.render = function(text) {
-		core.drawText(text);
+	that.render = function(text, p) {
+		core.drawText(text, p);
 	};
 
 	return that;

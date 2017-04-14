@@ -21,6 +21,14 @@ Game.screens['main-menu'] = (function(game) {
       'click',
       function() { game.showScreen('find-game'); });
 
+    document.getElementById('id-settings').addEventListener(
+      'click',
+      function() { game.showScreen('settings'); });
+
+    document.getElementById('id-credits').addEventListener(
+      'click',
+      function() { game.showScreen('credits'); });
+
   }
 
   function run() {

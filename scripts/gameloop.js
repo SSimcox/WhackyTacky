@@ -4,11 +4,12 @@
 
 module.exports = function(player1, player2, io){
   var model = require('./model.js')(player1,player2)
-  var timeSinceLastSend = 0
+  var timeSinceLastSend = 2000
   var previousTime
   var startTime
   var that = {}
   var events = []
+  var gameOver = false
 
   that.startGame = function(){
     model.initialize()
@@ -32,9 +33,11 @@ module.exports = function(player1, player2, io){
       console.log((present() - startTime)/1000)
     }
 
-    setTimeout(function(){
-      gameLoop(present())
-    },15)
+    if(!gameOver) {
+      setTimeout(function () {
+        gameLoop(present())
+      }, 15)
+    }
   }
 
   that.addEvent = function(data){
@@ -44,6 +47,10 @@ module.exports = function(player1, player2, io){
   function emit(message){
     var send = message || model.getModel()
     io.to(player1).emit('update', send)
+  }
+
+  that.GameOver = function(){
+    gameOver = true
   }
 
   return that;

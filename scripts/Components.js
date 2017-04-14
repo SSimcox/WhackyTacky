@@ -96,6 +96,7 @@ Components.Tower = function(spec) {
   'use strict';
   var facingDown = true,
     that = {
+      get type() { return spec.type},
       get center() { return spec.spriteCenter; },
       get attack() { return spec.attack; }
     };
@@ -119,6 +120,7 @@ Components.Bulbasaur = function(spec) {
 
   // Get our animated bird model and renderer created
   tower = Components.Tower({
+    type: 'Bulbasaur',
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
       damage: 5,
@@ -138,6 +140,7 @@ Components.Charmander = function(spec) {
 
   // Get our animated bird model and renderer created
   tower = Components.Tower({
+    type: 'Charmander',
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
       damage: 5,
@@ -157,6 +160,7 @@ Components.Squirtle = function(spec) {
 
   // Get our animated bird model and renderer created
   tower = Components.Tower({
+    type: 'Squirtle',
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
       damage: 5,
