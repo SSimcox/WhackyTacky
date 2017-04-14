@@ -10,16 +10,19 @@ Demo.model = (function(input, components) {
 			buildTowers: [],
       towers: [],
       creeps: [],
+			map: [],
       money: 0
     },
     {
 			buildTowers: [],
       towers: [],
       creeps: [],
+			map: [],
       money: 0
     }],
 		myKeyboard = input.Keyboard(),
 		myMouse = input.Mouse(),
+		gameCommands = input.GameCommands(myMouse, myKeyboard),
     socket,
 		that = {};
 
@@ -33,15 +36,15 @@ Demo.model = (function(input, components) {
 
 		//
 		// Get our animated bird model and renderer created
-		players[0].towers.push(components.Charmander({
-      spriteCenter: { x: 500, y: 500 },
-		}))
-    players[0].towers.push(components.Bulbasaur({
-      spriteCenter: {x: 250, y : 500}
-    }))
-    players[0].towers.push(components.Squirtle({
-      spriteCenter: {x: 750, y : 500}
-    }))
+		// players[0].towers.push(components.Charmander({
+    //   spriteCenter: { x: 500, y: 500 },
+		// }))
+    // players[0].towers.push(components.Bulbasaur({
+    //   spriteCenter: {x: 250, y : 500}
+    // }))
+    // players[0].towers.push(components.Squirtle({
+    //   spriteCenter: {x: 750, y : 500}
+    // }))
 		players[0].buildTowers.push(components.BulbasaurHover({
 			imageCenter: {x:50, y: 950}
 		}))
@@ -51,6 +54,19 @@ Demo.model = (function(input, components) {
 		players[0].buildTowers.push(components.CharmanderHover({
 			imageCenter: {x:250, y: 950}
 		}))
+
+		for(let i = 0; i < 16; ++ i){
+			players[0].map.push([]);
+			players[1].map.push([]);
+			for(let j = 0; j < 20; ++j){
+				players[0].map[i].push(-1);
+				players[1].map[i].push(-1);
+			}
+		}
+
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_1, gameCommands.buildTower1)
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_2, gameCommands.buildTower2)
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_3, gameCommands.buildTower3)
 
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({
@@ -73,11 +89,12 @@ Demo.model = (function(input, components) {
 	// ------------------------------------------------------------------
 	that.processInput = function(elapsedTime) {
 		myKeyboard.update(elapsedTime);
-		let build = myMouse.getTowerToBuild();
+		let build = gameCommands.buildTower(myMouse);
 		if(build) buildTower(build.type, build.x, build.y)
 	};
 
 	function buildTower(type, x1, y1){
+		gameCommands.getKeyCommands();
 		if(type === "Bulbasaur"){
 			players[0].towers.push(components.Bulbasaur({
 				spriteCenter: {x:x1, y:y1}

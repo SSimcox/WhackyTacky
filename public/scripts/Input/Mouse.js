@@ -34,7 +34,6 @@ Demo.input.Mouse = function() {
         if(buildSelected){
           let tX = Math.round(x/50)*50;
           let tY = Math.round(y/50)*50;
-          //model.buildTower(towerToBuild, tX, tY);
           towerToBuild = {
             x: tX,
             y: tY,
@@ -47,6 +46,16 @@ Demo.input.Mouse = function() {
 
   that.buildSelected = function(){
     return buildSelected
+  }
+  that.buildTowerUpdate = function(val){
+    buildSelected = true;
+    if(val === 1){
+      towerType = 'Bulbasaur'
+    }else if(val ===2){
+      towerType = 'Squirtle'
+    }else if(val ===3){
+      towerType = 'Charmander'
+    }
   }
 
   that.getTowerToBuild = function(){
