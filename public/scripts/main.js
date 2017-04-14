@@ -96,3 +96,53 @@ Demo.main = (function(renderer, components, model) {
 	};
 
 }(Demo.renderer, Demo.components, Demo.model));
+
+var socket = Socket(Demo.main)
+
+function changeYourColor(message) {
+  socket.emit('send ping', message.arr)
+  var context = document.getElementById("your-canvas").getContext("2d")
+  context.save()
+  context.fillStyle = message.color
+  context.fillRect(0, 0, context.canvas.width, context.canvas.height)
+  context.restore()
+}
+
+function changeMyColor() {
+  var context = document.getElementById("my-canvas").getContext("2d")
+  var r = Math.floor(Math.random() * 255)
+  var g = Math.floor(Math.random() * 255)
+  var b = Math.floor(Math.random() * 255)
+  var colorString = `rgb(${r},${g},${b})`
+  context.save()
+  context.fillStyle = colorString
+  context.fillRect(0, 0, context.canvas.width, context.canvas.height)
+
+  var divisions = 20
+
+  var gridWidth = context.canvas.width / divisions;
+  var gridHeight = context.canvas.height / divisions;
+  // console.log(document.getElementById("my-canvas").width)
+  // console.log(document.getElementById("my-canvas").height)
+  context.lineWidth = 1
+  context.beginPath()
+  for (let i = 0; i < divisions; i++) {
+    for (let j = 0; j < divisions; j++) {
+
+      context.moveTo(j * gridWidth, i * gridHeight)
+      context.lineTo((j + 1) * gridWidth, i * gridHeight)
+      context.lineTo((j + 1) * gridWidth, (i + 1) * gridHeight)
+      context.lineTo(j * gridWidth, (i + 1) * gridHeight)
+      context.lineTo(j * gridWidth, i * gridHeight)
+    }
+  }
+  context.stroke()
+  context.restore()
+  socket.emit('change color', {colorString: colorString, id: room})
+}
+
+function requestGame(roomName) {
+  socket.emit('request room', roomName)
+}
+
+Demo.model.setSocket(socket)

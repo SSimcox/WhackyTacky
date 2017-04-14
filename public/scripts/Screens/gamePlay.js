@@ -14,7 +14,7 @@ Game.screens['game-play'] = (function(game) {
   function initialize() {
     //
     // Setup each of menu events for the screens
-    document.getElementById('my-canvas').addEventListener('click',changeMyColor)
+    document.getElementById('my-canvas').addEventListener('click', socket.changeMyColor)
 
   }
 

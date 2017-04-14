@@ -20,8 +20,7 @@ module.exports = function(player1, player2){
     money: 0
   }
 
-  let myKeyboard = input.Keyboard(),
-    that = {};
+  let that = {};
 
   // ------------------------------------------------------------------
   //
@@ -32,18 +31,19 @@ module.exports = function(player1, player2){
   that.initialize = function() {
 
     for(let i = 0; i < 14; i++){
-      players[0].map.push([])
-      players[1].map.push([])
+      players[player1].map.push([])
+      players[player2].map.push([])
       for(let j = 0; j < 20; j++){
-        players[0].map[i].push('open')
-        players[1].map[i].push('open')
+        players[player1].map[i].push('open')
+        players[player2].map[i].push('open')
       }
     }
 
     Events.AddTower({
       type: 'Charmander',
       center: {x: 500, y: 500},
-      player: players[player1].towers
+      player: players[player1].towers,
+      map: players[player1].towers
     })
 
     Events.AddTower({
@@ -75,9 +75,14 @@ module.exports = function(player1, player2){
   // Process all input for the model here.
   //
   // ------------------------------------------------------------------
-  that.processInput = function(elapsedTime) {
-    myKeyboard.update(elapsedTime);
-  };
+  that.processEvents = function(events, emit){
+    var sendUpdate = false
+    while(events.length > 0){
+      events.player = player[event.player]
+      if(Events.process(events.shift(), emit)) sendUpdate = true
+    }
+    return sendUpdate
+  }
 
   // ------------------------------------------------------------------
   //
@@ -85,16 +90,14 @@ module.exports = function(player1, player2){
   //
   // ------------------------------------------------------------------
   that.update = function(elapsedTime) {
-    for(let p = 0; p < players.length; ++p) {
-      for (let i = 0; i < players[p].towers.length; i++) {
-        players[p].towers[i].update(elapsedTime)
+    var keys = Object.keys(players)
+    for(let i = 0; i < 2; i++) {
+      for (let i = 0; i < players[keys[i]].towers.length; i++) {
+        players[keys[i]].towers[i].update(elapsedTime)
       }
-      for (let i = 0; i < players[p].creeps.length; i++) {
-        players[p].creeps[i].update(elapsedTime)
+      for (let i = 0; i < players[keys[i]].creeps.length; i++) {
+        players[keys[i]].creeps[i].update(elapsedTime)
       }
-      for(let i = 0; i < players[p].buildTowers.length; i++){
-				//does nothing
-			}
     }
   };
 

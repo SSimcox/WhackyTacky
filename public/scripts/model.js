@@ -20,6 +20,7 @@ Demo.model = (function(input, components) {
     }],
 		myKeyboard = input.Keyboard(),
 		myMouse = input.Mouse(),
+    socket,
 		that = {};
 
 	// ------------------------------------------------------------------
@@ -139,6 +140,10 @@ Demo.model = (function(input, components) {
     }
 
 	};
+
+  that.setSocket = function(s){
+    socket = s;
+  }
 
 	return that;
 

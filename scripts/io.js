@@ -5,9 +5,10 @@
 
 module.exports = function(app) {
   let io = require('socket.io')(app)
+  let Game = require('./gameloop.js')
   let connections = {}
   let pendingGames = []
-  let activeGames = []
+  let activeGames = {}
   let initialTime
 
   //-------------------------------------------------------------------------
@@ -16,7 +17,6 @@ module.exports = function(app) {
   //
   //-------------------------------------------------------------------------
   io.on('connection', function(socket){
-    console.log(socket)
     connections[socket.id] = socket
     connections[socket.id].myRooms = {}
     connections[socket.id].myRooms[socket.id] = socket.id
@@ -29,8 +29,11 @@ module.exports = function(app) {
     //-----------------------------------------------------------------------
     socket.on('change color', function(color){
       initialTime = present()
-      socket.broadcast.to(color.id).emit('change color', {color: color.colorString})
-      console.log(color)
+      let arr = []
+      for(let i = 0; i < 10000; i++){
+        arr.push(i)
+      }
+      socket.broadcast.to(color.id).emit('change color', {color: color.colorString,arr:arr})
     })
 
     /*****************************************
@@ -38,7 +41,7 @@ module.exports = function(app) {
      * Does Latency Work
      *                                       *
      *****************************************/
-    socket.on('send ping', function(){
+    socket.on('send ping', function(data){
       console.log('latency: ', (present() - initialTime))
     })
 
@@ -58,7 +61,6 @@ module.exports = function(app) {
         pendingGames.push({id: socket.id, name: roomName})
         io.emit('list games', pendingGames)
       }
-      console.log(pendingGames.length)
     })
 
     /*****************************************
@@ -77,8 +79,19 @@ module.exports = function(app) {
       }
       io.emit('list games', pendingGames)
       io.to(id).emit('start game', id)
+      let g = Game(id,socket.id,io)
+      activeGames[id] = g
+      g.startGame()
     })
 
+    /*****************************************
+     *                                       *
+     * Sets event listener for gameplay
+     *                                       *
+     *****************************************/
+    socket.on('event', function(data){
+      activeGames[data.game].addEvent(data)
+    })
     /*****************************************
      *                                       *
      * On Disconnect we boot everyone
@@ -93,10 +106,8 @@ module.exports = function(app) {
           break
         }
       }
-      console.log("Disconnect Called")
-      console.log(connections[socket.id].myRooms)
+
       for(let key in connections[socket.id].myRooms){
-        console.log(key)
         io.to(key).emit('player left')
       }
       delete connections[socket.id]
@@ -109,8 +120,4 @@ module.exports = function(app) {
 function present(){
   var time = process.hrtime();
   return time[0]*1000 + time[1]/1000000
-}
-
-function gameLoop(elapsedTime){
-
 }
