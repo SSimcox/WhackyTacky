@@ -2,21 +2,25 @@
  * Created by Steven on 4/12/2017.
  */
 
+let Events = require('./Events')
 
-module.exports = function(){
+module.exports = function(player1, player2){
   'use strict';
-  var players = [
-      {
-        towers: [],
-        creeps: [],
-        money: 0
-      },
-      {
-        towers: [],
-        creeps: [],
-        money: 0
-      }],
-    myKeyboard = input.Keyboard(),
+  let players = {}
+  players[player1] = {
+    towers: [],
+    creeps: [],
+    map: [],
+    money: 0
+  }
+  players[player2] = {
+    towers: [],
+    creeps: [],
+    map: [],
+    money: 0
+  }
+
+  let myKeyboard = input.Keyboard(),
     that = {};
 
   // ------------------------------------------------------------------
@@ -27,24 +31,32 @@ module.exports = function(){
   // ------------------------------------------------------------------
   that.initialize = function() {
 
-    players[0].towers.push(components.Charmander({
-      spriteCenter: { x: 500, y: 500 },
-    }))
-    players[0].towers.push(components.Bulbasaur({
-      spriteCenter: {x: 250, y : 500}
-    }))
-    players[0].towers.push(components.Squirtle({
-      spriteCenter: {x: 750, y : 500}
-    }))
-    players[0].towers.push(components.BulbasaurHover({
-			imageCenter: {x:50, y: 950}
-		}))
-    players[0].buildTowers.push(components.SquirtleHover({
-			imageCenter: {x:150, y: 950}
-		}))
-		players[0].buildTowers.push(components.CharmanderHover({
-			imageCenter: {x:250, y: 950}
-		}))
+    for(let i = 0; i < 14; i++){
+      players[0].map.push([])
+      players[1].map.push([])
+      for(let j = 0; j < 20; j++){
+        players[0].map[i].push('open')
+        players[1].map[i].push('open')
+      }
+    }
+
+    Events.AddTower({
+      type: 'Charmander',
+      center: {x: 500, y: 500},
+      player: players[player1].towers
+    })
+
+    Events.AddTower({
+      type: 'Bulbasaur',
+      center: {x: 250, y: 500},
+      player: players[player1].towers
+    })
+
+    Events.AddTower({
+      type: 'Squirtle',
+      center: {x: 750, y: 500},
+      player: players[player2].towers
+    })
 
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({
@@ -56,8 +68,6 @@ module.exports = function(){
     // 		birdLittle.moveForward(elapsedTime);
     // 	},
     // 	input.KeyEvent.DOM_VK_W, true);
-
-
   };
 
   // ------------------------------------------------------------------

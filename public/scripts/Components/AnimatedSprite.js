@@ -46,7 +46,7 @@ Demo.components.AnimatedSprite = function(spec) {
 		spec.elapsedTime += elapsedTime;
 		//
 		// Check to see if we should update the animation frame
-		if (spec.elapsedTime >= spec.spriteTime[spec.sprite]) {
+		while (spec.elapsedTime >= spec.spriteTime[spec.sprite]) {
 			//
 			// When switching sprites, keep the leftover time because
 			// it needs to be accounted for the next sprite animation frame.
