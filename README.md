@@ -11,7 +11,7 @@ npm start
 
 Open up two browser tabs pointed at localhost:3000
 
-##Final Grading Criteria:
+## Final Grading Criteria:
 
 Gameplay – 35
 Menuing – 10
