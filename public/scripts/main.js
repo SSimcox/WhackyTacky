@@ -39,6 +39,7 @@ Demo.main = (function(renderer, components, model) {
 		renderer.core.clearCanvas();
 		model.render(Demo.renderer);
 
+
 		//
 		// Show FPS over last several frames
 		frameTimes.push(elapsedTime);

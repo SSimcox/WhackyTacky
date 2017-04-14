@@ -45,6 +45,10 @@ Demo.input.Mouse = function() {
       }
   }
 
+  that.buildSelected = function(){
+    return buildSelected
+  }
+
   that.getTowerToBuild = function(){
     if(buildSelected && building){
       buildSelected = false;

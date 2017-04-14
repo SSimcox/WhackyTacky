@@ -33,7 +33,7 @@ module.exports = function(player1, player2, io){
     }
 
     setTimeout(function(){
-      gameLoop(present(), model)
+      gameLoop(present())
     },15)
   }
 
@@ -42,7 +42,7 @@ module.exports = function(player1, player2, io){
   }
 
   function emit(message){
-    var send = message || model
+    var send = message || model.getModel()
     io.to(player1).emit('update', send)
   }
 

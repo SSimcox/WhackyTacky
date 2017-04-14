@@ -216,15 +216,25 @@ Demo.renderer.core = (function() {
 	// Draws a rectangle relative to the 'unit world'.
 	//
 	//------------------------------------------------------------------
-	function drawRectangle(style, left, top, width, height) {
+	function drawRectangle(style, left, top, width, height, stroke = true) {
 		//
 		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
-		context.strokeStyle = style;
-		context.strokeRect(
-			0.5 + world.left + (left * world.size),
-			0.5 + world.top + (top * world.size),
-			width * world.size,
-			height * world.size);
+		if(stroke) {
+      context.strokeStyle = style;
+      context.strokeRect(
+        0.5 + world.left + (left * world.size),
+        0.5 + world.top + (top * world.size),
+        width * world.size,
+        height * world.size);
+    }
+    else{
+      context.fillStyle = style;
+      context.fillRect(
+        0.5 + world.left + (left * world.size),
+        0.5 + world.top + (top * world.size),
+        width * world.size,
+        height * world.size);
+		}
 	}
 
 	//------------------------------------------------------------------

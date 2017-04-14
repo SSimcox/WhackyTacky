@@ -96,9 +96,7 @@ Components.Tower = function(spec) {
   'use strict';
   var facingDown = true,
     that = {
-      get center() { return sprite.center; },
-      get rotation() { return spec.rotation; },
-      get damage() { return spec.damage; },
+      get center() { return spec.spriteCenter; },
       get attack() { return spec.attack; }
     };
 

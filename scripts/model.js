@@ -78,8 +78,9 @@ module.exports = function(player1, player2){
   that.processEvents = function(events, emit){
     var sendUpdate = false
     while(events.length > 0){
-      events.player = player[event.player]
-      if(Events.process(events.shift(), emit)) sendUpdate = true
+      var event = events.shift()
+      event.player = players[event.player]
+      if(Events.process(event, emit)) sendUpdate = true
     }
     return sendUpdate
   }
@@ -90,16 +91,21 @@ module.exports = function(player1, player2){
   //
   // ------------------------------------------------------------------
   that.update = function(elapsedTime) {
-    var keys = Object.keys(players)
-    for(let i = 0; i < 2; i++) {
-      for (let i = 0; i < players[keys[i]].towers.length; i++) {
-        players[keys[i]].towers[i].update(elapsedTime)
-      }
-      for (let i = 0; i < players[keys[i]].creeps.length; i++) {
-        players[keys[i]].creeps[i].update(elapsedTime)
+    for(let key in players) {
+      if(players.hasOwnProperty(key)) {
+        for (let i = 0; i < players[key].towers.length; i++) {
+          players[key].towers[i].update(elapsedTime)
+        }
+        for (let i = 0; i < players[key].creeps.length; i++) {
+          players[key].creeps[i].update(elapsedTime)
+        }
       }
     }
   };
+
+  that.getModel = function(){
+    return players
+  }
 
   return that;
 }

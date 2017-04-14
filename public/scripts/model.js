@@ -94,7 +94,7 @@ Demo.model = (function(input, components) {
 
 
 
-		socket.emit('event')
+		socket.emit('event', {game:room, event: 'build', type: type, center: {x:x1, y:y1}, player: socket.id})
 	}
 
 	// ------------------------------------------------------------------
@@ -125,7 +125,14 @@ Demo.model = (function(input, components) {
 
 		//
 		// Draw a border around the unit world.
-		renderer.core.drawRectangle('rgba(255, 255, 255, 1)', 0, 0, 1, 1);
+		renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false);
+		if(myMouse.buildSelected()){
+		  for(let i = 2; i < 18; i++){
+		    for(let j = 0; j < 20; j++){
+		      renderer.core.drawRectangle('rgba(0,0,0,1)', j * 50, i * 50, 50, 50)
+        }
+      }
+    }
 
 		for(let p = 0; p < players.length; ++p) {
       for (let i = 0; i < players[p].towers.length; i++) {

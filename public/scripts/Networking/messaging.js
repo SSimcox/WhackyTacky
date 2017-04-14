@@ -2,11 +2,9 @@
  * Created by Steven on 3/23/2017.
  */
 
-
+var room
 var Socket = function(Main) {
   var socket = io()
-
-  var room
 
   socket.on('connect', function () {
     console.log(socket.id)
@@ -34,6 +32,10 @@ var Socket = function(Main) {
 
   socket.on('player left', function () {
     Game.game.showScreen('main-menu')
+  })
+
+  socket.on('update', function(message){
+    console.log(message)
   })
 
   return socket

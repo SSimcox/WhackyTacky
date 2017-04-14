@@ -9,12 +9,12 @@ let Components = require('./Components')
 Events.process = function(event, emit){
   if(event.event == 'build'){
 
-    if(!Event.AddTower(
+    if(!Events.AddTower(
       {
         type: event.type,
         center: event.center,
-        player: player.towers,
-        map: player.towers
+        player: event.player.towers,
+        map: event.player.map
       })){
       emit('build failed')
       return false
