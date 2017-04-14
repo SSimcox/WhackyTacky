@@ -33,15 +33,20 @@ Demo.model = (function(input, components) {
 
 		//
 		// Get our animated bird model and renderer created
-		players[0].towers.push(components.Charmander({
-      spriteCenter: { x: 500, y: 500 },
-		}))
-    players[0].towers.push(components.Bulbasaur({
-      spriteCenter: {x: 250, y : 500}
-    }))
-    players[0].towers.push(components.Squirtle({
-      spriteCenter: {x: 750, y : 500}
-    }))
+    players = [
+      {
+        buildTowers: [],
+        towers: [],
+        creeps: [],
+        money: 0
+      },
+      {
+        buildTowers: [],
+        towers: [],
+        creeps: [],
+        money: 0
+      }]
+
 		players[0].buildTowers.push(components.BulbasaurHover({
 			imageCenter: {x:50, y: 950}
 		}))
@@ -91,9 +96,6 @@ Demo.model = (function(input, components) {
 				spriteCenter: {x:x1, y:y1}
 			}))
 		}
-
-
-
 		socket.emit('event', {game:room, event: 'build', type: type, center: {x:x1, y:y1}, player: socket.id})
 	}
 
@@ -125,28 +127,60 @@ Demo.model = (function(input, components) {
 
 		//
 		// Draw a border around the unit world.
-		renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false);
+		renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false,0);
+    renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false,1);
+    renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 800, false,0);
+    renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 800, false,1);
 		if(myMouse.buildSelected()){
 		  for(let i = 2; i < 18; i++){
 		    for(let j = 0; j < 20; j++){
-		      renderer.core.drawRectangle('rgba(0,0,0,1)', j * 50, i * 50, 50, 50)
+		      renderer.core.drawRectangle('rgba(0,0,0,1)', j * 50, i * 50, 50, 50,true,0)
         }
       }
     }
 
 		for(let p = 0; p < players.length; ++p) {
       for (let i = 0; i < players[p].towers.length; i++) {
-        renderer.Tower.render(players[p].towers[i])
+        renderer.Tower.render(players[p].towers[i],p)
       }
       for (let i = 0; i < players[p].creeps.length; i++) {
-        renderer.Creep.render(players[p].creeps[i])
+        renderer.Creep.render(players[p].creeps[i],p)
       }
 			for(let i = 0; i < players[p].buildTowers.length; i++){
-				renderer.TowerHover.render(players[p].buildTowers[i])
+				renderer.TowerHover.render(players[p].buildTowers[i],p)
 			}
     }
 
 	};
+
+	that.diffModels = function(serverModel){
+	  var p = 0;
+	  for(var key in serverModel){
+	    if(serverModel.hasOwnProperty(key)){
+        if(socket.id == key) p = 0
+        else p = 1
+        for(let i = 0; i < serverModel[key].towers.length; i++){
+          if(!players[p].towers[i] || players[p].towers[i].type != serverModel[key].towers[i].type){
+            if(serverModel[key].towers[i].type === "deleted"){
+              players[p].towers[i] = {type: "deleted"}
+            }
+            else {
+              players[p].towers[i] = createTowerFromServer(serverModel[key].towers[i])
+            }
+          }
+        }
+        while(players[p].towers.length > serverModel[key].towers.length) {
+          players[p].towers.splice(players[p].towers.length - 1, 1)
+        }
+      }
+    }
+  }
+
+  function createTowerFromServer(tower){
+	  return components[tower.type]({
+	    spriteCenter: tower.center
+    })
+  }
 
   that.setSocket = function(s){
     socket = s;

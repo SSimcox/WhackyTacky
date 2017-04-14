@@ -5,8 +5,8 @@
 // ------------------------------------------------------------------
 Demo.renderer.core = (function() {
 	'use strict';
-	var canvas = null,
-		context = null,
+	var canvas = [],
+		context = [],
 		world = {
 			size: 1,
 			top: 0,
@@ -92,7 +92,8 @@ Demo.renderer.core = (function() {
 	//
 	//------------------------------------------------------------------
 	function clearCanvas() {
-		context.clearRect(0, 0, canvas.width, canvas.height);
+		context[0].clearRect(0, 0, canvas.width, canvas.height);
+    context[1].clearRect(0, 0, canvas.width, canvas.height);
 	}
 
 	//------------------------------------------------------------------
@@ -103,8 +104,11 @@ Demo.renderer.core = (function() {
 	//
 	//------------------------------------------------------------------
 	function initialize() {
-		canvas = document.getElementById('my-canvas');
-		context = canvas.getContext('2d');
+		canvas[0] = document.getElementById('my-canvas');
+		context[0] = canvas[0].getContext('2d');
+
+    canvas[1] = document.getElementById('your-canvas');
+    context[1] = canvas[1].getContext('2d');
 
 		// window.addEventListener('resize', function() {
 		// 	resizeCanvas();
@@ -127,12 +131,12 @@ Demo.renderer.core = (function() {
 	// Renders the text based on the provided spec.
 	//
 	//------------------------------------------------------------------
-	function drawText(spec) {
-		context.font = spec.font;
-		context.fillStyle = spec.fill;
-		context.textBaseline = 'top';
+	function drawText(spec, p) {
+		context[p].font = spec.font;
+		context[p].fillStyle = spec.fill;
+		context[p].textBaseline = 'top';
 
-		context.fillText(
+		context[p].fillText(
 			spec.text,
 			world.left + spec.position.x * world.size,
 			world.top + spec.position.y * world.size);
@@ -143,16 +147,16 @@ Demo.renderer.core = (function() {
 	// This returns the height of the specified font, in world units.
 	//
 	//------------------------------------------------------------------
-	function measureTextHeight(spec) {
+	function measureTextHeight(spec, p) {
 		var height = 0;
-		context.save();
+		context[p].save();
 
-		context.font = spec.font;
-		context.fillStyle = spec.fill;
+		context[p].font = spec.font;
+		context[p].fillStyle = spec.fill;
 
-		height = context.measureText('m').width / world.size;
+		height = context[p].measureText('m').width / world.size;
 
-		context.restore();
+		context[p].restore();
 
 		return height;
 	}
@@ -162,16 +166,16 @@ Demo.renderer.core = (function() {
 	// This returns the width of the specified font, in world units.
 	//
 	//------------------------------------------------------------------
-	function measureTextWidth(spec) {
+	function measureTextWidth(spec, p) {
 		var width = 0;
-		context.save();
+		context[p].save();
 
-		context.font = spec.font;
-		context.fillStyle = spec.fill;
+		context[p].font = spec.font;
+		context[p].fillStyle = spec.fill;
 
-		width = context.measureText(spec.text).width / world.size;
+		width = context[p].measureText(spec.text).width / world.size;
 
-		context.restore();
+		context[p].restore();
 
 		return width;
 	}
@@ -181,16 +185,16 @@ Demo.renderer.core = (function() {
 	// Draw a line segment within the unit world.
 	//
 	//------------------------------------------------------------------
-	function drawLine(style, pt1, pt2) {
-		context.strokeStyle = style;
-		context.beginPath();
-		context.moveTo(
+	function drawLine(style, pt1, pt2, p) {
+		context[p].strokeStyle = style;
+		context[p].beginPath();
+		context[p].moveTo(
 			0.5 + world.left + (pt1.x * world.size),
 			0.5 + world.top + (pt1.y * world.size));
-		context.lineTo(
+		context[p].lineTo(
 			0.5 + world.left + (pt2.x * world.size),
 			0.5 + world.top + (pt2.y * world.size));
-		context.stroke();
+		context[p].stroke();
 	}
 
 	//------------------------------------------------------------------
@@ -198,17 +202,17 @@ Demo.renderer.core = (function() {
 	// Draw a circle within the unit world.
 	//
 	//------------------------------------------------------------------
-	function drawCircle(style, center, radius) {
+	function drawCircle(style, center, radius, p) {
 		//
 		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
-		context.strokeStyle = style;
-		context.beginPath();
-		context.arc(
+		context[p].strokeStyle = style;
+		context[p].beginPath();
+		context[p].arc(
 			0.5 + world.left + (center.x * world.size),
 			0.5 + world.top + (center.y * world.size),
 			radius * world.size,
 			0, 2 * Math.PI);
-		context.stroke();
+		context[p].stroke();
 	}
 
 	//------------------------------------------------------------------
@@ -216,20 +220,20 @@ Demo.renderer.core = (function() {
 	// Draws a rectangle relative to the 'unit world'.
 	//
 	//------------------------------------------------------------------
-	function drawRectangle(style, left, top, width, height, stroke = true) {
+	function drawRectangle(style, left, top, width, height, stroke = true, p) {
 		//
 		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
 		if(stroke) {
-      context.strokeStyle = style;
-      context.strokeRect(
+      context[p].strokeStyle = style;
+      context[p].strokeRect(
         0.5 + world.left + (left * world.size),
         0.5 + world.top + (top * world.size),
         width * world.size,
         height * world.size);
     }
     else{
-      context.fillStyle = style;
-      context.fillRect(
+      context[p].fillStyle = style;
+      context[p].fillRect(
         0.5 + world.left + (left * world.size),
         0.5 + world.top + (top * world.size),
         width * world.size,
@@ -242,10 +246,10 @@ Demo.renderer.core = (function() {
 	// Pass-through that allows an image to be drawn.
 	//
 	//------------------------------------------------------------------
-	function drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
+	function drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight, p) {
 		//
 		// Convert from pixel to world coordinates on a few items
-		context.drawImage(
+		context[p].drawImage(
 			image,
 			sx, sy,
 			sWidth, sHeight,
@@ -253,10 +257,10 @@ Demo.renderer.core = (function() {
 			dWidth * world.size, dHeight * world.size);
 	}
 
-	function drawImage2(image, dx, dy, dWidth, dHeight) {
+	function drawImage2(image, dx, dy, dWidth, dHeight, p) {
 		//
 		// Convert from pixel to world coordinates on a few items
-		context.drawImage(
+		context[p].drawImage(
 			image.image,
 			dx * world.size + world.left, dy * world.size + world.top,
 			dWidth * world.size, dHeight * world.size);
@@ -264,20 +268,20 @@ Demo.renderer.core = (function() {
 
 	//------------------------------------------------------------------
 	//
-	// Simple pass-through to save the canvas context.
+	// Simple pass-through to save the canvas context[p].
 	//
 	//------------------------------------------------------------------
-	function saveContext() {
-		context.save();
+	function saveContext(p) {
+		context[p].save();
 	}
 
 	//------------------------------------------------------------------
 	//
-	// Simple pass-through the restore the canvas context.
+	// Simple pass-through the restore the canvas context[p].
 	//
 	//------------------------------------------------------------------
-	function restoreContext() {
-		context.restore();
+	function restoreContext(p) {
+		context[p].restore();
 	}
 
 	//------------------------------------------------------------------
@@ -286,10 +290,10 @@ Demo.renderer.core = (function() {
 	// will appear as rotated (after the canvas rotation is undone).
 	//
 	//------------------------------------------------------------------
-	function rotateCanvas(center, rotation) {
-		context.translate(center.x * world.size + world.left, center.y * world.size + world.top);
-		context.rotate(rotation);
-		context.translate(-(center.x * world.size + world.left), -(center.y * world.size + world.top));
+	function rotateCanvas(center, rotation, p) {
+		context[p].translate(center.x * world.size + world.left, center.y * world.size + world.top);
+		context[p].rotate(rotation);
+		context[p].translate(-(center.x * world.size + world.left), -(center.y * world.size + world.top));
 	}
 
 	return {

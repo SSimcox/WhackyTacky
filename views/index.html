@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Whacky Tacky Tower Defense</title>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
     <link rel="stylesheet" href="public/css/index.css">
 
 </head>
@@ -19,6 +20,49 @@
             <ul class = "menu">
                 <li><button id = "id-new-game">Create&nbsp;Game</button></li>
                 <li><button id = "id-find-game">Find Game</button></li>
+                <li><button id = "id-settings">Settings</button></li>
+                <li><button id = "id-credits">Credits</button></li>
+            </ul>
+        </div>
+        <div id = "settings" class = "screen">
+            <ul class = "menu">
+                <li><button id = "id-configure">Configure Controls</button></li>
+                <li><button id = "id-settings-back">Back</button></li>
+            </ul>
+        </div>
+        <div id = "configure" class = "screen">
+            <ul class = "menu">
+                <li> TOWERS
+                    <ul class = "menu">
+                        <li>Bulbasaur:<input type = "text" size="2"> </li>
+                        <li>Charmander: <input type = "text" size="2"></li>
+                        <li>Squirtle: <input type = "text" size="2"></li>
+                        <li>Evolve: <input type = "text" size="2"></li>
+                    </ul>
+                </li>
+                <li> Creeps
+                    <ul class = "menu">
+                        <li>Biker: <input type="text" size="2"></li>
+                        <li>Pirate: <input type="text" size="2"></li>
+                        <li>Team Rocker: <input type="text" size="2"></li>
+                        <li>Scientist: <input type="text" size="2"></li>
+                    </ul>
+                </li>
+                <li> Utility
+                    <ul class = "menu">
+                        <li>Pause: <input type="text" size="2"></li>
+                    </ul>
+                </li>
+                <li><button id = "id-save">Save</button></li>
+                <li><button id = "id-configure-back">Back</button></li>
+            </ul>
+        </div>
+        <div id = "credits" class = "screen">
+            <ul class = "menu">
+                <li><h1>Whacky Tacky Tower Defense</h1></li>
+                <li><p>Programmed by Logan Smith and Steven Simcox</p></li>
+                <li><p>Art generously provided by Gamefreak</p></li>
+                <li><button id = "id-credits-back">Back</button></li>
             </ul>
         </div>
         <div id="create-game" class="screen">
@@ -26,11 +70,15 @@
             <input id="room-name" type="text">
             <ul class="menu">
                 <li><button id = "id-start-game">Start&nbsp;Game</button></li>
+                <li><button id = "id-create-back">Back</button></li>
             </ul>
         </div>
         <div id = "find-game" class = "screen">
             <ul id="available-games" class = "menu">
 
+            </ul>
+            <ul class = " menu">
+                <li><button id = "id-find-back">Back</button></li>
             </ul>
         </div>
     </div>
@@ -41,6 +89,9 @@
     <script src="/public/scripts/Screens/createGame.js"></script>
     <script src="/public/scripts/Screens/gamePlay.js"></script>
     <script src="/public/scripts/Screens/findGame.js"></script>
+    <script src="/public/scripts/Screens/credits.js"></script>
+    <script src="/public/scripts/Screens/settings.js"></script>
+    <script src="/public/scripts/Screens/configure.js"></script>
 
     <script src="/public/scripts/Input/Keyboard.js"></script>
 

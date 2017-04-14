@@ -22,6 +22,7 @@ Demo.components.Bulbasaur = function(spec) {
 
   // Get our animated bird model and renderer created
   tower = Demo.components.Tower({
+    type: 'Bulbasaur',
     spriteSheetFront: Demo.assets['bulbasaur'],
     spriteSheetBack: Demo.assets['bulbasaur-back'],
     spriteCountFront: 19,

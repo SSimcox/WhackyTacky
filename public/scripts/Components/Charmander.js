@@ -22,6 +22,7 @@ Demo.components.Charmander = function(spec) {
 
   // Get our animated bird model and renderer created
   tower = Demo.components.Tower({
+    type: 'Charmander',
     spriteSheetFront: Demo.assets['charmander'],
     spriteSheetBack: Demo.assets['charmander'],
     spriteCountFront: 19,
