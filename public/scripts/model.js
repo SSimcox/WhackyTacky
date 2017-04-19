@@ -100,19 +100,19 @@ Demo.model = (function(input, components) {
 
 	function buildTower(type, x1, y1){
 		gameCommands.getKeyCommands();
-		if(type === "Bulbasaur"){
-			players[0].towers.push(components.Bulbasaur({
-				spriteCenter: {x:x1, y:y1}
-			}))
-		}else if(type === "Squirtle"){
-			players[0].towers.push(components.Squirtle({
-				spriteCenter: {x:x1, y:y1}
-			}))
-		}else if(type === "Charmander"){
-			players[0].towers.push(components.Charmander({
-				spriteCenter: {x:x1, y:y1}
-			}))
-		}
+		// if(type === "Bulbasaur"){
+		// 	players[0].towers.push(components.Bulbasaur({
+		// 		spriteCenter: {x:x1, y:y1}
+		// 	}))
+		// }else if(type === "Squirtle"){
+		// 	players[0].towers.push(components.Squirtle({
+		// 		spriteCenter: {x:x1, y:y1}
+		// 	}))
+		// }else if(type === "Charmander"){
+		// 	players[0].towers.push(components.Charmander({
+		// 		spriteCenter: {x:x1, y:y1}
+		// 	}))
+		// }
 		socket.emit('event', {game:room, event: 'build', type: type, center: {x:x1, y:y1}, player: socket.id})
 	}
 
@@ -189,6 +189,7 @@ Demo.model = (function(input, components) {
         while(players[p].towers.length > serverModel[key].towers.length) {
           players[p].towers.splice(players[p].towers.length - 1, 1)
         }
+        players[p].map = serverModel[key].map
       }
     }
   }

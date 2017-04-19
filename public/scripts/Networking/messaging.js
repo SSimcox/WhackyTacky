@@ -35,8 +35,8 @@ var Socket = function(Main) {
   })
 
   socket.on('update', function(message){
-    Demo.model.diffModels(message)
-    console.log(message)
+    if(typeof message === "object")
+      Demo.model.diffModels(message)
   })
 
   return socket

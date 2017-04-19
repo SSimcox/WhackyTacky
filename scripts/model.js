@@ -30,7 +30,7 @@ module.exports = function(player1, player2){
   // ------------------------------------------------------------------
   that.initialize = function() {
 
-    for(let i = 0; i < 14; i++){
+    for(let i = 0; i < 16; i++){
       players[player1].map.push([])
       players[player2].map.push([])
       for(let j = 0; j < 20; j++){
@@ -43,19 +43,21 @@ module.exports = function(player1, player2){
       type: 'Charmander',
       center: {x: 500, y: 500},
       player: players[player1].towers,
-      map: players[player1].towers
+      map: players[player1].map
     })
 
     Events.AddTower({
       type: 'Bulbasaur',
       center: {x: 250, y: 500},
-      player: players[player1].towers
+      player: players[player1].towers,
+      map: players[player1].map
     })
 
     Events.AddTower({
       type: 'Squirtle',
       center: {x: 750, y: 500},
-      player: players[player2].towers
+      player: players[player2].towers,
+      map: players[player2].map
     })
 
     //Example of how upgrading could work

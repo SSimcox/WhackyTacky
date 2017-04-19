@@ -45,7 +45,7 @@ Demo.input.Keyboard = function() {
 	//
 	// ------------------------------------------------------------------
 	that.update = function(elapsedTime) {
-		console.log(keys)
+		//console.log(keys)
 		for(var key in keys){
 			if(handlers.hasOwnProperty(key)){
 				event = handlers[key];

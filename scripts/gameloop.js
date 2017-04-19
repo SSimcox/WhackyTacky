@@ -27,10 +27,10 @@ module.exports = function(player1, player2, io){
     previousTime = currentTime
 
     timeSinceLastSend += elapsedTime
-    if(timeSinceLastSend > 10 || sendUpdate){
+    if(timeSinceLastSend > 2000 || sendUpdate){
       emit()
       timeSinceLastSend = 0
-      console.log((present() - startTime)/1000)
+      //console.log((present() - startTime)/1000)
     }
 
     if(!gameOver) {

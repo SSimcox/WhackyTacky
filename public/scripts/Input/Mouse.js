@@ -30,10 +30,27 @@ Demo.input.Mouse = function() {
       let y = (event.pageY - myOffset.y) / scaleOffset;
       if(x < 1000 && x > 0 && y > 900 && y < 1000){
         buildTower(x);
-      }else if(x < 950 && x > 50 && y < 900 && y > 150){
+      }else {//if(x < 950 && x > 50 && y < 900 && y > 150){
         if(buildSelected){
           let tX = Math.round(x/50)*50;
           let tY = Math.round(y/50)*50;
+          if(tX < 50){
+            if (tX < 0) return
+            tX += 50
+          }
+          if(tX > 950){
+            if(tX > 1000) return
+            tX -= 50
+          }
+          if(tY < 150){
+            if (tY < 100) return
+            tY += 50
+          }
+          if(tY > 850){
+            if(tY > 900) return
+            tY -= 50
+          }
+
           towerToBuild = {
             x: tX,
             y: tY,
