@@ -24,6 +24,7 @@ Demo.model = (function(input, components) {
 		myMouse = input.Mouse(),
 		gameCommands = input.GameCommands(myMouse, myKeyboard),
     socket,
+    path,
 		that = {};
 
 	// ------------------------------------------------------------------
@@ -70,7 +71,7 @@ Demo.model = (function(input, components) {
 				players[1].map[i].push(-1);
 			}
 		}
-
+    path = setPath(players[0])
 		myKeyboard.changeCommands(gameCommands);
 
     //Example of how upgrading could work
@@ -146,10 +147,15 @@ Demo.model = (function(input, components) {
 		// Draw a border around the unit world.
 		renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false,0);
     renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false,1);
-    renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 800, false,0);
-    renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 800, false,1);
+    renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 750, false,0);
+    renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 750, false,1);
+    renderer.core.drawRectangle('rgba(200, 50, 50, 1)', 0, 850, 1000, 50, false,0);
+    renderer.core.drawRectangle('rgba(200, 50, 50, 1)', 0, 850, 1000, 50, false,1);
+    for(let i = 0; i < path.length; i++){
+      renderer.core.drawRectangle('rgba(0,200,50,1)',path[i].x*50,(path[i].y + 2)*50,50,50,false,0)
+    }
 		if(myMouse.buildSelected()){
-		  for(let i = 2; i < 18; i++){
+		  for(let i = 2; i < 17; i++){
 		    for(let j = 0; j < 20; j++){
 		      renderer.core.drawRectangle('rgba(0,0,0,1)', j * 50, i * 50, 50, 50,true,0)
         }
@@ -172,6 +178,7 @@ Demo.model = (function(input, components) {
 
 	that.diffModels = function(serverModel){
 	  var p = 0;
+	  var built = false
 	  for(var key in serverModel){
 	    if(serverModel.hasOwnProperty(key)){
         if(socket.id == key) p = 0
@@ -183,6 +190,7 @@ Demo.model = (function(input, components) {
             }
             else {
               players[p].towers[i] = createTowerFromServer(serverModel[key].towers[i])
+              if(p == 0) built = true
             }
           }
         }
@@ -192,6 +200,8 @@ Demo.model = (function(input, components) {
         players[p].map = serverModel[key].map
       }
     }
+    if(built)
+      path = setPath(players[0])
   }
 
   function createTowerFromServer(tower){

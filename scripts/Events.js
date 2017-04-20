@@ -34,7 +34,7 @@ Events.process = function(event, emit){
 }
 
 Events.AddTower = function(spec){
-  var x = (spec.center.x - 100) / 50
+  var x = (spec.center.x) / 50
   var y = (spec.center.y - 100) / 50
 
   console.log(x, y)
