@@ -1,19 +1,21 @@
 /**
- * Created by Steven on 4/19/2017.
+ * Created by Steven on 4/20/2017.
  */
+
 
 var edges = []
 
-function setPath(player){
+module.exports = function(map){
 
   // Find shortest path from [16,0] to [0,10] in player.map
 
+  console.log(map)
   var nodes = []
   for(let i = 0; i < 16; i++){
     nodes.push([])
     for(let j = 0; j < 20; j++){
       let visited = false
-      if(player.map[i][j] > -1)
+      if(map[i][j] > -1)
         visited = true
       nodes[i].push(Node(j,i,visited))
     }
@@ -22,12 +24,19 @@ function setPath(player){
   var list = new PriorityQueue()
   var cur = nodes[15][0]
   cur.length = 0
+  cur.visited
+  visit(cur,list,nodes)
 
-  while(cur !== nodes[0][9]){
+  while(cur !== nodes[0][9] && list.data.length > 0){
     cur.visited = true
     visit(cur,list,nodes)
-    while(cur.visited) // prevents duplicate node visits
+    console.log(cur)
+    while(cur.visited) { // prevents duplicate node visits
       cur = list.pop()
+    }
+  }
+  if(cur !== nodes[0][9]){
+    return false
   }
 
   var path = []
@@ -44,10 +53,10 @@ function setPath(player){
 
 function turn(p1, p2, p3) {
   let a = p1.x, b = p1.y,
-  c = p2.x, d = p2.y,
-  e = p3.x, f = p3.y;
+    c = p2.x, d = p2.y,
+    e = p3.x, f = p3.y;
   let A = (f - b) * (c - a),
-  B = (d - b) * (e - a);
+    B = (d - b) * (e - a);
   return (A > B + Number.EPSILON) ? 1 : (A + Number.EPSILON < B) ? -1 : 0;
 }
 

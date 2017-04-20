@@ -4,7 +4,7 @@
 
 let Events = {}
 let Components = require('./Components')
-
+let Path = require('./pathing')
 
 Events.process = function(event, emit){
   if(event.event == 'build'){
@@ -37,8 +37,8 @@ Events.AddTower = function(spec){
   var x = (spec.center.x) / 50
   var y = (spec.center.y - 100) / 50
 
-  console.log(x, y)
-  console.log(spec.map)
+  //console.log(x, y)
+  //console.log(spec.map)
   for(let i = y-1; i <= y; i++){
     for(let j = x-1; j <=x ; j++){
       if(spec.map[i][j] > -1) return false
@@ -50,6 +50,17 @@ Events.AddTower = function(spec){
       spec.map[i][j] = spec.player.length
     }
   }
+
+  console.log(Path(spec.map))
+  if(!Path(spec.map)){
+    for(let i = y-1; i <= y; i++){
+      for(let j = x-1; j <= x; j++){
+        spec.map[i][j] = -1
+      }
+    }
+    return false
+  }
+
   console.log(spec.map)
   spec.player.push(Components[spec.type]({
     spriteCenter: spec.center
