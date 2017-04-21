@@ -42,7 +42,7 @@ module.exports = function(app) {
      *                                       *
      *****************************************/
     socket.on('send ping', function(data){
-      console.log('latency: ', (present() - initialTime))
+      activeGames[data.game].latencies[socket.id].push(present() - activeGames[data.game].initialTime)
     })
 
     /*****************************************

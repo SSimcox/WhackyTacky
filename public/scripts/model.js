@@ -151,6 +151,7 @@ Demo.model = (function(input, components) {
     renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 750, false,1);
     renderer.core.drawRectangle('rgba(200, 50, 50, 1)', 0, 850, 1000, 50, false,0);
     renderer.core.drawRectangle('rgba(200, 50, 50, 1)', 0, 850, 1000, 50, false,1);
+
     for(let i = 0; i < path.length; i++){
       renderer.core.drawRectangle('rgba(0,200,50,1)',path[i].x*50,(path[i].y + 2)*50,50,50,false,0)
     }

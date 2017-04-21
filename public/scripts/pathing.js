@@ -1,6 +1,7 @@
 /**
- * Created by Steven on 4/19/2017.
+ * Created by Steven on 4/20/2017.
  */
+
 
 var edges = []
 
@@ -8,29 +9,36 @@ function setPath(player){
 
   // Find shortest path from [16,0] to [0,10] in player.map
 
+  //console.log(map)
   var nodes = []
   for(let i = 0; i < 16; i++){
     nodes.push([])
     for(let j = 0; j < 20; j++){
-      let visited = false
+      let visited = "none"
       if(player.map[i][j] > -1)
-        visited = true
+        visited = "visited"
       nodes[i].push(Node(j,i,visited))
     }
   }
 
-  var list = new PriorityQueue()
-  var cur = nodes[15][0]
-  cur.length = 0
+  let list = new PriorityQueue()
 
-  while(cur !== nodes[0][9]){
-    cur.visited = true
-    visit(cur,list,nodes)
-    while(cur.visited) // prevents duplicate node visits
-      cur = list.pop()
+  list.push(nodes[15][0],1)
+
+  let cur = null
+  nodes[15][0].length = 0
+
+  do{
+    cur = list.pop()
+    cur.visited = "visited"
+    visit(cur,list,nodes,player.map)
+  }while(cur !== nodes[0][9] && list.data.length > 0)
+
+  if(cur !== nodes[0][9]){
+    return false
   }
 
-  var path = []
+  let path = []
   while(cur !== nodes[15][0])
   {
     path.unshift(cur)
@@ -40,19 +48,6 @@ function setPath(player){
   // Find shortest path from unit to shortest path player.creeps[i].center
 
   return path
-}
-
-function turn(p1, p2, p3) {
-  let a = p1.x, b = p1.y,
-  c = p2.x, d = p2.y,
-  e = p3.x, f = p3.y;
-  let A = (f - b) * (c - a),
-  B = (d - b) * (e - a);
-  return (A > B + Number.EPSILON) ? 1 : (A + Number.EPSILON < B) ? -1 : 0;
-}
-
-function isIntersect(p1, p2, p3, p4) {
-  return (turn(p1, p3, p4) !== turn(p2, p3, p4)) && (turn(p1, p2, p3) !== turn(p1, p2, p4));
 }
 
 function Node(x,y,visited){
@@ -66,25 +61,29 @@ function Node(x,y,visited){
 }
 
 function visit(node,list,nodes){
-  if(node.x > 0 && (!nodes[node.y][node.x-1].visited || nodes[node.y][node.x-1].length > node.length + 1)){
+  if(node.x > 0 && nodes[node.y][node.x-1].visited !== "visited" && (nodes[node.y][node.x-1].visited === "none" || (nodes[node.y][node.x-1].visited === "listed" && nodes[node.y][node.x-1].length > node.length + 1))){
     nodes[node.y][node.x-1].length = node.length + 1
     nodes[node.y][node.x-1].parent = node
-    list.push(nodes[node.y][node.x-1],distance(nodes[0][9],node) + node.length)
+    nodes[node.y][node.x-1].visited = "listed"
+    list.push(nodes[node.y][node.x-1],nodes[node.y][node.x-1].length) //distance(nodes[0][9], nodes[node.y][node.x-1]) + nodes[node.y][node.x-1].length)
   }
-  if(node.y < 15 && (!nodes[node.y+1][node.x].visited || nodes[node.y+1][node.x].length > node.length + 1)){
+  if(node.y < 15 && nodes[node.y+1][node.x].visited !== "visited" && (nodes[node.y+1][node.x].visited === "none" || (nodes[node.y+1][node.x].visited === "listed" && nodes[node.y+1][node.x].length > node.length + 1))){
     nodes[node.y+1][node.x].length = node.length + 1
     nodes[node.y+1][node.x].parent = node
-    list.push(nodes[node.y+1][node.x],distance(nodes[0][9],node) + node.length)
+    nodes[node.y+1][node.x].visited = "listed"
+    list.push(nodes[node.y+1][node.x],nodes[node.y+1][node.x].length) //distance(nodes[0][9], nodes[node.y+1][node.x]) + nodes[node.y+1][node.x].length)
   }
-  if(node.x < 19 && (!nodes[node.y][node.x+1].visited || nodes[node.y][node.x+1].length > node.length + 1)){
+  if(node.x < 19 && nodes[node.y][node.x+1].visited !== "visited" && (nodes[node.y][node.x+1].visited === "none" || (nodes[node.y][node.x+1].visited === "listed" && nodes[node.y][node.x+1].length > node.length + 1))){
     nodes[node.y][node.x+1].length = node.length + 1
     nodes[node.y][node.x+1].parent = node
-    list.push(nodes[node.y][node.x+1],distance(nodes[0][9],node) + node.length)
+    nodes[node.y][node.x+1].visited = "listed"
+    list.push(nodes[node.y][node.x+1],nodes[node.y][node.x+1].length) //distance(nodes[0][9], nodes[node.y][node.x+1]) + nodes[node.y][node.x+1].length)
   }
-  if(node.y > 0 && (!nodes[node.y-1][node.x].visited || nodes[node.y-1][node.x].length > node.length + 1)){
+  if(node.y > 0 && nodes[node.y-1][node.x].visited !== "visited" && (nodes[node.y-1][node.x].visited === "none" || (nodes[node.y-1][node.x].visited === "listed" && nodes[node.y-1][node.x].length > node.length + 1))){
     nodes[node.y-1][node.x].length = node.length + 1
     nodes[node.y-1][node.x].parent = node
-    list.push(nodes[node.y-1][node.x],distance(nodes[0][9],node) + node.length)
+    nodes[node.y-1][node.x].visited = "listed"
+    list.push(nodes[node.y-1][node.x],nodes[node.y-1][node.x].length) //distance(nodes[0][9], nodes[node.y-1][node.x]) + nodes[node.y-1][node.x].length)
   }
 }
 
@@ -108,4 +107,17 @@ PriorityQueue.prototype.pop = function() {
 
 PriorityQueue.prototype.size = function() {
   return this.data.length
+}
+
+function turn(p1, p2, p3) {
+  let a = p1.x, b = p1.y,
+    c = p2.x, d = p2.y,
+    e = p3.x, f = p3.y;
+  let A = (f - b) * (c - a),
+    B = (d - b) * (e - a);
+  return (A > B + Number.EPSILON) ? 1 : (A + Number.EPSILON < B) ? -1 : 0;
+}
+
+function isIntersect(p1, p2, p3, p4) {
+  return (turn(p1, p3, p4) !== turn(p2, p3, p4)) && (turn(p1, p2, p3) !== turn(p1, p2, p4));
 }

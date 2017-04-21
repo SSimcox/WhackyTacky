@@ -39,37 +39,32 @@ module.exports = function(player1, player2){
       }
     }
 
-    Events.AddTower({
-      type: 'Charmander',
-      center: {x: 500, y: 500},
-      player: players[player1].towers,
-      map: players[player1].map
-    })
-
-    Events.AddTower({
-      type: 'Bulbasaur',
-      center: {x: 250, y: 500},
-      player: players[player1].towers,
-      map: players[player1].map
-    })
-
-    Events.AddTower({
-      type: 'Squirtle',
-      center: {x: 750, y: 500},
-      player: players[player2].towers,
-      map: players[player2].map
-    })
+    // Events.AddTower({
+    //   type: 'Charmander',
+    //   center: {x: 500, y: 500},
+    //   player: players[player1].towers,
+    //   map: players[player1].map
+    // })
+    //
+    // Events.AddTower({
+    //   type: 'Bulbasaur',
+    //   center: {x: 250, y: 500},
+    //   player: players[player1].towers,
+    //   map: players[player1].map
+    // })
+    //
+    // Events.AddTower({
+    //   type: 'Squirtle',
+    //   center: {x: 750, y: 500},
+    //   player: players[player2].towers,
+    //   map: players[player2].map
+    // })
 
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({
     //   center: towers[i].center,
     //   exp: towers[i].exp
     // })
-
-    // myKeyboard.registerHandler(function(elapsedTime) {
-    // 		birdLittle.moveForward(elapsedTime);
-    // 	},
-    // 	input.KeyEvent.DOM_VK_W, true);
   };
 
   // ------------------------------------------------------------------
@@ -99,6 +94,9 @@ module.exports = function(player1, player2){
           players[key].towers[i].update(elapsedTime)
         }
         for (let i = 0; i < players[key].creeps.length; i++) {
+          if(built){
+
+          }
           players[key].creeps[i].update(elapsedTime)
         }
       }

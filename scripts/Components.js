@@ -180,21 +180,14 @@ Components.Creep = function(spec) {
       get center() { return sprite.center; },
       get rotation() { return spec.rotation; },
       get damage() { return spec.damage; },
-      get attack() { return spec.attack; }
+      get stats() { return spec.stats; },
+      set stats(val) { spec.stats = val; }
     };
 
-  //------------------------------------------------------------------
-  //
-  // The only update to do is to tell the underlying animated sprite
-  // to update.
-  //
-  //------------------------------------------------------------------
   that.update = function(elapsedTime) {
 
   };
 
-  //
-  // Get our animated bird model and renderer created
   return that;
 };
 
