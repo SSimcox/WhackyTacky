@@ -155,7 +155,7 @@ Demo.model = (function(input, components) {
 
     // Draws Current Shortest Path from bottom left corner
      for(let i = 0; i < path.length; i++){
-       renderer.core.drawRectangle('rgba(0,200,50,.5)',path[i].x*50,(path[i].y + 2)*50,40,40,false,0)
+       renderer.core.drawRectangle('rgba(0,200,50,.5)',path[i].x*50 + 5,(path[i].y + 2)*50 + 5,40,40,false,0)
      }
 
 
