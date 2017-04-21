@@ -11,13 +11,15 @@ module.exports = function(player1, player2){
     towers: [],
     creeps: [],
     map: [],
-    money: 0
+    money: 15,
+    income: 1
   }
   players[player2] = {
     towers: [],
     creeps: [],
     map: [],
-    money: 0
+    money: 15,
+    income: 1
   }
 
   let that = {};
@@ -39,27 +41,6 @@ module.exports = function(player1, player2){
       }
     }
 
-    // Events.AddTower({
-    //   type: 'Charmander',
-    //   center: {x: 500, y: 500},
-    //   player: players[player1].towers,
-    //   map: players[player1].map
-    // })
-    //
-    // Events.AddTower({
-    //   type: 'Bulbasaur',
-    //   center: {x: 250, y: 500},
-    //   player: players[player1].towers,
-    //   map: players[player1].map
-    // })
-    //
-    // Events.AddTower({
-    //   type: 'Squirtle',
-    //   center: {x: 750, y: 500},
-    //   player: players[player2].towers,
-    //   map: players[player2].map
-    // })
-
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({
     //   center: towers[i].center,
@@ -76,8 +57,13 @@ module.exports = function(player1, player2){
     var sendUpdate = false
     while(events.length > 0){
       var event = events.shift()
+      if(event.player == player1)
+        event.opponent = players[player2]
+      else
+        event.opponent = players[player1]
       event.player = players[event.player]
-      if(Events.process(event, emit)) sendUpdate = true
+      var success = Events.process(event,emit)
+      if(success) sendUpdate = true
     }
     return sendUpdate
   }

@@ -56,9 +56,9 @@ module.exports = function(player1, player2, io){
     that.initialTime = present()
     var send = message || model.getModel()
     io.to(player1).emit('update', send)
-    console.log("Player 1 Latency:",averageLatencies(that.latencies[player1]))
-    console.log("Player 2 Latency:",averageLatencies(that.latencies[player2]))
-    console.log("Average Time for loop:", averageLatencies(loopTimes))
+    // console.log("Player 1 Latency:",averageLatencies(that.latencies[player1]))
+    // console.log("Player 2 Latency:",averageLatencies(that.latencies[player2]))
+    // console.log("Average Time for loop:", averageLatencies(loopTimes))
   }
 
   that.GameOver = function(){

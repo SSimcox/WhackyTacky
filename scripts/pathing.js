@@ -26,7 +26,7 @@ module.exports = function(map, creep){
   let x = 0, y = 15
   if(creep !== undefined){
     x = Math.floor(creep.center.x / 50)
-    y = Math.floor(creep.center.y / 50)
+    y = Math.floor((creep.center.y - 100) / 50)
   }
 
   list.push(nodes[y][x],1)
