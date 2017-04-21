@@ -154,9 +154,9 @@ Demo.model = (function(input, components) {
     // renderer.core.drawRectangle('rgba(200, 50, 50, 1)', 0, 850, 1000, 50, false,1);
 
     // Draws Current Shortest Path from bottom left corner
-    // for(let i = 0; i < path.length; i++){
-    //   renderer.core.drawRectangle('rgba(0,200,50,1)',path[i].x*50,(path[i].y + 2)*50,50,50,false,0)
-    // }
+     for(let i = 0; i < path.length; i++){
+       renderer.core.drawRectangle('rgba(0,200,50,.5)',path[i].x*50,(path[i].y + 2)*50,40,40,false,0)
+     }
 
 
 		if(myMouse.buildSelected()){
