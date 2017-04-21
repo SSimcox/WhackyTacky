@@ -40,7 +40,48 @@ Demo.loader = (function() {
 		{
 			key: 'charmanderHover',
 			source: '/public/assets/graphics/towerHover/charmanderHover.png'
-		}
+		},
+		{
+			key: 'dirt',
+			source: '/public/assets/graphics/tiles/dirt.png'
+		},
+    {
+      key: 'fence',
+      source: '/public/assets/graphics/tiles/fence.png'
+    },
+    {
+      key: 'grass',
+      source: '/public/assets/graphics/tiles/grass.png'
+    },
+    {
+      key: 'pokecenter',
+      source: '/public/assets/graphics/tiles/pokecenter.png'
+    },
+    {
+      key: 'bluebuilding',
+      source: '/public/assets/graphics/tiles/bluebuilding.png'
+    },
+    {
+      key: 'redbuilding',
+      source: '/public/assets/graphics/tiles/redbuilding.png'
+    },
+    {
+      key: 'bggrass',
+      source: '/public/assets/graphics/tiles/bggrass.png'
+    },
+    {
+      key: 'loadingdirt',
+      source: '/public/assets/graphics/tiles/loadingdirt.png'
+    },
+    {
+      key: 'buildingselectbg',
+      source: '/public/assets/graphics/tiles/buildingselectbg.png'
+    },
+    {
+      key: 'buildingselectbgblue',
+      source: '/public/assets/graphics/tiles/buildingselectbgblue.png'
+    }
+
   ];
 
 	//------------------------------------------------------------------

@@ -177,25 +177,34 @@ Components.Squirtle = function(spec) {
 Components.Creep = function(spec) {
   'use strict';
   var that = {
-      get center() { return sprite.center; },
-      get rotation() { return spec.rotation; },
-      get damage() { return spec.damage; },
-      get attack() { return spec.attack; }
+      get center() { return spec.center; },
+      get stats() { return spec.stats; },
+      set stats(val) { spec.stats = val; }
     };
 
-  //------------------------------------------------------------------
-  //
-  // The only update to do is to tell the underlying animated sprite
-  // to update.
-  //
-  //------------------------------------------------------------------
   that.update = function(elapsedTime) {
 
   };
 
-  //
-  // Get our animated bird model and renderer created
   return that;
 };
+
+Components.RocketM = function(spec){
+  var creep = {}
+
+  creep = Components.Creep({
+    spriteCenter: spec.center,
+    stats: {
+      health: 50,
+      speed: 3,
+      direction: {
+        x: 0,
+        y:0
+      }
+    }
+  })
+
+  return creep
+}
 
 module.exports = Components;

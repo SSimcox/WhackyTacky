@@ -5,7 +5,7 @@
 
 var edges = []
 
-function setPath(player){
+module.exports = function(map, creep){
 
   // Find shortest path from [16,0] to [0,10] in player.map
 
@@ -15,7 +15,7 @@ function setPath(player){
     nodes.push([])
     for(let j = 0; j < 20; j++){
       let visited = "none"
-      if(player.map[i][j] > -1)
+      if(map[i][j] != -1)
         visited = "visited"
       nodes[i].push(Node(j,i,visited))
     }
@@ -23,7 +23,13 @@ function setPath(player){
 
   let list = new PriorityQueue()
 
-  list.push(nodes[15][0],1)
+  let x = 0, y = 15
+  if(creep !== undefined){
+    x = Math.floor(creep.center.x / 50)
+    y = Math.floor((creep.center.y - 100) / 50)
+  }
+
+  list.push(nodes[y][x],1)
 
   let cur = null
   nodes[15][0].length = 0
@@ -31,7 +37,7 @@ function setPath(player){
   do{
     cur = list.pop()
     cur.visited = "visited"
-    visit(cur,list,nodes,player.map)
+    visit(cur,list,nodes,map)
   }while(cur !== nodes[0][9] && list.data.length > 0)
 
   if(cur !== nodes[0][9]){
