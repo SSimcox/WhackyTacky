@@ -1,11 +1,11 @@
-Demo.components.Biker = function(spec) {
+Demo.components.Scientist = function(spec) {
   'use strict';
   var creep = null;
 
   // Get our animated biker model and renderer created
   creep = Demo.components.Creep({
-    type: 'Biker',
-    spriteSheet: Demo.assets['biker'],
+    type: 'Scientist',
+    spriteSheet: Demo.assets['scientist'],
     spriteCount: 4,
     spriteTime: [150, 150, 150, 150],
     animationScale: 1.0,

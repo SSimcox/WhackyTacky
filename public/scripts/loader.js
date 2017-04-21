@@ -40,6 +40,22 @@ Demo.loader = (function() {
 		{
 			key: 'charmanderHover',
 			source: '/public/assets/graphics/towerHover/charmanderHover.png'
+		},
+		{
+			key: 'biker',
+			source: '/public/assets/graphics/creeps/biker.png'
+		},
+		{
+			key: 'eyepatch',
+			source: '/public/assets/graphics/creeps/eyepatch.png'
+		},
+		{
+			key: 'rocketM',
+			source: '/public/assets/graphics/creeps/rocketM.png'
+		},
+		{
+			key: 'scientist',
+			source: '/public/assets/graphics/creeps/scientist.png'
 		}
   ];
 

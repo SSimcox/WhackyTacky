@@ -2,33 +2,18 @@
  * Created by Steven on 4/12/2017.
  */
 
-//------------------------------------------------------------------
-//
-// Defines a Bird component.  A bird contains an animated sprite.
-// The sprite is defined as:
-//	{
-//		size: { width: , height: },	// In world coordinates
-//		center: { x: , y: }			// In world coordinates
-//		rotation: 					// In Radians
-//		moveRate: 					// World units per second
-//		rotateRate:					// Radians per second
-//		animationScale:				// (optional) Scaling factor for the frame animation times
-//	}
-//
-//------------------------------------------------------------------
 Demo.components.Creep = function(spec) {
   'use strict';
-  var spriteFront = null,
-    spriteBack = null,
-    spriteLeft = null,
-    spriteRight = null,
-    facingDown = true,
+  var sprite = null,
+
     that = {
       get center() { return sprite.center; },
-      get sprite() { return facingDown ? spriteFront : spriteBack; },
-      get rotation() { return spec.rotation; },
+      get sprite() { return sprite; },
       get damage() { return spec.damage; },
-      get attack() { return spec.attack; }
+      get stats() { return spec.stats; },
+      set stats(val) {
+        spec.stats = val;
+      }
     };
 
   //------------------------------------------------------------------
@@ -38,29 +23,33 @@ Demo.components.Creep = function(spec) {
   //
   //------------------------------------------------------------------
   that.update = function(elapsedTime) {
+    sprite.center = {x: sprite.center.x + spec.stats.direction.x* (spec.stats.speed/elapsedTime),
+                    y: sprite.center.y + spec.stats.direction.y* (spec.stats.speed/elapsedTime)}
+    let val = 3;
+    if(Math.abs(spec.stats.direction.x) > Math.abs(spec.stats.direction.y)){
+      if(spec.stats.direction.x < 0){
+        val = 1;
+      }else{
+        val = 2;
+      }
+    }else{
+      if(spec.stats.direction.y >0){
+        val = 0;
+      }
+    }
+    sprite.direction = val;
     sprite.update(elapsedTime, true);
   };
 
-  //
-  // Get our animated bird model and renderer created
-  spriteFront = Demo.components.AnimatedSprite({
-    spriteSheet: spec.spriteSheetFront,
+  sprite = Demo.components.AnimatedSprite({
+    spriteSheet: spec.spriteSheet,
     spriteCount: spec.spriteCount,
     spriteTime: spec.spriteTime,
     animationScale: spec.animationScale,
-    spriteSize: { width: 75, height: 75},			// Maintain the size on the sprite
-    spriteCenter: spec.spriteCenter		// Maintain the center on the sprite
+    spriteSize: { width: 48, height: 48},			// Maintain the size on the sprite
+    spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
+    creep: true
   });
-
-  spriteBack = Demo.components.AnimatedSprite({
-    spriteSheet: spec.spriteSheetBack,
-    spriteCount: spec.spriteCount,
-    spriteTime: spec.spriteTime,
-    animationScale: spec.animationScale,
-    spriteSize: { width: 75, height: 75},			// Maintain the size on the sprite
-    spriteCenter: spec.spriteCenter		// Maintain the center on the sprite
-
-  })
 
   return that;
 };

@@ -7,7 +7,7 @@
 // Rendering function for an /Components/Tower object.
 //
 // ------------------------------------------------------------------
-Demo.renderer.Tower = (function(core) {
+Demo.renderer.Creep = (function(core) {
   'use strict';
   var that = {};
 
@@ -19,17 +19,17 @@ Demo.renderer.Tower = (function(core) {
   // Maybe should be done in Tower component update function?
   //
   // ------------------------------------------------------------------
-  that.render = function(sprite) {
+  that.render = function(sprite, p) {
     //
     // Do any necessary rotation.
-    core.saveContext();
+    core.saveContext(p);
     //core.rotateCanvas(sprite.center, sprite.rotation);
 
-    Demo.renderer.AnimatedSprite.render(sprite.sprite);
+    Demo.renderer.AnimatedSprite.render(sprite.sprite, p);
 
     //
     // This undoes the rotation very quickly
-    core.restoreContext();
+    core.restoreContext(p);
   };
 
   return that;

@@ -1,27 +1,19 @@
-//------------------------------------------------------------------
-//
-// Defines an animated model object.  The spec is defined as:
-// {
-//		spriteSheet: Image,
-//		spriteSize: { width: , height: },	// In world coordinates
-//		spriteCenter: { x:, y: },			// In world coordinates
-//		spriteCount: Number of sprites in the sheet,
-//		spriteTime: [array of times (milliseconds) for each frame]
-//		animationScale: (optional) Scaling factor for the spriteTime values
-// }
-//
-//------------------------------------------------------------------
 Demo.components.AnimatedSprite = function(spec) {
 	'use strict';
 	var frame = 0,
+		creep = spec.creep ? 4 : 1,
+		direction = spec.creep ? 3:0,
 		that = {
 			get spriteSheet() { return spec.spriteSheet; },
 			get pixelWidth() { return spec.spriteSheet.width / spec.spriteCount; },
-			get pixelHeight() { return spec.spriteSheet.height; },
+			get pixelHeight() { return spec.spriteSheet.height / creep; },
 			get width() { return spec.spriteSize.width; },
 			get height() { return spec.spriteSize.height; },
 			get center() { return spec.spriteCenter; },
-			get sprite() { return spec.sprite; }
+			get sprite() { return spec.sprite; },
+			get direction() {return direction; },
+			set direction(val) {direction = val;},
+			set center(val){spec.spriteCenter = val; }
 		};
 
 	//

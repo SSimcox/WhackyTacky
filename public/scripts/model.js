@@ -26,6 +26,9 @@ Demo.model = (function(input, components) {
     socket,
 		that = {};
 
+	var hover;
+	var imageHovering = false;
+
 	// ------------------------------------------------------------------
 	//
 	// This function initializes the input demo model.  Only thing it
@@ -61,6 +64,18 @@ Demo.model = (function(input, components) {
 		players[0].buildTowers.push(components.CharmanderHover({
 			imageCenter: {x:250, y: 950}
 		}))
+		players[1].creeps.push(components.Biker({
+			spriteCenter: {x:50, y: 950}
+		}))
+		players[1].creeps.push(components.Eyepatch({
+			spriteCenter: {x: 150, y: 950}
+		}))
+		players[1].creeps.push(components.RocketM({
+			spriteCenter: {x: 250, y: 950}
+		}))
+		players[1].creeps.push(components.Scientist({
+			spriteCenter: {x: 350, y: 950}
+		}))
 
 		for(let i = 0; i < 16; ++ i){
 			players[0].map.push([]);
@@ -95,25 +110,43 @@ Demo.model = (function(input, components) {
 	that.processInput = function(elapsedTime) {
 		myKeyboard.update(elapsedTime);
 		let build = gameCommands.buildTower(myMouse);
-		if(build) buildTower(build.type, build.x, build.y)
+		if(build) buildTower(build.type, build.x, build.y);
+		let wave = gameCommands.sendCreeps(myMouse);
+		if(wave) sendCreeps(wave.type, wave.x, wave.y);
+		if(myMouse.buildSelected() && !imageHovering){
+			let t = gameCommands.hoverTower();
+			imageHovering = true;
+			document.getElementById('my-canvas').className += "no-cursor"
+			if(t.type === "Bulbasaur"){
+				hover = components.BulbasaurHover({
+					imageCenter: {x:t.x, y:t.y}
+				})
+			}else if(t.type === "Squirtle"){
+				hover = components.SquirtleHover({
+					imageCenter: {x:t.x, y:t.y}
+				})
+			}else if(t.type === "Charmander"){
+				hover = components.CharmanderHover({
+					imageCenter: {x:t.x, y:t.y}
+				})
+			}
+		}
 	};
 
 	function buildTower(type, x1, y1){
 		gameCommands.getKeyCommands();
-		// if(type === "Bulbasaur"){
-		// 	players[0].towers.push(components.Bulbasaur({
-		// 		spriteCenter: {x:x1, y:y1}
-		// 	}))
-		// }else if(type === "Squirtle"){
-		// 	players[0].towers.push(components.Squirtle({
-		// 		spriteCenter: {x:x1, y:y1}
-		// 	}))
-		// }else if(type === "Charmander"){
-		// 	players[0].towers.push(components.Charmander({
-		// 		spriteCenter: {x:x1, y:y1}
-		// 	}))
-		// }
 		socket.emit('event', {game:room, event: 'build', type: type, center: {x:x1, y:y1}, player: socket.id})
+		hover = {}
+		imageHovering = false;
+		document.getElementById('my-canvas').className = ''
+	}
+
+	function sendCreeps(type, x1, y1){
+		gameCommands.getKeyCommands();
+		//socket.emit('event', {game:room, event: 'build', type: type, center: {x:x1, y:y1}, player: socket.id})
+		hover = {}
+		imageHovering = false;
+		document.getElementById('my-canvas').className = ''
 	}
 
 	// ------------------------------------------------------------------
@@ -133,6 +166,13 @@ Demo.model = (function(input, components) {
         players[p].buildTowers[i].update(elapsedTime)
       }
     }
+
+		if(imageHovering === true){
+			let h = gameCommands.hoverTower()
+			if(h){
+				 hover.image.center = {x: h.x, y: h.y}
+			 }
+		}
 	};
 
 	// ------------------------------------------------------------------
@@ -149,6 +189,8 @@ Demo.model = (function(input, components) {
     renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 800, false,0);
     renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 800, false,1);
 		if(myMouse.buildSelected()){
+			console.log('rendering', hover)
+			if(hover) renderer.TowerHover.render(hover, 0);
 		  for(let i = 2; i < 18; i++){
 		    for(let j = 0; j < 20; j++){
 		      renderer.core.drawRectangle('rgba(0,0,0,1)', j * 50, i * 50, 50, 50,true,0)

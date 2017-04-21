@@ -2,8 +2,9 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
   'use strict'
   var that = {};
 
-  that.upgradeTower = function(type, center){
-    // upgrades a tower
+  that.hoverTower = function(type, center){
+    let tower = myMouse.getHoverImage();
+    return tower
   }
 
   that.buildTower = function(){
@@ -28,20 +29,26 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
     //sell tower for moneys
   }
 
+  that.sendCreeps = function(){
+    let send = myMouse.getCreepToSend();
+    // let build = Keyboard.getTowerToBuild();
+    return send
+  }
+
   that.sendBiker = function(){
-    //this will send creep waves
+    myMouse.sendCreepUpdate(1);
   }
 
   that.sendPirate = function(){
-    //this will send creep waves
+    myMouse.sendCreepUpdate(2);
   }
 
   that.sendRocket = function(){
-    //this will send creep waves
+    myMouse.sendCreepUpdate(3);
   }
 
   that.sendScientist = function(){
-    //this will send creep waves
+    myMouse.sendCreepUpdate(4);
   }
 
   that.pause = function(){

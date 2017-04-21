@@ -103,3 +103,7 @@ li input{
     right:0;
     top: 5px;
 }
+
+.no-cursor{
+  cursor: none;
+}
