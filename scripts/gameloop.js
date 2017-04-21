@@ -14,6 +14,7 @@ module.exports = function(player1, player2, io){
   that.latencies={}
   that.latencies[player1] = []
   that.latencies[player2] = []
+  var loopTimes = []
 
   that.startGame = function(){
     model.initialize()
@@ -31,11 +32,14 @@ module.exports = function(player1, player2, io){
     previousTime = currentTime
 
     timeSinceLastSend += elapsedTime
-    if(timeSinceLastSend > 100 || sendUpdate){
+    if(timeSinceLastSend > 2000 || sendUpdate){
       emit()
       timeSinceLastSend = 0
       //console.log((present() - startTime)/1000)
     }
+
+    loopTimes.push(present()-currentTime)
+
 
     if(!gameOver) {
       setTimeout(function () {
@@ -54,6 +58,7 @@ module.exports = function(player1, player2, io){
     io.to(player1).emit('update', send)
     console.log("Player 1 Latency:",averageLatencies(that.latencies[player1]))
     console.log("Player 2 Latency:",averageLatencies(that.latencies[player2]))
+    console.log("Average Time for loop:", averageLatencies(loopTimes))
   }
 
   that.GameOver = function(){
