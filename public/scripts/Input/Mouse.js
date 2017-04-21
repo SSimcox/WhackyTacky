@@ -82,8 +82,8 @@ Demo.input.Mouse = function() {
             if (tY < 100) return
             tY += 50
           }
-          if(tY > 850){
-            if(tY > 900) return
+          if(tY > 800){
+            if(tY > 850) return
             tY -= 50
           }
 

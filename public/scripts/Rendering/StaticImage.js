@@ -3,6 +3,11 @@ Demo.renderer.StaticImage = (function(core) {
 	var that = {};
 
 	that.render = function(image, p) {
+
+		core.drawImage2({image:Demo.assets['buildingselectbgblue']},image.center.x-50,image.center.y-50,100,100,p)
+
+    core.drawText(image.cost,p)
+
     core.drawImage2(
       image.image ,
       image.center.x - image.image.width / 2,

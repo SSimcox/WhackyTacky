@@ -35,8 +35,10 @@ var Socket = function(Main) {
   })
 
   socket.on('update', function(message){
+    socket.emit('send ping', {message: message, game: room})
     if(typeof message === "object")
       Demo.model.diffModels(message)
+    else console.log(message)
   })
 
   return socket
