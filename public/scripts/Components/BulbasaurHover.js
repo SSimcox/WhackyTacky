@@ -4,7 +4,8 @@ Demo.components.BulbasaurHover = function(spec) {
   // Get our animated bird model and renderer created
   towerHover = Demo.components.TowerHover({
     image: Demo.assets['bulbasaurHover'],
-    imageCenter: spec.imageCenter
+    imageCenter: spec.imageCenter,
+    cost: 10
   });
 
   spec.orientation = 0;

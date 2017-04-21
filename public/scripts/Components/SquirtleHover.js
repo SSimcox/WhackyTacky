@@ -4,7 +4,8 @@ Demo.components.SquirtleHover = function(spec) {
   // Get our animated bird model and renderer created
   towerHover = Demo.components.TowerHover({
     image: Demo.assets['squirtleHover'],
-    imageCenter: spec.imageCenter
+    imageCenter: spec.imageCenter,
+    cost: 12
   });
 
   spec.orientation = 0;

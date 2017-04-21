@@ -80,6 +80,22 @@ Demo.loader = (function() {
     {
       key: 'buildingselectbgblue',
       source: '/public/assets/graphics/tiles/buildingselectbgblue.png'
+    },
+    {
+      key: 'buildingselectbggreen',
+      source: '/public/assets/graphics/tiles/buildingselectbggreen.png'
+    },
+    {
+      key: 'buildingselectbgred',
+      source: '/public/assets/graphics/tiles/buildingselectbgred.png'
+    },
+    {
+      key: 'buildingselectbgpurple',
+      source: '/public/assets/graphics/tiles/buildingselectbgpurple.png'
+    },
+    {
+      key: 'egg',
+      source: '/public/assets/graphics/tiles/egg.png'
     }
 
   ];

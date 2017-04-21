@@ -217,75 +217,65 @@ Demo.model = (function(input, components) {
 
   function drawBackground(renderer){
     //draw top row of grass/dirt
-    renderer.core.drawImage(Demo.assets['dirt'],0,0,32,32,0,100,50,50,0)
-    renderer.core.drawImage(Demo.assets['dirt'],0,0,32,32,0,100,50,50,1)
-    for(let j = 1; j < 19; j++){
-      renderer.core.drawImage(Demo.assets['dirt'],32,0,32,32,j*50,100,50,50,0)
-      renderer.core.drawImage(Demo.assets['dirt'],32,0,32,32,j*50,100,50,50,1)
-    }
-    renderer.core.drawImage(Demo.assets['dirt'],64,0,32,32,950,100,50,50,0)
-    renderer.core.drawImage(Demo.assets['dirt'],64,0,32,32,950,100,50,50,1)
 
-    // draw middle of grass/dirt
-    for(let i = 3; i < 16; i++){
-      renderer.core.drawImage(Demo.assets['dirt'],0,32,32,32,0,(i*50),50,50,0)
-      renderer.core.drawImage(Demo.assets['dirt'],0,32,32,32,0,(i*50),50,50,1)
-      for(let j = 1; j < 19; j++){
-        renderer.core.drawImage(Demo.assets['dirt'],32,32,32,32,j*50,(i*50),50,50,0)
-        renderer.core.drawImage(Demo.assets['dirt'],32,32,32,32,j*50,(i*50),50,50,1)
+
+    for(let p = 0; p < 2; p++) {
+      renderer.core.drawImage(Demo.assets['dirt'], 0, 0, 32, 32, 0, 100, 50, 50, p)
+      for (let j = 1; j < 19; j++) {
+        renderer.core.drawImage(Demo.assets['dirt'], 32, 0, 32, 32, j * 50, 100, 50, 50, p)
       }
-      renderer.core.drawImage(Demo.assets['dirt'],64,32,32,32,950,(i*50),50,50,0)
-      renderer.core.drawImage(Demo.assets['dirt'],64,32,32,32,950,(i*50),50,50,1)
-    }
+      renderer.core.drawImage(Demo.assets['dirt'], 64, 0, 32, 32, 950, 100, 50, 50, p)
 
-    //draw bottom row of grass/dirt
-    renderer.core.drawImage(Demo.assets['dirt'],0,64,32,32,0,800,50,50,0)
-    renderer.core.drawImage(Demo.assets['dirt'],0,64,32,32,0,800,50,50,1)
-    for(let j = 1; j < 19; j++){
-      renderer.core.drawImage(Demo.assets['dirt'],32,64,32,32,j*50,800,50,50,0)
-      renderer.core.drawImage(Demo.assets['dirt'],32,64,32,32,j*50,800,50,50,1)
-    }
-    renderer.core.drawImage(Demo.assets['dirt'],64,64,32,32,950,800,50,50,0)
-    renderer.core.drawImage(Demo.assets['dirt'],64,64,32,32,950,800,50,50,1)
+      // draw middle of grass/dirt
+      for (let i = 3; i < 16; i++) {
+        renderer.core.drawImage(Demo.assets['dirt'], 0, 32, 32, 32, 0, (i * 50), 50, 50, p)
+        for (let j = 1; j < 19; j++) {
+          renderer.core.drawImage(Demo.assets['dirt'], 32, 32, 32, 32, j * 50, (i * 50), 50, 50, p)
+        }
+        renderer.core.drawImage(Demo.assets['dirt'], 64, 32, 32, 32, 950, (i * 50), 50, 50, p)
+      }
 
-    // Draw "landing dirt" for creeps
-    renderer.core.drawImage(Demo.assets['loadingdirt'],0,0,32,32,0,850,50,50,0)
-    renderer.core.drawImage(Demo.assets['loadingdirt'],0,0,32,32,0,850,50,50,1)
-    for(let j = 1; j < 19; j++){
-      renderer.core.drawImage(Demo.assets['loadingdirt'],32,0,32,32,j*50,850,50,50,0)
-      renderer.core.drawImage(Demo.assets['loadingdirt'],32,0,32,32,j*50,850,50,50,1)
-    }
-    renderer.core.drawImage(Demo.assets['loadingdirt'],64,0,32,32,950,850,50,50,0)
-    renderer.core.drawImage(Demo.assets['loadingdirt'],64,0,32,32,950,850,50,50,1)
+      //draw bottom row of grass/dirt
+      renderer.core.drawImage(Demo.assets['dirt'], 0, 64, 32, 32, 0, 800, 50, 50, p)
+      for (let j = 1; j < 19; j++) {
+        renderer.core.drawImage(Demo.assets['dirt'], 32, 64, 32, 32, j * 50, 800, 50, 50, p)
+      }
+      renderer.core.drawImage(Demo.assets['dirt'], 64, 64, 32, 32, 950, 800, 50, 50, p)
 
-
-    // Draw Background grass at top under building and fences
-    renderer.core.drawImage(Demo.assets['bggrass'],0,0,32,32,0,0,50,50,0)
-    renderer.core.drawImage(Demo.assets['bggrass'],0,0,32,32,0,0,50,50,1)
-    renderer.core.drawImage(Demo.assets['bggrass'],0,64,32,32,0,50,50,50,0)
-    renderer.core.drawImage(Demo.assets['bggrass'],0,64,32,32,0,50,50,50,1)
-    for(let j = 1; j < 19; j++){
-      renderer.core.drawImage(Demo.assets['bggrass'],32,0,32,32,j*50,0,50,50,0)
-      renderer.core.drawImage(Demo.assets['bggrass'],32,0,32,32,j*50,0,50,50,1)
-      renderer.core.drawImage(Demo.assets['bggrass'],32,64,32,32,j*50,50,50,50,0)
-      renderer.core.drawImage(Demo.assets['bggrass'],32,64,32,32,j*50,50,50,50,1)
-    }
-    renderer.core.drawImage(Demo.assets['bggrass'],64,0,32,32,950,0,50,50,0)
-    renderer.core.drawImage(Demo.assets['bggrass'],64,0,32,32,950,0,50,50,1)
-    renderer.core.drawImage(Demo.assets['bggrass'],64,64,32,32,950,50,50,50,0)
-    renderer.core.drawImage(Demo.assets['bggrass'],64,64,32,32,950,50,50,50,1)
+      // Draw "landing dirt" for creeps
+      renderer.core.drawImage(Demo.assets['loadingdirt'], 0, 0, 32, 32, 0, 850, 50, 50, p)
+      for (let j = 1; j < 19; j++) {
+        renderer.core.drawImage(Demo.assets['loadingdirt'], 32, 0, 32, 32, j * 50, 850, 50, 50, p)
+      }
+      renderer.core.drawImage(Demo.assets['loadingdirt'], 64, 0, 32, 32, 950, 850, 50, 50, p)
 
 
-    // Draw fences
-    for(let i = 0; i < 10; i++){
-      renderer.core.drawImage2({image: Demo.assets['fence']},i*100,50,100,50,0)
-      renderer.core.drawImage2({image: Demo.assets['fence']},i*100,50,100,50,1)
+      // Draw Background grass at top under building and fences
+      renderer.core.drawImage(Demo.assets['bggrass'], 0, 0, 32, 32, 0, 0, 50, 50, p)
+      renderer.core.drawImage(Demo.assets['bggrass'], 0, 64, 32, 32, 0, 50, 50, 50, p)
+      for (let j = 1; j < 19; j++) {
+        renderer.core.drawImage(Demo.assets['bggrass'], 32, 0, 32, 32, j * 50, 0, 50, 50, p)
+        renderer.core.drawImage(Demo.assets['bggrass'], 32, 64, 32, 32, j * 50, 50, 50, 50, p)
+      }
+      renderer.core.drawImage(Demo.assets['bggrass'], 64, 0, 32, 32, 950, 0, 50, 50, 0)
+      renderer.core.drawImage(Demo.assets['bggrass'], 64, 0, 32, 32, 950, 0, 50, 50, 1)
+      renderer.core.drawImage(Demo.assets['bggrass'], 64, 64, 32, 32, 950, 50, 50, 50, p)
+
+
+      // Draw fences
+      for (let i = 0; i < 10; i++) {
+        renderer.core.drawImage2({image: Demo.assets['fence']}, i * 100, 50, 100, 50, p)
+      }
+
+      // Draw green background
+      for (let i = 0; i < 10; i++) {
+        renderer.core.drawImage2({image: Demo.assets['buildingselectbggreen']}, i * 100, 900, 100, 100, p)
+      }
     }
 
     // Draw building
-    renderer.core.drawImage2({image:Demo.assets['bluebuilding']},382,-28,324,128,0)
-    renderer.core.drawImage2({image:Demo.assets['redbuilding']},382,-28,324,128,1)
-
+    renderer.core.drawImage2({image: Demo.assets['bluebuilding']}, 382, -28, 324, 128, 0)
+    renderer.core.drawImage2({image: Demo.assets['redbuilding']}, 382, -28, 324, 128, 1)
 
   }
 
