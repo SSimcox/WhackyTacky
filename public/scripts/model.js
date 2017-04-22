@@ -177,7 +177,7 @@ Demo.model = (function(input, components) {
 		socket.emit('event', {game:room, event: 'send', type: type, center: {x:x1, y:y1}, player: socket.id})
 		hover = undefined
 		imageHovering = false;
-		document.getElementById('my-canvas').className = ''
+		document.getElementById('your-canvas').className = ''
 	}
 
 	// ------------------------------------------------------------------
@@ -216,34 +216,10 @@ Demo.model = (function(input, components) {
 	// ------------------------------------------------------------------
 	that.render = function(renderer) {
 
-		//
-		// Draw a border around the unit world.
-		// renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false,0);
-    // renderer.core.drawRectangle('rgba(200, 255, 200, 1)', 0, 0, 1000, 1000, false,1);
-    // renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 750, false,0);
-    // renderer.core.drawRectangle('rgba(200, 200, 50, 1)', 0, 100, 1000, 750, false,1);
     drawBackground(renderer)
-    // renderer.core.drawRectangle('rgba(200, 50, 50, 1)', 0, 850, 1000, 50, false,0);
-    // renderer.core.drawRectangle('rgba(200, 50, 50, 1)', 0, 850, 1000, 50, false,1);
 
-    // Draws Current Sh<<<<<<< HEADortest Path from bottom left corner
-     for(let i = 0; i < path.length; i++){
-       renderer.core.drawRectangle('rgba(0,200,50,.5)',path[i].x*50 + 5,(path[i].y + 2)*50 + 5,40,40,false,0)
-     }
-
-
-
-		if(hover && (myMouse.buildSelected() || myMouse.creepSelected())){
-			if(myMouse.buildSelected()){
-				renderer.TowerHover.render(hover, 0);
-			}else{
-				renderer.TowerHover.render(hover, 1);
-			}
-		  for(let i = 2; i < 17; i++){
-		    for(let j = 0; j < 20; j++){
-		      renderer.core.drawRectangle('rgba(0,0,0,1)', j * 50, i * 50, 50, 50,true,0)
-        }
-      }
+    for(let i = 0; i < path.length; i++){
+     renderer.core.drawRectangle('rgba(0,200,50,.5)',path[i].x*50 + 5,(path[i].y + 2)*50 + 5,40,40,false,0)
     }
 
 		for(let p = 0; p < players.length; ++p) {
@@ -259,6 +235,13 @@ Demo.model = (function(input, components) {
 			for(let i = 0; i < players[p].sendCreeps.length; i++){
 				renderer.CreepsHover.render(players[p].sendCreeps[i],p)
 			}
+			if(hover && (myMouse.buildSelected() || myMouse.creepSelected())){
+				if(myMouse.buildSelected()){
+					renderer.TowerHover.render(hover, 0);
+				}else{
+					renderer.TowerHover.render(hover, 1);
+				}
+	    }
     }
 
 	};

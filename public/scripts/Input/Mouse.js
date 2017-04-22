@@ -202,13 +202,23 @@ Demo.input.Mouse = function() {
 
   function mouseMove(event){
     if(creepSelected){
-      let x = (event.pageX - myOffset.x) / scaleOffset;
-      let y = (event.pageY - myOffset.y) / scaleOffset;
+      let x = (event.pageX - yourOffset.x) / scaleOffset;
+      let y = (event.pageY - yourOffset.y) / scaleOffset;
+      x = Math.round(x/25)*25;
+      y = 875;
+      if(x < 25) x = 25;
+      if(x > 975) x = 975;
       hoverImage.x = x;
       hoverImage.y = y;
     }else if(buildSelected){
       let x = (event.pageX - myOffset.x) / scaleOffset;
       let y = (event.pageY - myOffset.y) / scaleOffset;
+      x = Math.round(x/50) * 50;
+      y = Math.round(y/50) * 50;
+      if(y > 800) y = 800;
+      if(y < 150) y = 150;
+      if(x < 50)x = 50;
+      if(x > 950)x=950;
       hoverImage.x = x;
       hoverImage.y = y;
     }
