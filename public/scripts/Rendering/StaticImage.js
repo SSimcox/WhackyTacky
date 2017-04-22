@@ -4,7 +4,7 @@ Demo.renderer.StaticImage = (function(core) {
 
 	that.render = function(image, p) {
 
-		core.drawImage2({image:Demo.assets['buildingselectbgblue']},image.center.x-50,image.center.y-50,100,100,p)
+		core.drawImage2({image:Demo.assets[image.bg]},image.center.x-50,image.center.y-50,100,100,p)
 
     core.drawText(image.cost,p)
 

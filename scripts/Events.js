@@ -42,7 +42,7 @@ Events.process = function(event, emit){
     }
   }
   else if(event.event === 'send'){
-    if(creepCost[event.type][0] > event.player.money) return false
+    //if(creepCost[event.type][0] > event.player.money) return false
     if(!Event.AddCreep({
         type: event.type,
         center: event.center,
@@ -123,6 +123,7 @@ Events.AddCreep = function(spec){
     center: spec.center,
     path: path
   }))
+  return true;
 }
 
 Events.UpgradeTower = function(spec){}

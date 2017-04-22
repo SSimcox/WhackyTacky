@@ -8,6 +8,7 @@ Demo.model = (function(input, components) {
 	var players = [
 	  {
 			buildTowers: [],
+			sendCreeps: [],
       towers: [],
       creeps: [],
 			map: [],
@@ -15,6 +16,7 @@ Demo.model = (function(input, components) {
     },
     {
 			buildTowers: [],
+			sendCreeps: [],
       towers: [],
       creeps: [],
 			map: [],
@@ -43,6 +45,7 @@ Demo.model = (function(input, components) {
     players = [
       {
         buildTowers: [],
+				sendCreeps: [],
         towers: [],
         creeps: [],
 				map: [],
@@ -50,6 +53,7 @@ Demo.model = (function(input, components) {
       },
       {
         buildTowers: [],
+				sendCreeps: [],
         towers: [],
         creeps: [],
 				map: [],
@@ -65,17 +69,17 @@ Demo.model = (function(input, components) {
 		players[0].buildTowers.push(components.CharmanderHover({
 			imageCenter: {x:250, y: 950}
 		}))
-		players[1].creeps.push(components.Biker({
-			spriteCenter: {x:50, y: 950}
+		players[1].sendCreeps.push(components.BikerHover({
+			imageCenter: {x:50, y: 950}
 		}))
-		players[1].creeps.push(components.Eyepatch({
-			spriteCenter: {x: 150, y: 950}
+		players[1].sendCreeps.push(components.EyepatchHover({
+			imageCenter: {x: 150, y: 950}
 		}))
-		players[1].creeps.push(components.RocketM({
-			spriteCenter: {x: 250, y: 950}
+		players[1].sendCreeps.push(components.RocketMHover({
+			imageCenter: {x: 250, y: 950}
 		}))
-		players[1].creeps.push(components.Scientist({
-			spriteCenter: {x: 350, y: 950}
+		players[1].sendCreeps.push(components.ScientistHover({
+			imageCenter: {x: 350, y: 950}
 		}))
 
 		for(let i = 0; i < 16; ++ i){
@@ -132,20 +136,46 @@ Demo.model = (function(input, components) {
 				})
 			}
 		}
+		if(myMouse.creepSelected() && !imageHovering){
+			let t = gameCommands.hoverTower();
+			imageHovering = true;
+			document.getElementById('your-canvas').className += "no-cursor"
+			if(t.type === "Biker"){
+				hover = components.BikerHover({
+					imageCenter: {x:t.x, y:t.y},
+					imageSize: {width: 48, height: 48}
+				})
+			}else if(t.type === "Eyepatch"){
+				hover = components.EyepatchHover({
+					imageCenter: {x:t.x, y:t.y},
+					imageSize: {width: 48, height: 48}
+				})
+			}else if(t.type === "RocketM"){
+				hover = components.RocketMHover({
+					imageCenter: {x:t.x, y:t.y},
+					imageSize: {width: 48, height: 48}
+				})
+			}else if(t.type === "Scientist"){
+				hover = components.ScientistHover({
+					imageCenter: {x:t.x, y:t.y},
+					imageSize: {width: 48, height: 48}
+				})
+			}
+		}
 	};
 
 	function buildTower(type, x1, y1){
 		gameCommands.getKeyCommands();
 		socket.emit('event', {game:room, event: 'build', type: type, center: {x:x1, y:y1}, player: socket.id})
-		hover = {}
+		hover = undefined
 		imageHovering = false;
 		document.getElementById('my-canvas').className = ''
 	}
 
 	function sendCreeps(type, x1, y1){
 		gameCommands.getKeyCommands();
-		//socket.emit('event', {game:room, event: 'build', type: type, center: {x:x1, y:y1}, player: socket.id})
-		hover = {}
+		socket.emit('event', {game:room, event: 'send', type: type, center: {x:x1, y:y1}, player: socket.id})
+		hover = undefined
 		imageHovering = false;
 		document.getElementById('my-canvas').className = ''
 	}
@@ -166,13 +196,16 @@ Demo.model = (function(input, components) {
 			for (let i = 0; i < players[p].buildTowers.length; i++) {
         players[p].buildTowers[i].update(elapsedTime)
       }
+			for (let i = 0; i < players[p].sendCreeps.length; i++) {
+        players[p].sendCreeps[i].update(elapsedTime)
+      }
     }
 
 		if(imageHovering === true){
 			let h = gameCommands.hoverTower()
 			if(h){
-				 hover.image.center = {x: h.x, y: h.y}
-			 }
+				hover.image.center = {x: h.x, y: h.y}
+			}
 		}
 	};
 
@@ -199,8 +232,13 @@ Demo.model = (function(input, components) {
      }
 
 
-		if(myMouse.buildSelected()){
-			if(hover) renderer.TowerHover.render(hover, 0);
+
+		if(hover && (myMouse.buildSelected() || myMouse.creepSelected())){
+			if(myMouse.buildSelected()){
+				renderer.TowerHover.render(hover, 0);
+			}else{
+				renderer.TowerHover.render(hover, 1);
+			}
 		  for(let i = 2; i < 17; i++){
 		    for(let j = 0; j < 20; j++){
 		      renderer.core.drawRectangle('rgba(0,0,0,1)', j * 50, i * 50, 50, 50,true,0)
@@ -217,6 +255,9 @@ Demo.model = (function(input, components) {
       }
 			for(let i = 0; i < players[p].buildTowers.length; i++){
 				renderer.TowerHover.render(players[p].buildTowers[i],p)
+			}
+			for(let i = 0; i < players[p].sendCreeps.length; i++){
+				renderer.CreepsHover.render(players[p].sendCreeps[i],p)
 			}
     }
 

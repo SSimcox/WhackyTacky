@@ -45,6 +45,7 @@ Demo.input.Mouse = function() {
       creepType = 'Scientist'
       creepSelected = true;
     }
+    hoverImage.type = creepType;
   }
 
   function onClick(event){

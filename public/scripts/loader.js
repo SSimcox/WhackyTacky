@@ -56,7 +56,24 @@ Demo.loader = (function() {
 		{
 			key: 'scientist',
 			source: '/public/assets/graphics/creeps/scientist.png'
-		},{
+		},
+		{
+			key: 'bikerHover',
+			source: '/public/assets/graphics/creepsHover/bikerHover.png'
+		},
+		{
+			key: 'eyepatchHover',
+			source: '/public/assets/graphics/creepsHover/eyepatchHover.png'
+		},
+		{
+			key: 'rocketMHover',
+			source: '/public/assets/graphics/creepsHover/rocketMHover.png'
+		},
+		{
+			key: 'scientistHover',
+			source: '/public/assets/graphics/creepsHover/scientistHover.png'
+		},
+		{
 			key: 'dirt',
 			source: '/public/assets/graphics/tiles/dirt.png'
 		},
