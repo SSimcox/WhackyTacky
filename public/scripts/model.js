@@ -65,18 +65,18 @@ Demo.model = (function(input, components) {
 		players[0].buildTowers.push(components.CharmanderHover({
 			imageCenter: {x:250, y: 950}
 		}))
-		players[1].creeps.push(components.Biker({
-			spriteCenter: {x:50, y: 950}
-		}))
-		players[1].creeps.push(components.Eyepatch({
-			spriteCenter: {x: 150, y: 950}
-		}))
-		players[1].creeps.push(components.RocketM({
-			spriteCenter: {x: 250, y: 950}
-		}))
-		players[1].creeps.push(components.Scientist({
-			spriteCenter: {x: 350, y: 950}
-		}))
+		// players[1].creeps.push(components.Biker({
+		// 	spriteCenter: {x:50, y: 950}
+		// }))
+		// players[1].creeps.push(components.Eyepatch({
+		// 	spriteCenter: {x: 150, y: 950}
+		// }))
+		// players[1].creeps.push(components.RocketM({
+		// 	spriteCenter: {x: 250, y: 950}
+		// }))
+		// players[1].creeps.push(components.Scientist({
+		// 	spriteCenter: {x: 350, y: 950}
+		// }))
 
 		for(let i = 0; i < 16; ++ i){
 			players[0].map.push([]);
@@ -144,7 +144,8 @@ Demo.model = (function(input, components) {
 
 	function sendCreeps(type, x1, y1){
 		gameCommands.getKeyCommands();
-		//socket.emit('event', {game:room, event: 'build', type: type, center: {x:x1, y:y1}, player: socket.id})
+		console.log(type)
+		socket.emit('event', {game:room, event: 'send', type: type, center: {x:x1, y:y1}, player: socket.id})
 		hover = {}
 		imageHovering = false;
 		document.getElementById('my-canvas').className = ''
@@ -243,6 +244,24 @@ Demo.model = (function(input, components) {
         while(players[p].towers.length > serverModel[key].towers.length) {
           players[p].towers.splice(players[p].towers.length - 1, 1)
         }
+
+        for(let i = 0; i < serverModel[key].creeps.length; i++){
+          if(!players[p].creeps[i] || players[p].creeps[i].type != serverModel[key].creeps[i].type){
+            if(serverModel[key].creeps[i].type === "deleted"){
+              players[p].creeps[i] = {type: "deleted"}
+            }
+            else {
+              console.log(serverModel[key].creeps[i])
+              players[p].creeps[i] = createCreepFromServer(serverModel[key].creeps[i])
+              if(p == 0) built = true
+            }
+          }
+        }
+        while(players[p].creeps.length > serverModel[key].creeps.length) {
+          players[p].creeps.splice(players[p].creeps.length - 1, 1)
+        }
+
+
         players[p].map = serverModel[key].map
       }
     }
@@ -253,6 +272,13 @@ Demo.model = (function(input, components) {
   function createTowerFromServer(tower){
 	  return components[tower.type]({
 	    spriteCenter: tower.center
+    })
+  }
+
+  function createCreepFromServer(creep){
+    return components[creep.type]({
+      stats: creep.stats,
+      spriteCenter: creep.center
     })
   }
 

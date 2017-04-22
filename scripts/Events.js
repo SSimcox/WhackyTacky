@@ -42,8 +42,8 @@ Events.process = function(event, emit){
     }
   }
   else if(event.event === 'send'){
-    if(creepCost[event.type][0] > event.player.money) return false
-    if(!Event.AddCreep({
+    //if(creepCost[event.type][0] > event.player.money) return false
+    if(!Events.AddCreep({
         type: event.type,
         center: event.center,
         creeps: event.opponent.creeps,
@@ -59,7 +59,7 @@ Events.process = function(event, emit){
     }
   }
   else if(event.event === 'upgrade'){
-    if(towerCost[event.type] > event.player.money) return false
+    //if(towerCost[event.type] > event.player.money) return false
     if(!Events.UpgradeTower(
         {
           type: event.type,
@@ -123,6 +123,9 @@ Events.AddCreep = function(spec){
     center: spec.center,
     path: path
   }))
+  console.log(spec.creeps[spec.creeps.length - 1])
+
+  return true
 }
 
 Events.UpgradeTower = function(spec){}

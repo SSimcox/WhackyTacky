@@ -177,7 +177,8 @@ Components.Squirtle = function(spec) {
 Components.Creep = function(spec) {
   'use strict';
   var that = {
-      get center() { return spec.center; },
+      get type() { return spec.type; },
+      get center() { return spec.spriteCenter; },
       get stats() { return spec.stats; },
       set stats(val) { spec.stats = val; }
     };
@@ -193,14 +194,80 @@ Components.RocketM = function(spec){
   var creep = {}
 
   creep = Components.Creep({
+    type: 'RocketM',
     spriteCenter: spec.center,
     stats: {
+      totalHealth: 50,
       health: 50,
       speed: 3,
       direction: {
         x: 0,
         y:0
-      }
+      },
+      path: spec.path
+    }
+  })
+
+  return creep
+}
+
+Components.Scientist = function(spec){
+  var creep = {}
+
+  creep = Components.Creep({
+    type: 'Scientist',
+    spriteCenter: spec.center,
+    stats: {
+      totalHealth: 75,
+      health: 75,
+      speed: 3,
+      direction: {
+        x: 0,
+        y:0
+      },
+      path: spec.path
+    }
+  })
+
+  return creep
+}
+
+Components.Biker = function(spec){
+  var creep = {}
+
+  creep = Components.Creep({
+    type: 'Biker',
+    spriteCenter: spec.center,
+    stats: {
+      totalHealth: 80,
+      health: 80,
+      speed: 5,
+      direction: {
+        x: 0,
+        y:0
+      },
+      path: spec.path
+    }
+  })
+
+  return creep
+}
+
+Components.Eyepatch = function(spec){
+  var creep = {}
+
+  creep = Components.Creep({
+    type: 'Eyepatch',
+    spriteCenter: spec.center,
+    stats: {
+      totalHealth: 50,
+      health: 50,
+      speed: 3,
+      direction: {
+        x: 0,
+        y:0
+      },
+      path: spec.path
     }
   })
 
