@@ -25,8 +25,8 @@ module.exports = function(map, creep){
 
   let x = 0, y = 15
   if(creep !== undefined){
-    x = Math.floor(creep.center.x / 50)
-    y = Math.floor((creep.center.y - 100) / 50)
+    x = Math.floor(creep.x / 50)
+    y = Math.floor((creep.y - 100) / 50)
   }
 
   list.push(nodes[y][x],1)
@@ -45,7 +45,7 @@ module.exports = function(map, creep){
   }
 
   let path = []
-  while(cur !== nodes[15][0])
+  while(cur !== nodes[y][x])
   {
     path.unshift(cur)
     cur = cur.parent

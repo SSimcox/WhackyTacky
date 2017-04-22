@@ -10,12 +10,7 @@ Demo.components.Scientist = function(spec) {
     spriteTime: [150, 150, 150, 150],
     animationScale: 1.0,
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
-    stats:{
-      armor: 5,
-      health: 200,
-      speed: 1,
-      direction: {x: 0, y: 0}
-    }
+    stats: spec.stats
   });
 
   spec.orientation = 0;

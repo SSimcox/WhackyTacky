@@ -226,7 +226,7 @@ Demo.model = (function(input, components) {
     // renderer.core.drawRectangle('rgba(200, 50, 50, 1)', 0, 850, 1000, 50, false,0);
     // renderer.core.drawRectangle('rgba(200, 50, 50, 1)', 0, 850, 1000, 50, false,1);
 
-    // Draws Current Shortest Path from bottom left corner
+    // Draws Current Sh<<<<<<< HEADortest Path from bottom left corner
      for(let i = 0; i < path.length; i++){
        renderer.core.drawRectangle('rgba(0,200,50,.5)',path[i].x*50 + 5,(path[i].y + 2)*50 + 5,40,40,false,0)
      }
@@ -284,6 +284,24 @@ Demo.model = (function(input, components) {
         while(players[p].towers.length > serverModel[key].towers.length) {
           players[p].towers.splice(players[p].towers.length - 1, 1)
         }
+
+        for(let i = 0; i < serverModel[key].creeps.length; i++){
+          if(!players[p].creeps[i] || players[p].creeps[i].type != serverModel[key].creeps[i].type){
+            if(serverModel[key].creeps[i].type === "deleted"){
+              players[p].creeps[i] = {type: "deleted"}
+            }
+            else {
+              console.log(serverModel[key].creeps[i])
+              players[p].creeps[i] = createCreepFromServer(serverModel[key].creeps[i])
+              if(p == 0) built = true
+            }
+          }
+        }
+        while(players[p].creeps.length > serverModel[key].creeps.length) {
+          players[p].creeps.splice(players[p].creeps.length - 1, 1)
+        }
+
+
         players[p].map = serverModel[key].map
       }
     }
@@ -294,6 +312,13 @@ Demo.model = (function(input, components) {
   function createTowerFromServer(tower){
 	  return components[tower.type]({
 	    spriteCenter: tower.center
+    })
+  }
+
+  function createCreepFromServer(creep){
+    return components[creep.type]({
+      stats: creep.stats,
+      spriteCenter: creep.center
     })
   }
 

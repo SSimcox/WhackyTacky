@@ -77,9 +77,11 @@ Game.game = (function(screens) {
     myCanvas.height = yourCanvas.height = 1000;
     resizeCanvas(myCanvas, myOffset)
     resizeCanvas(yourCanvas, yourOffset)
+    yourOffset.x += window.innerWidth / 2
     window.onresize = function(){
       resizeCanvas(myCanvas, myOffset)
       resizeCanvas(yourCanvas, yourOffset)
+      yourOffset.x += window.innerWidth / 2
     }
   }
 

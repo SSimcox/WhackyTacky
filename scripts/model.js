@@ -80,9 +80,6 @@ module.exports = function(player1, player2){
           players[key].towers[i].update(elapsedTime)
         }
         for (let i = 0; i < players[key].creeps.length; i++) {
-          if(built){
-
-          }
           players[key].creeps[i].update(elapsedTime)
         }
       }

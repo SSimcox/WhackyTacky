@@ -1,5 +1,5 @@
-var myOffset = {x:0,y:0}
-var yourOffset = {x:0,y:0}
+//var myOffset = {x:0,y:0}
+//var yourOffset = {x:0,y:0}
 var scaleOffset = 1
 
 Demo.input.Mouse = function() {
@@ -32,16 +32,16 @@ Demo.input.Mouse = function() {
 
   function sendCreep(x){
     buildSelected = false;
-    if(x < 1233.0){
+    if(x < 100){
       creepType = 'Biker'
       creepSelected = true;
-    }else if(x < 1333){
+    }else if(x < 200){
       creepType = 'Eyepatch'
       creepSelected = true;
-    }else if(x < 1433){
+    }else if(x < 300){
       creepType = 'RocketM'
       creepSelected = true;
-    }else if(x < 1533){
+    }else if(x < 400){
       creepType = 'Scientist'
       creepSelected = true;
     }
@@ -59,13 +59,16 @@ Demo.input.Mouse = function() {
             type: null
           };
           buildTower(x);
-        }else if(x < 2133 && x > 1133){
-          hoverImage = {
-            x: x,
-            y: y,
-            type: null
-          };
-          sendCreep(x);
+        }else{// if(x < 2133 && x > 1133){
+          x = (event.pageX - yourOffset.x) / scaleOffset;
+          if(x < 400 && x > 0) {
+            hoverImage = {
+              x: x,
+              y: y,
+              type: null
+            };
+            sendCreep(x);
+          }
         }
       }else {
         if(buildSelected){
@@ -99,23 +102,24 @@ Demo.input.Mouse = function() {
           building = true;
         }
         else if(creepSelected){
-          let tX = Math.round(x/50)*50;
-          let tY = Math.round(y/50)*50;
-          if(tX < 1183){
-            if (tX < 1133) return
-            tX += 50
+          x = (event.pageX - yourOffset.x) / scaleOffset;
+          let tX = Math.round(x/25)*25;
+          let tY = Math.round(y/25)*25;
+          if(tX < 25){
+            if (tX < 0) return
+            tX += 25
           }
-          if(tX > 2083){
-            if(tX > 2133) return
-            tX -= 50
+          if(tX > 975){
+            if(tX > 1000) return
+            tX -= 25
           }
-          if(tY < 150){
-            if (tY < 100) return
-            tY += 50
+          if(tY < 875){
+            if (tY < 850) return
+            tY += 25
           }
-          if(tY > 850){
+          if(tY > 875){
             if(tY > 900) return
-            tY -= 50
+            tY -= 25
           }
 
           creepToSend = {
