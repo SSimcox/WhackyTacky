@@ -2,29 +2,10 @@
  * Created by Steven on 4/11/2017.
  */
 
-/**
- * Created by Steven on 4/10/2017.
- */
-
-//------------------------------------------------------------------
-//
-// Defines a Bird component.  A bird contains an animated sprite.
-// The sprite is defined as:
-//	{
-//		size: { width: , height: },	// In world coordinates
-//		center: { x: , y: }			// In world coordinates
-//		rotation: 					// In Radians
-//		moveRate: 					// World units per second
-//		rotateRate:					// Radians per second
-//		animationScale:				// (optional) Scaling factor for the frame animation times
-//	}
-//
-//------------------------------------------------------------------
 Demo.components.Squirtle = function(spec) {
   'use strict';
   var tower = null;
 
-  // Get our animated bird model and renderer created
   tower = Demo.components.Tower({
     type: 'Squirtle',
     spriteSheetFront: Demo.assets['squirtle'],

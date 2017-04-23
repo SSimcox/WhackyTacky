@@ -118,6 +118,11 @@ Demo.model = (function(input, components) {
 		if(build) buildTower(build.type, build.x, build.y);
 		let wave = gameCommands.sendCreeps(myMouse);
 		if(wave) sendCreeps(wave.type, wave.x, wave.y);
+		buildingHovering();
+		mouseHovering();
+	};
+
+	function buildingHovering(){
 		if(myMouse.buildSelected() && !imageHovering){
 			let t = gameCommands.hoverTower();
 			imageHovering = true;
@@ -136,6 +141,9 @@ Demo.model = (function(input, components) {
 				})
 			}
 		}
+	}
+
+	function mouseHovering(){
 		if(myMouse.creepSelected() && !imageHovering){
 			let t = gameCommands.hoverTower();
 			imageHovering = true;
@@ -162,7 +170,7 @@ Demo.model = (function(input, components) {
 				})
 			}
 		}
-	};
+	}
 
 	function buildTower(type, x1, y1){
 		gameCommands.getKeyCommands();
@@ -188,7 +196,10 @@ Demo.model = (function(input, components) {
 	that.update = function(elapsedTime) {
 	  for(let p = 0; p < players.length; ++p) {
       for (let i = 0; i < players[p].towers.length; i++) {
-        players[p].towers[i].update(elapsedTime)
+				console.log('Player', p)
+				// console.log('Player Creeps', players[p].creeps)
+				// console.log('Enemy Creeps', players[p2].creeps)
+        players[p].towers[i].update(elapsedTime, players[p].creeps)
       }
       for (let i = 0; i < players[p].creeps.length; i++) {
         players[p].creeps[i].update(elapsedTime)
@@ -274,7 +285,7 @@ Demo.model = (function(input, components) {
               players[p].creeps[i] = {type: "deleted"}
             }
             else {
-              console.log(serverModel[key].creeps[i])
+              // console.log(serverModel[key].creeps[i])
               players[p].creeps[i] = createCreepFromServer(serverModel[key].creeps[i])
               if(p == 0) built = true
             }
