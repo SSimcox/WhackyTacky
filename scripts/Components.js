@@ -127,8 +127,15 @@ Components.Tower = function (spec) {
   // to update.
   //
   //------------------------------------------------------------------
-  that.update = function (elapsedTime) {
+  that.update = function (elapsedTime, creeps) {
+    for(let i = 0; i < creeps.length; i++){
+      console.log('Distance: ', Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)))
+      if(Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)) <= spec.attack.range){
+        console.log('attacking')
 
+      }
+    }
+    //spec.attack.timeSinceAttack += elapsedTime;
   };
 
   return that;
@@ -144,8 +151,9 @@ Components.Bulbasaur = function (spec) {
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack: {
       damage: 5,
-      speed: 80,
-      range: 1
+      timeSinceAttack: 0,
+      speed: 600,
+      range: 200
     }
   });
 

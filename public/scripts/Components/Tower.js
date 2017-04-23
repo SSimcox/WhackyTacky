@@ -1,21 +1,6 @@
 /**
  * Created by Steven on 4/11/2017.
  */
-
-//------------------------------------------------------------------
-//
-// Defines a Bird component.  A bird contains an animated sprite.
-// The sprite is defined as:
-//	{
-//		size: { width: , height: },	// In world coordinates
-//		center: { x: , y: }			// In world coordinates
-//		rotation: 					// In Radians
-//		moveRate: 					// World units per second
-//		rotateRate:					// Radians per second
-//		animationScale:				// (optional) Scaling factor for the frame animation times
-//	}
-//
-//------------------------------------------------------------------
 Demo.components.Tower = function(spec) {
   'use strict';
   var spriteFront = null,
@@ -27,7 +12,9 @@ Demo.components.Tower = function(spec) {
       get sprite() { return facingDown ? spriteFront : spriteBack; },
       get rotation() { return spec.rotation; },
       get damage() { return spec.damage; },
-      get attack() { return spec.attack; }
+      get attack() { return spec.attack; },
+      get timeSinceAttack() {return spec.timeSinceAttack},
+      set timeSinceAttack(val) {spec.timeSinceAttack = val;}
     };
 
   //------------------------------------------------------------------
@@ -36,10 +23,21 @@ Demo.components.Tower = function(spec) {
   // to update.
   //
   //------------------------------------------------------------------
-  that.update = function(elapsedTime) {
+  that.update = function(elapsedTime, creeps) {
+    let inRange = [];
     if(spec.spriteSheetBack != spec.spriteSheetFront) facingDown = false;
     spriteFront.update(elapsedTime, true);
     spriteBack.update(elapsedTime, true);
+    // console.log(elapsedTime)
+    // console.log(spec.attack.timeSinceAttack)
+    spec.attack.timeSinceAttack += elapsedTime;
+    for(let i = 0; i < creeps.length; i++){
+      console.log('Distance: ', Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)))
+      if(Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)) <= spec.attack.range){
+        console.log('attacking')
+        
+      }
+    }
   };
 
   //

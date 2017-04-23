@@ -106,7 +106,7 @@ module.exports = function(player1, player2){
         resetMap(key)
         for (let i = 0; i < players[key].towers.length; i++) {
           if(players[key].towers[i] === "deleted") continue
-          players[key].towers[i].update(elapsedTime)
+          players[key].towers[i].update(elapsedTime, players[key].creeps)
           for(let k = players[key].towers[i].center.y/50-3; k <= players[key].towers[i].center.y/50-2; k++){
             for(let j = players[key].towers[i].center.x/50-1; j <= players[key].towers[i].center.x/50; j++){
               players[key].map[k][j] = i

@@ -115,7 +115,7 @@ Demo.input.Mouse = function() {
             tX -= 256
           }
           if(tY < 875){
-            if (tY < 850) return
+            if (tY < 100) return
             tY += 25
           }
           if(tY > 875){
@@ -126,7 +126,7 @@ Demo.input.Mouse = function() {
 
           creepToSend = {
             x: tX,
-            y: tY,
+            y: 875,
             type: creepType
           };
           hoverImage = {

@@ -2,25 +2,10 @@
  * Created by Steven on 4/11/2017.
  */
 
-//------------------------------------------------------------------
-//
-// Defines a Bird component.  A bird contains an animated sprite.
-// The sprite is defined as:
-//	{
-//		size: { width: , height: },	// In world coordinates
-//		center: { x: , y: }			// In world coordinates
-//		rotation: 					// In Radians
-//		moveRate: 					// World units per second
-//		rotateRate:					// Radians per second
-//		animationScale:				// (optional) Scaling factor for the frame animation times
-//	}
-//
-//------------------------------------------------------------------
 Demo.components.Bulbasaur = function(spec) {
   'use strict';
   var tower = null;
 
-  // Get our animated bird model and renderer created
   tower = Demo.components.Tower({
     type: 'Bulbasaur',
     spriteSheetFront: Demo.assets['bulbasaur'],
@@ -33,8 +18,9 @@ Demo.components.Bulbasaur = function(spec) {
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
       damage: 5,
-      speed: 80,
-      range: 1
+      speed: 600,
+      timeSinceAttack: 0,
+      range: 200
     }
   });
 

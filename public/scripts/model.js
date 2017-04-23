@@ -127,6 +127,11 @@ Demo.model = (function(input, components) {
 		if(build) buildTower(build.type, build.x, build.y);
 		let wave = gameCommands.sendCreeps(myMouse);
 		if(wave) sendCreeps(wave.type, wave.x, wave.y);
+		buildingHovering();
+		mouseHovering();
+	};
+
+	function buildingHovering(){
 		if(myMouse.buildSelected() && !imageHovering){
 			let t = gameCommands.hoverTower();
 			imageHovering = true;
@@ -147,6 +152,9 @@ Demo.model = (function(input, components) {
 			hover.cost.text = ''
       hover.hotkey.text = ''
 		}
+	}
+
+	function mouseHovering(){
 		if(myMouse.creepSelected() && !imageHovering){
 			let t = gameCommands.hoverTower();
 			imageHovering = true;
@@ -175,7 +183,7 @@ Demo.model = (function(input, components) {
 			hover.cost.text = ''
       hover.hotkey.text=''
 		}
-	};
+	}
 
 	function buildTower(type, x1, y1){
 		gameCommands.getKeyCommands();
@@ -199,7 +207,6 @@ Demo.model = (function(input, components) {
 	//
 	// ------------------------------------------------------------------
 	that.update = function(elapsedTime) {
-	  //if(!diffed) {
       gameVars.totalTime += elapsedTime
       if (Math.floor(gameVars.totalTime / 1000) % 7 === 0 && Math.floor(gameVars.totalTime / 1000) / 7 !== gameVars.lastIncome) {
         players[0].money += players[0].income
@@ -210,7 +217,8 @@ Demo.model = (function(input, components) {
           resetMap(p)
           for (let i = 0; i < players[p].towers.length; i++) {
             if (players[p].towers[i].type === "deleted") continue
-              players[p].towers[i].update(elapsedTime)
+              players[p].towers[i].update(elapsedTime, players[p].creeps)
+							//update creep health here <----------------- :)
               for (let k = players[p].towers[i].center.y / 50 - 3; k <= players[p].towers[i].center.y / 50 - 2; k++) {
                 for (let j = players[p].towers[i].center.x / 50 - 1; j <= players[p].towers[i].center.x / 50; j++) {
                   players[p].map[k][j] = i
@@ -332,7 +340,6 @@ Demo.model = (function(input, components) {
             players[p].towers.splice(players[p].towers.length - 1, 1)
           }
         }
-
         if(serverModel[key].hasOwnProperty("creeps")) {
           for (let i = 0; i < serverModel[key].creeps.length; i++) {
             if (players[p].creeps[i] === undefined || players[p].creeps[i].type != serverModel[key].creeps[i].type) {
