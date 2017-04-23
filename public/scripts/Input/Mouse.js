@@ -15,7 +15,7 @@ Demo.input.Mouse = function() {
       towerToBuild,
       creepToSend;
 
-  function buildTower(x){
+  that.buildTower = function(x, y){
     creepSelected = false;
     if(x < 100.0){
       towerType = 'Bulbasaur'
@@ -27,10 +27,15 @@ Demo.input.Mouse = function() {
       towerType = 'Charmander'
       buildSelected = true;
     }
-    hoverImage.type = towerType
+    hoverImage = {
+      x: x,
+      y: y,
+      type: towerType
+    };
+    // hoverImage.type = towerType
   }
 
-  function sendCreep(x){
+  that.sendCreep = function(x, y){
     buildSelected = false;
     if(x < 100){
       creepType = 'RocketM'
@@ -45,7 +50,11 @@ Demo.input.Mouse = function() {
       creepType = 'Eyepatch'
       creepSelected = true;
     }
-    hoverImage.type = creepType;
+    hoverImage = {
+      x: x,
+      y: y,
+      type: creepType
+    };
   }
 
   function onClick(event){
@@ -53,12 +62,7 @@ Demo.input.Mouse = function() {
       let y = (event.pageY - myOffset.y) / scaleOffset;
       if(y > 900 && y < 1000){
         if(x < 1000 && x > 0){
-          hoverImage = {
-            x: x,
-            y: y,
-            type: null
-          };
-          buildTower(x);
+          that.buildTower(x, y);
         }else{// if(x < 2133 && x > 1133){
           x = (event.pageX - yourOffset.x) / scaleOffset;
           if(x < 400 && x > 0) {
@@ -67,7 +71,7 @@ Demo.input.Mouse = function() {
               y: y,
               type: null
             };
-            sendCreep(x);
+            that.sendCreep(x);
           }
         }
       }else {
@@ -156,29 +160,29 @@ Demo.input.Mouse = function() {
     return creep;
   }
 
-  that.buildTowerUpdate = function(val){
-    buildSelected = true;
-    if(val === 1){
-      towerType = 'Bulbasaur'
-    }else if(val ===2){
-      towerType = 'Squirtle'
-    }else if(val ===3){
-      towerType = 'Charmander'
-    }
-  }
-
-  that.sendCreepUpdate = function(val){
-    creepSelected = true;
-    if(val === 1){
-      creepType = 'Biker'
-    }else if(val === 2){
-      creepType = 'EyePatch'
-    }else if(val === 3){
-      creepType = 'RocketM'
-    }else if(val === 4){
-      creepType = 'Scientist'
-    }
-  }
+  // that.buildTowerUpdate = function(val){
+  //   buildSelected = true;
+  //   if(val === 1){
+  //     towerType = 'Bulbasaur'
+  //   }else if(val ===2){
+  //     towerType = 'Squirtle'
+  //   }else if(val ===3){
+  //     towerType = 'Charmander'
+  //   }
+  // }
+  //
+  // that.sendCreepUpdate = function(val){
+  //   creepSelected = true;
+  //   if(val === 1){
+  //     creepType = 'Biker'
+  //   }else if(val === 2){
+  //     creepType = 'EyePatch'
+  //   }else if(val === 3){
+  //     creepType = 'RocketM'
+  //   }else if(val === 4){
+  //     creepType = 'Scientist'
+  //   }
+  // }
 
   that.getTowerToBuild = function(){
     if(buildSelected && building){

@@ -25,7 +25,7 @@ Demo.input.Keyboard = function() {
 		that.registerCommand(KeyEvent[Persistance.getControls()['Evolve']], gameCommands.evolveTower)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Biker']], gameCommands.sendBiker)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Pirate']], gameCommands.sendPirate)
-		that.registerCommand(KeyEvent[Persistance.getControls()['Rocket']], gameCommands.sentRocket)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Rocket']], gameCommands.sendRocket)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Scientist']], gameCommands.sendScientist)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Pause']], gameCommands.pause)
 	}

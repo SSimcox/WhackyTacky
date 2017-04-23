@@ -129,10 +129,12 @@ Components.Tower = function (spec) {
   //------------------------------------------------------------------
   that.update = function (elapsedTime, creeps) {
     for(let i = 0; i < creeps.length; i++){
-      console.log('Distance: ', Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)))
+      // console.log('Distance: ', Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)))
       if(Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)) <= spec.attack.range){
-        console.log('attacking')
-
+        if(creeps[i].stats.path.length < shortestCreep){
+          shortestCreepPath = creeps[i].stats.path.length
+          shortestCreep = i;
+        }
       }
     }
     //spec.attack.timeSinceAttack += elapsedTime;
@@ -151,8 +153,8 @@ Components.Bulbasaur = function (spec) {
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack: {
       damage: 5,
-      timeSinceAttack: 0,
       speed: 600,
+      timeSinceAttack: 0,
       range: 200
     }
   });
@@ -172,8 +174,8 @@ Components.Charmander = function (spec) {
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack: {
       damage: 5,
-      speed: 80,
-      range: 1
+      speed: 600,
+      range: 200
     }
   });
 
@@ -192,8 +194,8 @@ Components.Squirtle = function (spec) {
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack: {
       damage: 5,
-      speed: 80,
-      range: 1
+      speed: 600,
+      range: 200
     }
   });
 
@@ -219,6 +221,9 @@ Components.Creep = function (spec) {
     },
     set stats(val) {
       spec.stats = val;
+    }
+    set curHealth(damage){
+      spec.stats.curHealth -= damage;
     }
   };
 
@@ -258,7 +263,7 @@ Components.RocketM = function (spec) {
     spriteCenter: spec.center,
     stats: {
       totalHealth: 50,
-      health: 50,
+      curHealth: 50,
       speed: 12,
       direction: {
         x: 0,
@@ -279,7 +284,7 @@ Components.Scientist = function (spec) {
     spriteCenter: spec.center,
     stats: {
       totalHealth: 75,
-      health: 75,
+      curHealth: 75,
       speed: 12,
       direction: {
         x: 0,
@@ -300,7 +305,7 @@ Components.Biker = function (spec) {
     spriteCenter: spec.center,
     stats: {
       totalHealth: 80,
-      health: 80,
+      curHealth: 80,
       speed: 20,
       direction: {
         x: 0,
@@ -321,7 +326,7 @@ Components.Eyepatch = function (spec) {
     spriteCenter: spec.center,
     stats: {
       totalHealth: 50,
-      health: 50,
+      curHealth: 50,
       speed: 16,
       direction: {
         x: 0,

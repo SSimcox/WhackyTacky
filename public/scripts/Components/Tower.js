@@ -16,6 +16,7 @@ Demo.components.Tower = function(spec) {
       get timeSinceAttack() {return spec.timeSinceAttack},
       set timeSinceAttack(val) {spec.timeSinceAttack = val;}
     };
+    spec.attack.target = -1
 
   //------------------------------------------------------------------
   //
@@ -24,20 +25,28 @@ Demo.components.Tower = function(spec) {
   //
   //------------------------------------------------------------------
   that.update = function(elapsedTime, creeps) {
-    let inRange = [];
+    spec.attack.timeSinceAttack += elapsedTime;
     if(spec.spriteSheetBack != spec.spriteSheetFront) facingDown = false;
     spriteFront.update(elapsedTime, true);
     spriteBack.update(elapsedTime, true);
-    // console.log(elapsedTime)
-    // console.log(spec.attack.timeSinceAttack)
-    spec.attack.timeSinceAttack += elapsedTime;
+    if(spec.attack.timeSinceAttack > spec.attack.speed && (spec.attack.target < 0 || Math.sqrt(Math.pow(creeps[spec.attack.target].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[spec.attack.target].center.y -spec.spriteCenter.y, 2)) > spec.attack.range)){
     for(let i = 0; i < creeps.length; i++){
-      console.log('Distance: ', Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)))
+      // console.log('Distance: ', Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)))
+      let shortestCreepPath = 400
+      target = -1;
       if(Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)) <= spec.attack.range){
         console.log('attacking')
-        
+        if(creeps[i].stats.path.length < shortestCreep){
+          shortestCreepPath = creeps[i].stats.path.length
+          target = i;
+        }
       }
     }
+  }
+    if(spec.attack.target !== -1){
+      spec.attack.timeSinceAttack = spec.attack.timeSinceAttack - spec.attack.speed
+    }
+    return creeps[spec.attack.target]
   };
 
   //

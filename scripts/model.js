@@ -112,6 +112,7 @@ module.exports = function(player1, player2){
               players[key].map[k][j] = i
             }
           }
+          //do the attack, add update function with projectile component
         }
         for (let i = 0; i < players[key].creeps.length; i++) {
           if(players[key].creeps[i] === "deleted") continue
@@ -167,7 +168,6 @@ module.exports = function(player1, player2){
       for(let i = 0; i < players[key].creeps.length; i++){
         if(players[key].creeps[i].type === "deleted") {
           players[key].creeps.splice(i, 1)
-          players[key].paths.splice(i, 1)
           i--
         }
       }

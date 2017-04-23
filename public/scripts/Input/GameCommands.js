@@ -14,15 +14,15 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
   }
 
   that.buildTower1 = function(){
-    myMouse.buildTowerUpdate(1);
+    myMouse.buildTower(50, 850);
   }
 
   that.buildTower2 = function(){
-    myMouse.buildTowerUpdate(2);
+    myMouse.buildTower(150, 850);
   }
 
   that.buildTower3 = function(){
-    myMouse.buildTowerUpdate(3);
+    myMouse.buildTower(250, 850);
   }
 
   that.evolveTower = function(){
@@ -36,19 +36,19 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
   }
 
   that.sendBiker = function(){
-    myMouse.sendCreepUpdate(1);
+    myMouse.sendCreep(250, 875);
   }
 
   that.sendPirate = function(){
-    myMouse.sendCreepUpdate(2);
+    myMouse.sendCreep(350, 875);
   }
 
   that.sendRocket = function(){
-    myMouse.sendCreepUpdate(3);
+    myMouse.sendCreep(50, 875);
   }
 
   that.sendScientist = function(){
-    myMouse.sendCreepUpdate(4);
+    myMouse.sendCreep(150, 875);
   }
 
   that.pause = function(){
