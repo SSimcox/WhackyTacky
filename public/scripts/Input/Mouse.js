@@ -33,16 +33,16 @@ Demo.input.Mouse = function() {
   function sendCreep(x){
     buildSelected = false;
     if(x < 100){
-      creepType = 'Biker'
-      creepSelected = true;
-    }else if(x < 200){
-      creepType = 'Eyepatch'
-      creepSelected = true;
-    }else if(x < 300){
       creepType = 'RocketM'
       creepSelected = true;
-    }else if(x < 400){
+    }else if(x < 200){
       creepType = 'Scientist'
+      creepSelected = true;
+    }else if(x < 300){
+      creepType = 'Biker'
+      creepSelected = true;
+    }else if(x < 400){
+      creepType = 'Eyepatch'
       creepSelected = true;
     }
     hoverImage.type = creepType;
@@ -103,15 +103,16 @@ Demo.input.Mouse = function() {
         }
         else if(creepSelected){
           x = (event.pageX - yourOffset.x) / scaleOffset;
+          y = (event.pageY - yourOffset.y) / scaleOffset;
           let tX = Math.round(x/25)*25;
           let tY = Math.round(y/25)*25;
           if(tX < 25){
             if (tX < 0) return
-            tX += 25
+            tX += 24
           }
           if(tX > 975){
             if(tX > 1000) return
-            tX -= 25
+            tX -= 256
           }
           if(tY < 875){
             if (tY < 850) return
@@ -121,6 +122,7 @@ Demo.input.Mouse = function() {
             if(tY > 900) return
             tY -= 25
           }
+          console.log("x:", tX,"y:",tY)
 
           creepToSend = {
             x: tX,

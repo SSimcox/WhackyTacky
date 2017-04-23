@@ -17,17 +17,31 @@ let Components = {}
 // }
 //
 //------------------------------------------------------------------
-Components.AnimatedSprite = function(spec) {
+Components.AnimatedSprite = function (spec) {
   'use strict';
   var frame = 0,
     that = {
-      get spriteSheet() { return spec.spriteSheet; },
-      get pixelWidth() { return spec.spriteSheet.width / spec.spriteCount; },
-      get pixelHeight() { return spec.spriteSheet.height; },
-      get width() { return spec.spriteSize.width; },
-      get height() { return spec.spriteSize.height; },
-      get center() { return spec.spriteCenter; },
-      get sprite() { return spec.sprite; }
+      get spriteSheet() {
+        return spec.spriteSheet;
+      },
+      get pixelWidth() {
+        return spec.spriteSheet.width / spec.spriteCount;
+      },
+      get pixelHeight() {
+        return spec.spriteSheet.height;
+      },
+      get width() {
+        return spec.spriteSize.width;
+      },
+      get height() {
+        return spec.spriteSize.height;
+      },
+      get center() {
+        return spec.spriteCenter;
+      },
+      get sprite() {
+        return spec.sprite;
+      }
     };
 
   //
@@ -48,7 +62,7 @@ Components.AnimatedSprite = function(spec) {
   // Update the animation of the sprite based upon elapsed time.
   //
   //------------------------------------------------------------------
-  that.update = function(elapsedTime, forward) {
+  that.update = function (elapsedTime, forward) {
     spec.elapsedTime += elapsedTime;
     //
     // Check to see if we should update the animation frame
@@ -92,13 +106,19 @@ Components.AnimatedSprite = function(spec) {
 //	}
 //
 //------------------------------------------------------------------
-Components.Tower = function(spec) {
+Components.Tower = function (spec) {
   'use strict';
   var facingDown = true,
     that = {
-      get type() { return spec.type},
-      get center() { return spec.spriteCenter; },
-      get attack() { return spec.attack; }
+      get type() {
+        return spec.type
+      },
+      get center() {
+        return spec.spriteCenter;
+      },
+      get attack() {
+        return spec.attack;
+      }
     };
 
   //------------------------------------------------------------------
@@ -107,14 +127,14 @@ Components.Tower = function(spec) {
   // to update.
   //
   //------------------------------------------------------------------
-  that.update = function(elapsedTime) {
+  that.update = function (elapsedTime) {
 
   };
 
   return that;
 };
 
-Components.Bulbasaur = function(spec) {
+Components.Bulbasaur = function (spec) {
   'use strict';
   var tower = null;
 
@@ -122,7 +142,7 @@ Components.Bulbasaur = function(spec) {
   tower = Components.Tower({
     type: 'Bulbasaur',
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
-    attack:{
+    attack: {
       damage: 5,
       speed: 80,
       range: 1
@@ -134,7 +154,7 @@ Components.Bulbasaur = function(spec) {
   return tower;
 };
 
-Components.Charmander = function(spec) {
+Components.Charmander = function (spec) {
   'use strict';
   var tower = null;
 
@@ -142,7 +162,7 @@ Components.Charmander = function(spec) {
   tower = Components.Tower({
     type: 'Charmander',
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
-    attack:{
+    attack: {
       damage: 5,
       speed: 80,
       range: 1
@@ -154,7 +174,7 @@ Components.Charmander = function(spec) {
   return tower;
 };
 
-Components.Squirtle = function(spec) {
+Components.Squirtle = function (spec) {
   'use strict';
   var tower = null;
 
@@ -162,7 +182,7 @@ Components.Squirtle = function(spec) {
   tower = Components.Tower({
     type: 'Squirtle',
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
-    attack:{
+    attack: {
       damage: 5,
       speed: 80,
       range: 1
@@ -174,23 +194,55 @@ Components.Squirtle = function(spec) {
   return tower;
 };
 
-Components.Creep = function(spec) {
+Components.Creep = function (spec) {
   'use strict';
   var that = {
-      get type() { return spec.type; },
-      get center() { return spec.spriteCenter; },
-      get stats() { return spec.stats; },
-      set stats(val) { spec.stats = val; }
-    };
+    get type() {
+      return spec.type;
+    },
+    set type(val) {
+      spec.type = val
+    } ,
+    get center() {
+      return spec.spriteCenter;
+    },
+    get stats() {
+      return spec.stats;
+    },
+    set stats(val) {
+      spec.stats = val;
+    }
+  };
 
-  that.update = function(elapsedTime) {
+  that.update = function (elapsedTime) {
+    let destination = {x: 475, y: 75}
+
+    if (spec.stats.path.length > 0) {
+      destination = {x: spec.stats.path[0].x * 50 + 25, y: spec.stats.path[0].y * 50 + 125}
+    }
+
+    if (Math.abs(spec.spriteCenter.x - destination.x) < 5 && Math.abs(spec.spriteCenter.y - destination.y) < 5 && spec.stats.path.length > 0) {
+      spec.stats.path.shift()
+      if (spec.stats.path.length > 0) {
+        destination = {x: spec.stats.path[0].x * 50 + 25, y: spec.stats.path[0].y * 50 + 125}
+      }else{
+        destination = {x: 475, y: 75}
+      }
+    }
+
+    spec.stats.direction = normalize({x: destination.x - spec.spriteCenter.x, y: destination.y - spec.spriteCenter.y})
+
+    spec.spriteCenter = {
+      x: spec.spriteCenter.x + spec.stats.direction.x * (spec.stats.speed / elapsedTime),
+      y: spec.spriteCenter.y + spec.stats.direction.y * (spec.stats.speed / elapsedTime)
+    }
 
   };
 
   return that;
 };
 
-Components.RocketM = function(spec){
+Components.RocketM = function (spec) {
   var creep = {}
 
   creep = Components.Creep({
@@ -199,10 +251,10 @@ Components.RocketM = function(spec){
     stats: {
       totalHealth: 50,
       health: 50,
-      speed: 3,
+      speed: 12,
       direction: {
         x: 0,
-        y:0
+        y: 0
       },
       path: spec.path
     }
@@ -211,7 +263,7 @@ Components.RocketM = function(spec){
   return creep
 }
 
-Components.Scientist = function(spec){
+Components.Scientist = function (spec) {
   var creep = {}
 
   creep = Components.Creep({
@@ -220,10 +272,10 @@ Components.Scientist = function(spec){
     stats: {
       totalHealth: 75,
       health: 75,
-      speed: 3,
+      speed: 12,
       direction: {
         x: 0,
-        y:0
+        y: 0
       },
       path: spec.path
     }
@@ -232,7 +284,7 @@ Components.Scientist = function(spec){
   return creep
 }
 
-Components.Biker = function(spec){
+Components.Biker = function (spec) {
   var creep = {}
 
   creep = Components.Creep({
@@ -241,10 +293,10 @@ Components.Biker = function(spec){
     stats: {
       totalHealth: 80,
       health: 80,
-      speed: 5,
+      speed: 20,
       direction: {
         x: 0,
-        y:0
+        y: 0
       },
       path: spec.path
     }
@@ -253,7 +305,7 @@ Components.Biker = function(spec){
   return creep
 }
 
-Components.Eyepatch = function(spec){
+Components.Eyepatch = function (spec) {
   var creep = {}
 
   creep = Components.Creep({
@@ -262,10 +314,10 @@ Components.Eyepatch = function(spec){
     stats: {
       totalHealth: 50,
       health: 50,
-      speed: 3,
+      speed: 16,
       direction: {
         x: 0,
-        y:0
+        y: 0
       },
       path: spec.path
     }
@@ -275,3 +327,10 @@ Components.Eyepatch = function(spec){
 }
 
 module.exports = Components;
+
+function normalize(vec) {
+  var length = Math.sqrt((vec.x * vec.x) + (vec.y * vec.y))
+  vec.x /= length
+  vec.y /= length
+  return vec
+}

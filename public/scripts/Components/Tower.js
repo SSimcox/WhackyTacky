@@ -23,7 +23,7 @@ Demo.components.Tower = function(spec) {
     facingDown = true,
     that = {
       get type() { return spec.type },
-      get center() { return sprite.center; },
+      get center() { return spriteFront.center; },
       get sprite() { return facingDown ? spriteFront : spriteBack; },
       get rotation() { return spec.rotation; },
       get damage() { return spec.damage; },

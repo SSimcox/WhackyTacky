@@ -6,7 +6,8 @@ Demo.components.RocketMHover = function(spec) {
     image: Demo.assets['rocketMHover'],
     imageCenter: spec.imageCenter,
     imageSize: spec.imageSize || undefined,
-    cost: 5
+    cost: 5,
+    hotkey: Persistance.getControls()['Rocket'].substring(7)
   });
 
   spec.orientation = 0;

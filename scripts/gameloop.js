@@ -32,9 +32,10 @@ module.exports = function(player1, player2, io){
     previousTime = currentTime
 
     timeSinceLastSend += elapsedTime
-    if(timeSinceLastSend > 2000 || sendUpdate){
+    if(timeSinceLastSend > 100 || sendUpdate){
       emit()
       timeSinceLastSend = 0
+      model.cleanseModel()
       //console.log((present() - startTime)/1000)
     }
 
@@ -54,7 +55,7 @@ module.exports = function(player1, player2, io){
 
   function emit(message){
     that.initialTime = present()
-    var send = message || model.getModel()
+    var send = message ? message : JSON.stringify(model.getModel())
     io.to(player1).emit('update', send)
     // console.log("Player 1 Latency:",averageLatencies(that.latencies[player1]))
     // console.log("Player 2 Latency:",averageLatencies(that.latencies[player2]))

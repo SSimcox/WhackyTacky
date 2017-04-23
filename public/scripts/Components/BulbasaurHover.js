@@ -5,7 +5,8 @@ Demo.components.BulbasaurHover = function(spec) {
   towerHover = Demo.components.TowerHover({
     image: Demo.assets['bulbasaurHover'],
     imageCenter: spec.imageCenter,
-    cost: 10
+    cost: 10,
+    hotkey: Persistance.getControls()['Bulbasaur'].substring(7)
   });
 
   spec.orientation = 0;

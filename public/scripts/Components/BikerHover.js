@@ -6,7 +6,8 @@ Demo.components.BikerHover = function(spec) {
     image: Demo.assets['bikerHover'],
     imageCenter: spec.imageCenter,
     imageSize: spec.imageSize || undefined,
-    cost: 15
+    cost: 15,
+    hotkey: Persistance.getControls()['Biker'].substring(7)
   });
 
   spec.orientation = 0;

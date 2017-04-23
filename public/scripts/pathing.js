@@ -5,7 +5,7 @@
 
 var edges = []
 
-function setPath(player){
+function setPath(player, creep, globalPath){
 
   // Find shortest path from [16,0] to [0,10] in player.map
 
@@ -20,13 +20,27 @@ function setPath(player){
       nodes[i].push(Node(j,i,visited))
     }
   }
+  if(globalPath !== undefined){
+    for(let i = 0; i < globalPath.length; i++){
+      nodes[globalPath[i].y][globalPath[i].x].visited = "path"
+      nodes[globalPath[i].y][globalPath[i].x].pathIndex = i
+    }
+  }
 
   let list = new PriorityQueue()
 
-  list.push(nodes[15][0],1)
+  let x = 0, y = 15
+  if(creep !== undefined){
+    x = Math.floor(creep.x / 50)
+    y = Math.floor((creep.y - 100) / 50)
+    if(nodes[y][x].pathIndex !== undefined)
+      return globalPath.slice(nodes[y][x].pathIndex + 1)
+  }
+
+  list.push(nodes[y][x],1)
 
   let cur = null
-  nodes[15][0].length = 0
+  nodes[y][x].length = 0
 
   do{
     cur = list.pop()
@@ -39,12 +53,13 @@ function setPath(player){
   }
 
   let path = []
-  while(cur !== nodes[15][0])
+  while(cur !== nodes[y][x])
   {
-    path.unshift(cur)
+    path.unshift({x: cur.x, y: cur.y})
     cur = cur.parent
   }
-  path.unshift(cur)
+  if(creep === undefined)
+    path.unshift({x: cur.x, y: cur.y})
   // Find shortest path from unit to shortest path player.creeps[i].center
 
   return path
@@ -60,30 +75,48 @@ function Node(x,y,visited){
   }
 }
 
-function visit(node,list,nodes){
-  if(node.x > 0 && nodes[node.y][node.x-1].visited !== "visited" && (nodes[node.y][node.x-1].visited === "none" || (nodes[node.y][node.x-1].visited === "listed" && nodes[node.y][node.x-1].length > node.length + 1))){
-    nodes[node.y][node.x-1].length = node.length + 1
-    nodes[node.y][node.x-1].parent = node
-    nodes[node.y][node.x-1].visited = "listed"
-    list.push(nodes[node.y][node.x-1],nodes[node.y][node.x-1].length) //distance(nodes[0][9], nodes[node.y][node.x-1]) + nodes[node.y][node.x-1].length)
-  }
-  if(node.y < 15 && nodes[node.y+1][node.x].visited !== "visited" && (nodes[node.y+1][node.x].visited === "none" || (nodes[node.y+1][node.x].visited === "listed" && nodes[node.y+1][node.x].length > node.length + 1))){
-    nodes[node.y+1][node.x].length = node.length + 1
-    nodes[node.y+1][node.x].parent = node
-    nodes[node.y+1][node.x].visited = "listed"
-    list.push(nodes[node.y+1][node.x],nodes[node.y+1][node.x].length) //distance(nodes[0][9], nodes[node.y+1][node.x]) + nodes[node.y+1][node.x].length)
-  }
-  if(node.x < 19 && nodes[node.y][node.x+1].visited !== "visited" && (nodes[node.y][node.x+1].visited === "none" || (nodes[node.y][node.x+1].visited === "listed" && nodes[node.y][node.x+1].length > node.length + 1))){
-    nodes[node.y][node.x+1].length = node.length + 1
-    nodes[node.y][node.x+1].parent = node
-    nodes[node.y][node.x+1].visited = "listed"
-    list.push(nodes[node.y][node.x+1],nodes[node.y][node.x+1].length) //distance(nodes[0][9], nodes[node.y][node.x+1]) + nodes[node.y][node.x+1].length)
-  }
-  if(node.y > 0 && nodes[node.y-1][node.x].visited !== "visited" && (nodes[node.y-1][node.x].visited === "none" || (nodes[node.y-1][node.x].visited === "listed" && nodes[node.y-1][node.x].length > node.length + 1))){
-    nodes[node.y-1][node.x].length = node.length + 1
-    nodes[node.y-1][node.x].parent = node
-    nodes[node.y-1][node.x].visited = "listed"
-    list.push(nodes[node.y-1][node.x],nodes[node.y-1][node.x].length) //distance(nodes[0][9], nodes[node.y-1][node.x]) + nodes[node.y-1][node.x].length)
+// function visit(node,list,nodes){
+//   if(node.x > 0 && nodes[node.y][node.x-1].visited !== "visited" && (nodes[node.y][node.x-1].visited === "none" || (nodes[node.y][node.x-1].visited === "listed" && nodes[node.y][node.x-1].length > node.length + 1))){
+//     nodes[node.y][node.x-1].length = node.length + 1
+//     nodes[node.y][node.x-1].parent = node
+//     nodes[node.y][node.x-1].visited = "listed"
+//     list.push(nodes[node.y][node.x-1],nodes[node.y][node.x-1].length) //distance(nodes[0][9], nodes[node.y][node.x-1]) + nodes[node.y][node.x-1].length)
+//   }
+//   if(node.y < 15 && nodes[node.y+1][node.x].visited !== "visited" && (nodes[node.y+1][node.x].visited === "none" || (nodes[node.y+1][node.x].visited === "listed" && nodes[node.y+1][node.x].length > node.length + 1))){
+//     nodes[node.y+1][node.x].length = node.length + 1
+//     nodes[node.y+1][node.x].parent = node
+//     nodes[node.y+1][node.x].visited = "listed"
+//     list.push(nodes[node.y+1][node.x],nodes[node.y+1][node.x].length) //distance(nodes[0][9], nodes[node.y+1][node.x]) + nodes[node.y+1][node.x].length)
+//   }
+//   if(node.x < 19 && nodes[node.y][node.x+1].visited !== "visited" && (nodes[node.y][node.x+1].visited === "none" || (nodes[node.y][node.x+1].visited === "listed" && nodes[node.y][node.x+1].length > node.length + 1))){
+//     nodes[node.y][node.x+1].length = node.length + 1
+//     nodes[node.y][node.x+1].parent = node
+//     nodes[node.y][node.x+1].visited = "listed"
+//     list.push(nodes[node.y][node.x+1],nodes[node.y][node.x+1].length) //distance(nodes[0][9], nodes[node.y][node.x+1]) + nodes[node.y][node.x+1].length)
+//   }
+//   if(node.y > 0 && nodes[node.y-1][node.x].visited !== "visited" && (nodes[node.y-1][node.x].visited === "none" || (nodes[node.y-1][node.x].visited === "listed" && nodes[node.y-1][node.x].length > node.length + 1))){
+//     nodes[node.y-1][node.x].length = node.length + 1
+//     nodes[node.y-1][node.x].parent = node
+//     nodes[node.y-1][node.x].visited = "listed"
+//     list.push(nodes[node.y-1][node.x],nodes[node.y-1][node.x].length) //distance(nodes[0][9], nodes[node.y-1][node.x]) + nodes[node.y-1][node.x].length)
+//   }
+// }
+
+function visit(node,list,nodes,globalPath){
+  for(let i = node.y - 1; i <= node.y+1; i++){
+    if(i < 0 || i > 15) continue
+    for(let j = node.x - 1; j <= node.x + 1; j++){
+      if(j < 0 || j > 19) continue
+      if((i === node.y && j === node.x) || (i !== node.y && j !== node.x)) continue
+
+      if(nodes[i][j].visited !== "visited" && (nodes[i][j].visited === "none" || (nodes[i][j].visited === "listed" && nodes[i][j].length > node.length + 1) || nodes[i][j].visited === "path")){
+        nodes[i][j].length = node.length + 1
+        nodes[i][j].parent = node
+        nodes[i][j].visited = "listed"
+        list.push(nodes[i][j],nodes[i][j].length) //distance(nodes[0][9], nodes[node.y][node.x-1]) + nodes[node.y][node.x-1].length)
+      }
+
+    }
   }
 }
 

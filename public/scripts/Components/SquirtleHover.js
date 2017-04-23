@@ -5,7 +5,8 @@ Demo.components.SquirtleHover = function(spec) {
   towerHover = Demo.components.TowerHover({
     image: Demo.assets['squirtleHover'],
     imageCenter: spec.imageCenter,
-    cost: 12
+    cost: 12,
+    hotkey: Persistance.getControls()['Squirtle'].substring(7)
   });
 
   spec.orientation = 0;

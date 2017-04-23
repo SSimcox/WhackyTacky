@@ -69,6 +69,7 @@ Demo.main = (function(renderer, components, model) {
 		update(elapsedTime);
 		render(elapsedTime);
 
+		//console.log(performance.now() - time)
 		requestAnimationFrame(gameLoop);
 	}
 

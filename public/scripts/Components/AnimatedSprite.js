@@ -4,6 +4,7 @@ Demo.components.AnimatedSprite = function(spec) {
 		creep = spec.creep ? 4 : 1,
 		direction = spec.creep ? 3:0,
 		that = {
+		get creep() { return spec.creep ? true : false },
 			get spriteSheet() { return spec.spriteSheet; },
 			get pixelWidth() { return spec.spriteSheet.width / spec.spriteCount; },
 			get pixelHeight() { return spec.spriteSheet.height / creep; },

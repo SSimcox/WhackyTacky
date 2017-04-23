@@ -35,9 +35,9 @@ var Socket = function(Main) {
   })
 
   socket.on('update', function(message){
-    socket.emit('send ping', {message: message, game: room})
-    if(typeof message === "object")
-      Demo.model.diffModels(message)
+    socket.emit('send ping', {game: room})
+    if(message.charAt(0) === "{")
+      Demo.model.diffModels(JSON.parse(message))
     else console.log(message)
   })
 

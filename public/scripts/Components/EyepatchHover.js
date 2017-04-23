@@ -6,7 +6,8 @@ Demo.components.EyepatchHover = function(spec) {
     image: Demo.assets['eyepatchHover'],
     imageCenter: spec.imageCenter,
     imageSize: spec.imageSize || undefined,
-    cost: 50
+    cost: 50,
+    hotkey: Persistance.getControls()['Pirate'].substring(7)
   });
 
   spec.orientation = 0;

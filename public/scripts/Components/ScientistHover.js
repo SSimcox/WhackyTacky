@@ -6,7 +6,8 @@ Demo.components.ScientistHover = function(spec) {
     image: Demo.assets['scientistHover'],
     imageCenter: spec.imageCenter,
     imageSize: spec.imageSize || undefined,
-    cost: 10
+    cost: 10,
+    hotkey: Persistance.getControls()['Scientist'].substring(7)
   });
 
   spec.orientation = 0;

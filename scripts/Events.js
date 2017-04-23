@@ -38,6 +38,13 @@ Events.process = function(event, emit){
     }
     else{
       event.player.money -= towerCost[event.type]
+      event.player.paths = Path(event.player.map)
+      for(let i = 0; i < event.player.creeps.length; i++){
+        if(event.player.creeps[i].type === "deleted") continue
+        //event.player.paths[i] = Path(event.player.map,event.player.creeps[i].center)//,event.player.path)
+        event.player.creeps[i].stats.path = Path(event.player.map,event.player.creeps[i].center)
+      }
+
       return true
     }
   }
@@ -48,7 +55,9 @@ Events.process = function(event, emit){
         type: event.type,
         center: event.center,
         creeps: event.opponent.creeps,
-        map: event.opponent.map
+        map: event.opponent.map,
+        paths: event.opponent.paths,
+        path: event.opponent.path
       })){
       emit('send failed')
       return false
@@ -86,11 +95,11 @@ Events.AddTower = function(spec){
   var x = (spec.center.x) / 50
   var y = (spec.center.y - 100) / 50
 
-  //console.log(x, y)
-  //console.log(spec.map)
+  console.log(x, y)
+  console.log(spec.map)
   for(let i = y-1; i <= y; i++){
     for(let j = x-1; j <=x ; j++){
-      if(spec.map[i][j] > -1) return false
+      if(spec.map[i][j] != -1) return false
     }
   }
 
@@ -118,12 +127,13 @@ Events.AddTower = function(spec){
 
 Events.AddCreep = function(spec){
 
-  var path = Path(spec.map,spec.center)
+  let path = Path(spec.map,spec.center)//,spec.path)
 
   spec.creeps.push(Components[spec.type]({
-    center: spec.center,
-    path: path
+    path: path,
+    center: spec.center
   }))
+
   return true
 }
 
