@@ -120,6 +120,7 @@ Components.Tower = function (spec) {
         return spec.attack;
       }
     };
+  spec.attack.target = -1
 
   //------------------------------------------------------------------
   //
@@ -128,16 +129,38 @@ Components.Tower = function (spec) {
   //
   //------------------------------------------------------------------
   that.update = function (elapsedTime, creeps) {
-    for(let i = 0; i < creeps.length; i++){
-      // console.log('Distance: ', Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)))
-      if(Math.sqrt(Math.pow(creeps[i].center.x-spec.spriteCenter.x, 2)+Math.pow(creeps[i].center.y -spec.spriteCenter.y, 2)) <= spec.attack.range){
-        if(creeps[i].stats.path.length < shortestCreep){
-          shortestCreepPath = creeps[i].stats.path.length
-          shortestCreep = i;
+    spec.attack.timeSinceAttack += elapsedTime;
+    let returnTarget = -1
+
+    if(spec.attack.timeSinceAttack > spec.attack.speed) {
+      var sameTarget = false
+      if(spec.attack.target > 0){
+        for(let i = 0; i < creeps.length; i++){
+          if(creeps[i].id === spec.attack.target && creeps[i].type !== "deleted" && distance(creeps[i].center,spec.spriteCenter) < spec.attack.range){
+            sameTarget = true
+            returnTarget = i
+          }
         }
       }
+
+      if(!sameTarget) {
+        spec.attack.target = -1;
+        let shortestCreepPath = 400
+        for (let i = 0; i < creeps.length; i++) {
+          if (distance(creeps[i].center,spec.spriteCenter) <= spec.attack.range) {
+            if (creeps[i].stats.path.length < shortestCreepPath) {
+              shortestCreepPath = creeps[i].stats.path.length
+              spec.attack.target = creeps[i].id;
+              returnTarget = i
+            }
+          }
+        }
+      }
+      if(returnTarget !== -1){
+        spec.attack.timeSinceAttack = 0
+      }
     }
-    //spec.attack.timeSinceAttack += elapsedTime;
+    return returnTarget
   };
 
   return that;
@@ -173,9 +196,10 @@ Components.Charmander = function (spec) {
     type: 'Charmander',
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack: {
-      damage: 5,
-      speed: 600,
-      range: 200
+      damage: 10,
+      speed: 2000,
+      timeSinceAttack: 0,
+      range: 500
     }
   });
 
@@ -194,8 +218,9 @@ Components.Squirtle = function (spec) {
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack: {
       damage: 5,
-      speed: 600,
-      range: 200
+      speed: 300,
+      timeSinceAttack: 0,
+      range: 100
     }
   });
 
@@ -207,6 +232,9 @@ Components.Squirtle = function (spec) {
 Components.Creep = function (spec) {
   'use strict';
   var that = {
+    get id() {
+      return spec.id;
+    },
     get type() {
       return spec.type;
     },
@@ -221,7 +249,7 @@ Components.Creep = function (spec) {
     },
     set stats(val) {
       spec.stats = val;
-    }
+    },
     set curHealth(damage){
       spec.stats.curHealth -= damage;
     }
@@ -270,7 +298,8 @@ Components.RocketM = function (spec) {
         y: 0
       },
       path: spec.path
-    }
+    },
+    id: spec.id
   })
 
   return creep
@@ -291,7 +320,8 @@ Components.Scientist = function (spec) {
         y: 0
       },
       path: spec.path
-    }
+    },
+    id: spec.id
   })
 
   return creep
@@ -312,7 +342,8 @@ Components.Biker = function (spec) {
         y: 0
       },
       path: spec.path
-    }
+    },
+    id: spec.id
   })
 
   return creep
@@ -325,15 +356,16 @@ Components.Eyepatch = function (spec) {
     type: 'Eyepatch',
     spriteCenter: spec.center,
     stats: {
-      totalHealth: 50,
-      curHealth: 50,
+      totalHealth: 200,
+      curHealth: 200,
       speed: 16,
       direction: {
         x: 0,
         y: 0
       },
       path: spec.path
-    }
+    },
+    id: spec.id
   })
 
   return creep
@@ -346,4 +378,8 @@ function normalize(vec) {
   vec.x /= length
   vec.y /= length
   return vec
+}
+
+function distance(a,b){
+  return Math.sqrt(Math.pow(a.x-b.x,2) + Math.pow(a.y-b.y,2))
 }

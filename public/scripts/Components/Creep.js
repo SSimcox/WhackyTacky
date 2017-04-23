@@ -7,6 +7,9 @@ Demo.components.Creep = function (spec) {
   var sprite = null,
 
     that = {
+      get id() {
+        return spec.id
+      },
       get type() {
         return spec.type;
       },
@@ -30,6 +33,9 @@ Demo.components.Creep = function (spec) {
       },
       set stats(val) {
         spec.stats = val;
+      },
+      set curHealth(damage){
+        spec.stats.curHealth -= damage;
       }
     };
 
@@ -77,7 +83,7 @@ Demo.components.Creep = function (spec) {
       }
     }
     sprite.direction = val;
-    sprite.update(elapsedTime, true);
+    sprite.update(elapsedTime);
   }
 
   sprite = Demo.components.AnimatedSprite({

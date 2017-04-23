@@ -6,7 +6,7 @@ Demo.main = (function(renderer, components, model) {
 			text : 'fps',
 			font : '16px Arial, sans-serif',
 			fill : 'rgba(255, 255, 255, 1)',
-			position : { x : 1.025, y : 0.00 }
+			position : { x : 950, y : 0.00 }
 		});
 
 	//------------------------------------------------------------------
@@ -52,7 +52,7 @@ Demo.main = (function(renderer, components, model) {
 			// truncating, then dividing by 10 to get back to seconds.
 			fps = Math.floor((1 / averageTime) * 10000) / 10;
 			textFPS.text = 'fps: ' + fps;
-			renderer.Text.render(textFPS,0);
+			renderer.Text.render(textFPS,1);
 		}
 	}
 

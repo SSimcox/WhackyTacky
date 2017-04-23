@@ -25,6 +25,17 @@ Demo.renderer.Creep = (function(core) {
     core.saveContext(p);
     //core.rotateCanvas(sprite.center, sprite.rotation);
 
+
+      let perHealth = sprite.stats.curHealth / sprite.stats.totalHealth
+      let hColor = "rgba(0,255,30,1)"
+      if(perHealth < .25)
+        hColor = "rgba(255,30,30,1)"
+      else if(perHealth < .5)
+        hColor = "rgba(255,255,30,1)"
+      Demo.renderer.core.drawRectangle(hColor,sprite.center.x - 24,sprite.center.y - 40, 48 * perHealth,10,false,p)
+      Demo.renderer.core.drawRectangle("rgba(0,0,0,1)",sprite.center.x - 24,sprite.center.y - 40, 48,10,true,p)
+
+
     Demo.renderer.AnimatedSprite.render(sprite.sprite, p);
 
     //

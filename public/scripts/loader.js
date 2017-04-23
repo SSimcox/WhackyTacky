@@ -128,6 +128,14 @@ Demo.loader = (function() {
     {
       key: 'egg',
       source: '/public/assets/graphics/tiles/egg.png'
+    },
+    {
+      key: 'gold',
+      source: '/public/assets/graphics/tiles/gold.png'
+    },
+    {
+      key: 'income',
+      source: '/public/assets/graphics/tiles/income2.png'
     }
 
   ];

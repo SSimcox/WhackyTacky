@@ -10,7 +10,8 @@ Demo.components.Scientist = function(spec) {
     spriteTime: [150, 150, 150, 150],
     animationScale: 1.0,
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
-    stats: spec.stats
+    stats: spec.stats,
+    id: spec.id
   });
 
   spec.orientation = 0;

@@ -32,9 +32,10 @@ Demo.components.Charmander = function(spec) {
     animationScale: 1.0,
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
-      damage: 5,
-      speed: 600,
-      range: 200
+      damage: 10,
+      speed: 2000,
+      timeSinceAttack: 0,
+      range: 500
     }
   });
 

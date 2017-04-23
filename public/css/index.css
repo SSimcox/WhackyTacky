@@ -1,11 +1,12 @@
 @font-face
 {
     font-family: myFont;
-    src: url('https://fonts.googleapis.com/css?family=Oswald');
+    /*src: url('https://fonts.googleapis.com/css?family=Oswald');*/
+    src: url('/public/assets/fonts/pkmnemn.ttf');
 }
 
 body{
-    font-family: "Oswald", "Comic Sans MS", serif;
+    font-family: myFont, "myFont","Oswald", "Comic Sans MS", serif;
     font-size: 1.5em;
     font-variant: small-caps;
     background-color: #000012;

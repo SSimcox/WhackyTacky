@@ -15,7 +15,8 @@ module.exports = function(player1, player2){
     money: 15,
     income: 1,
     lives: 10,
-    path: []
+    path: [],
+    creepId: 1
   }
   players[player2] = {
     towers: [],
@@ -24,10 +25,11 @@ module.exports = function(player1, player2){
     money: 15,
     income: 1,
     lives: 10,
-    path: []
+    path: [],
+    creepId: 1
   }
 
-  let gameVars = {
+  players.gameVars = {
     totalTime: 0,
     lastIncome: 0
   }
@@ -74,15 +76,7 @@ module.exports = function(player1, player2){
       event.player = players[event.player]
       var success = Events.process(event,emit)
       if(success) {
-        //if (event.type === 'build')
-          sendUpdate = true
-
-        // if (event.type === 'send') {
-        //   if (event.player === player1)
-        //     emit(JSON.stringify(that.sendCreepUpdate(player2)))
-        //   else
-        //     emit(JSON.stringify(that.sendCreepUpdate(player1)))
-        // }
+        sendUpdate = true
       }
     }
     return sendUpdate
@@ -94,25 +88,36 @@ module.exports = function(player1, player2){
   //
   // ------------------------------------------------------------------
   that.update = function(elapsedTime) {
-    gameVars.totalTime += elapsedTime
-    if(Math.floor(gameVars.totalTime / 1000) % 7 === 0 && Math.floor(gameVars.totalTime / 1000) / 7 !== gameVars.lastIncome){
-      players[player1].money += players[player1.income]
-      players[player2].money += players[player2.income]
-      gameVars.lastIncome = Math.floor(gameVars.totalTime / 1000) / 7
+    players.gameVars.totalTime += elapsedTime
+    if(Math.floor(players.gameVars.totalTime / 1000) % 7 === 0 && Math.floor(players.gameVars.totalTime / 1000) / 7 !== players.gameVars.lastIncome){
+      players[player1].money += players[player1].income
+      players[player2].money += players[player2].income
+      players.gameVars.lastIncome = Math.floor(players.gameVars.totalTime / 1000) / 7
     }
 
     for(let key in players) {
+      if(key === 'gameVars') continue
       if(players.hasOwnProperty(key)) {
         resetMap(key)
         for (let i = 0; i < players[key].towers.length; i++) {
           if(players[key].towers[i] === "deleted") continue
-          players[key].towers[i].update(elapsedTime, players[key].creeps)
+          let attackTarget = players[key].towers[i].update(elapsedTime, players[key].creeps)
           for(let k = players[key].towers[i].center.y/50-3; k <= players[key].towers[i].center.y/50-2; k++){
             for(let j = players[key].towers[i].center.x/50-1; j <= players[key].towers[i].center.x/50; j++){
               players[key].map[k][j] = i
             }
           }
           //do the attack, add update function with projectile component
+          if(attackTarget > -1 && players[key].creeps[attackTarget].type !== "deleted"){
+            players[key].creeps[attackTarget].curHealth = players[key].towers[i].attack.damage
+            if(players[key].creeps[attackTarget].stats.curHealth <= 0){
+              Events.Kill({
+                player: players[key],
+                creep: players[key].creeps[attackTarget]
+              })
+              players[key].creeps[attackTarget].type = "deleted"
+            }
+          }
         }
         for (let i = 0; i < players[key].creeps.length; i++) {
           if(players[key].creeps[i] === "deleted") continue
@@ -120,8 +125,10 @@ module.exports = function(player1, player2){
           if(players[key].creeps[i].center.y > 100) {
             players[key].map[Math.floor(players[key].creeps[i].center.y / 50)-2][Math.floor(players[key].creeps[i].center.x / 50)] = (-i) - 2
           }else{
-            players[key].lives--
+            if(players[key].creeps[i].type !== "deleted")
+              players[key].lives--
             players[key].creeps[i].type = "deleted"
+            console.log(players[key].lives)
           }
         }
         players[key].path = Path(players[key].map)
@@ -159,6 +166,7 @@ module.exports = function(player1, player2){
 
   that.cleanseModel = function(){
     for(var key in players){
+      if(key === "gameVars") continue
       for(let i = 0; i < players[key].towers.length; i++){
         if(players[key].towers[i].type === "deleted") {
           players[key].towers.splice(i, 1)

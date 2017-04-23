@@ -25,7 +25,7 @@ let creepCost = {
 
 Events.process = function(event, emit){
   if(event.event === 'build'){
-    //if(towerCost[event.type] > event.player.money) return false
+    if(towerCost[event.type] > event.player.money) return false
     if(!Events.AddTower(
       {
         type: event.type,
@@ -49,7 +49,7 @@ Events.process = function(event, emit){
     }
   }
   else if(event.event === 'send'){
-    //if(creepCost[event.type][0] > event.player.money) return false
+    if(creepCost[event.type][0] > event.player.money) return false
 
     if(!Events.AddCreep({
         type: event.type,
@@ -57,14 +57,16 @@ Events.process = function(event, emit){
         creeps: event.opponent.creeps,
         map: event.opponent.map,
         paths: event.opponent.paths,
-        path: event.opponent.path
+        path: event.opponent.path,
+        id: event.opponent.creepId
       })){
       emit('send failed')
       return false
     }
     else{
+      event.opponent.creepId += 1
       event.player.money -= creepCost[event.type][0]
-      event.player.interest += creepCost[event.type][1]
+      event.player.income += creepCost[event.type][1]
       return true
     }
   }
@@ -95,8 +97,6 @@ Events.AddTower = function(spec){
   var x = (spec.center.x) / 50
   var y = (spec.center.y - 100) / 50
 
-  console.log(x, y)
-  console.log(spec.map)
   for(let i = y-1; i <= y; i++){
     for(let j = x-1; j <=x ; j++){
       if(spec.map[i][j] != -1) return false
@@ -128,8 +128,8 @@ Events.AddTower = function(spec){
 Events.AddCreep = function(spec){
 
   let path = Path(spec.map,spec.center)//,spec.path)
-
   spec.creeps.push(Components[spec.type]({
+    id: spec.id,
     path: path,
     center: spec.center
   }))
@@ -138,5 +138,9 @@ Events.AddCreep = function(spec){
 }
 
 Events.UpgradeTower = function(spec){}
+
+Events.Kill = function(spec){
+  spec.player.money += creepCost[spec.creep.type][1]*2
+}
 
 module.exports = Events;

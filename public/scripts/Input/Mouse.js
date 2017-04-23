@@ -21,10 +21,10 @@ Demo.input.Mouse = function() {
       towerType = 'Bulbasaur'
       buildSelected = true;
     }else if(x < 200){
-      towerType = 'Squirtle'
+      towerType = 'Charmander'
       buildSelected = true;
     }else if(x < 300){
-      towerType = 'Charmander'
+      towerType = 'Squirtle'
       buildSelected = true;
     }
     hoverImage = {

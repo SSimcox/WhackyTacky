@@ -33,6 +33,28 @@ Demo.model = (function(input, components) {
     diffed,
 		that = {};
 
+	let myMoney = components.Text({
+    text : players[0].money,
+    font : '30px Oswald, sans-serif',
+    fill : 'rgba(0, 0, 255, 1)',
+    position : { x : 50, y : 5 }
+  }),myIncome = components.Text({
+    text : players[0].income,
+    font : '30px Oswald, sans-serif',
+    fill : 'rgba(0, 0, 255, 1)',
+    position : { x : 175, y : 5 }
+  }),nextIncome = components.Text({
+    text : "in " + 7 +" sec",
+    font : '30px Oswald, sans-serif',
+    fill : 'rgba(0, 0, 255, 1)',
+    position : { x : 225, y : 5 }
+  }),gameTime = components.Text({
+    text : "Time Elapsed: " + 0 + ":00",
+    font : '30px Oswald, sans-serif',
+    fill : 'rgba(0, 0, 255, 1)',
+    position : { x : 5, y : 5 }
+  })
+
 	let gameVars = {
 	totalTime: 0,
   lastIncome: 0
@@ -59,7 +81,9 @@ Demo.model = (function(input, components) {
         towers: [],
         creeps: [],
 				map: [],
-        money: 0
+        money: 10,
+        income: 1,
+        lives: 10
       },
       {
         buildTowers: [],
@@ -67,18 +91,20 @@ Demo.model = (function(input, components) {
         towers: [],
         creeps: [],
 				map: [],
-        money: 0
+        money: 10,
+        income: 1,
+        lives: 10
       }]
 
 		players[0].buildTowers.push(components.BulbasaurHover({
 			imageCenter: {x:50, y: 950}
 		}))
-		players[0].buildTowers.push(components.SquirtleHover({
+		players[0].buildTowers.push(components.CharmanderHover({
 			imageCenter: {x:150, y: 950}
 		}))
-		players[0].buildTowers.push(components.CharmanderHover({
-			imageCenter: {x:250, y: 950}
-		}))
+    players[0].buildTowers.push(components.SquirtleHover({
+      imageCenter: {x:250, y: 950}
+    }))
 		players[1].sendCreeps.push(components.BikerHover({
 			imageCenter: {x:250, y: 950}
 		}))
@@ -207,58 +233,72 @@ Demo.model = (function(input, components) {
 	//
 	// ------------------------------------------------------------------
 	that.update = function(elapsedTime) {
+	  if(!diffed) {
       gameVars.totalTime += elapsedTime
       if (Math.floor(gameVars.totalTime / 1000) % 7 === 0 && Math.floor(gameVars.totalTime / 1000) / 7 !== gameVars.lastIncome) {
         players[0].money += players[0].income
         players[1].money += players[1].income
         gameVars.lastIncome = Math.floor(gameVars.totalTime / 1000) / 7
       }
-        for (let p = 0; p < players.length; ++p) {
-          resetMap(p)
-          for (let i = 0; i < players[p].towers.length; i++) {
-            if (players[p].towers[i].type === "deleted") continue
-              players[p].towers[i].update(elapsedTime, players[p].creeps)
-							//update creep health here <----------------- :)
-              for (let k = players[p].towers[i].center.y / 50 - 3; k <= players[p].towers[i].center.y / 50 - 2; k++) {
-                for (let j = players[p].towers[i].center.x / 50 - 1; j <= players[p].towers[i].center.x / 50; j++) {
-                  players[p].map[k][j] = i
-                }
-              }
-          }
-          for (let i = 0; i < players[p].creeps.length; i++) {
-            if (players[p].creeps[i].type === "deleted") continue
-            players[p].creeps[i].update(elapsedTime)
-            if (players[p].creeps[i].center.y > 100) {
-              players[p].map[Math.floor(players[p].creeps[i].center.y / 50) - 2][Math.floor(players[p].creeps[i].center.x / 50)] = (-i) - 2
-            } else {
-              players[p].lives--
-              players[p].creeps[i].type = "deleted"
+      for (let p = 0; p < players.length; ++p) {
+        resetMap(p)
+        for (let i = 0; i < players[p].towers.length; i++) {
+          if (players[p].towers[i].type === "deleted") continue
+          let attackTarget = players[p].towers[i].update(elapsedTime, players[p].creeps)
+          for (let k = players[p].towers[i].center.y / 50 - 3; k <= players[p].towers[i].center.y / 50 - 2; k++) {
+            for (let j = players[p].towers[i].center.x / 50 - 1; j <= players[p].towers[i].center.x / 50; j++) {
+              players[p].map[k][j] = i
             }
           }
-          for (let i = 0; i < players[p].buildTowers.length; i++) {
-            players[p].buildTowers[i].update(elapsedTime)
-          }
-          for (let i = 0; i < players[p].sendCreeps.length; i++) {
-            players[p].sendCreeps[i].update(elapsedTime)
-          }
-        }
 
-        if (imageHovering === true) {
-          let h = gameCommands.hoverTower()
-          if (h) {
-            hover.image.center = {x: h.x, y: h.y}
+          //Attacking stuff
+          // if (attackTarget > -1) {
+          //   console.log("Before Attack:", players[p].creeps[attackTarget].stats.curHealth)
+          //   players[p].creeps[attackTarget].curHealth = players[p].towers[i].attack.damage
+          //   if(players[p].creeps[attackTarget].stats.curHealth <= 0){
+          //     players[p].creeps[attackTarget].type = "deleted"
+          //   }
+          //   console.log("After Attack:", players[p].creeps[attackTarget].stats.curHealth)
+          // }
+
+        }
+        for (let i = 0; i < players[p].creeps.length; i++) {
+          if (players[p].creeps[i].type === "deleted") continue
+          players[p].creeps[i].update(elapsedTime)
+          if (players[p].creeps[i].center.y > 100) {
+            players[p].map[Math.floor(players[p].creeps[i].center.y / 50) - 2][Math.floor(players[p].creeps[i].center.x / 50)] = (-i) - 2
+          } else {
+            players[p].lives--
+            players[p].creeps[i].type = "deleted"
           }
         }
-      // }
-      // else{
-      // for(let p = 0; p < 2; p++){
-      //   for (let i = 0; i < players[p].creeps.length; i++) {
-      //     if (players[p].creeps[i].type === "deleted") continue
-      //     players[p].creeps[i].stats.path = setPath(players[p],players[p].creeps[i].center)
-      //     players[p].creeps[i].updateDirection(elapsedTime)
-      //   }
-      // }
-    //}
+        for (let i = 0; i < players[p].buildTowers.length; i++) {
+          players[p].buildTowers[i].update(elapsedTime)
+        }
+        for (let i = 0; i < players[p].sendCreeps.length; i++) {
+          players[p].sendCreeps[i].update(elapsedTime)
+        }
+      }
+    }
+    if (imageHovering === true) {
+      let h = gameCommands.hoverTower()
+      if (h) {
+        hover.image.center = {x: h.x, y: h.y}
+      }
+    }
+
+    myMoney.text = players[0].money
+    myIncome.text = players[0].income
+    nextIncome.text = "in " +  (7 - Math.floor(gameVars.totalTime / 1000) % 7) + " sec"
+
+    let seconds = Math.floor(gameVars.totalTime / 1000)
+    let minutes = Math.floor(seconds / 60)
+    while(seconds >= 60){
+	    seconds %= 60
+    }
+    if(seconds < 10) seconds = "0"+Math.floor(seconds)
+     gameTime.text = "Time Elapsed: " + minutes +":"+seconds
+
     diffed = false
 	};
 
@@ -309,6 +349,8 @@ Demo.model = (function(input, components) {
 				}
 	    }
     }
+
+    drawHeader(renderer)
 
 	};
 
@@ -373,6 +415,18 @@ Demo.model = (function(input, components) {
         // if(serverModel[key].hasOwnProperty("creep")){
         //   players[p].creeps.push(createCreepFromServer(serverModel[key].creep))
         // }
+        if(serverModel[key].hasOwnProperty("money"))
+          players[p].money = serverModel[key].money
+        if(serverModel[key].hasOwnProperty("income"))
+          players[p].income = serverModel[key].income
+        if(serverModel[key].hasOwnProperty("lives"))
+          players[p].lives = serverModel[key].lives
+
+        if(serverModel[key].hasOwnProperty("totalTime")) {
+          gameVars.totalTime = serverModel[key].totalTime
+          gameVars.lastIncome = serverModel[key].lastIncome
+        }
+
 
       }
     }
@@ -387,6 +441,7 @@ Demo.model = (function(input, components) {
 
   function createCreepFromServer(creep){
     return components[creep.type]({
+      id: creep.id,
       stats: creep.stats,
       spriteCenter: creep.center
     })
@@ -456,6 +511,21 @@ Demo.model = (function(input, components) {
 
   }
 
+  function drawHeader(renderer){
+    renderer.core.drawImage2({image: Demo.assets['gold']},0,0,50,50,0)
+    renderer.Text.render(myMoney,0)
+    renderer.core.drawImage2({image: Demo.assets['income']},125,0,50,50,0)
+    renderer.Text.render(myIncome,0)
+    renderer.Text.render(nextIncome,0)
+    renderer.Text.render(gameTime,1)
+
+    for(let p = 0; p < 2; p++) {
+      for (let i = 0; i < players[p].lives; i++) {
+        renderer.core.drawImage2({image: Demo.assets['egg']},975 - 25*(i+1),0,50,50,p)
+      }
+    }
+
+  }
   that.setSocket = function(s){
     socket = s;
   }

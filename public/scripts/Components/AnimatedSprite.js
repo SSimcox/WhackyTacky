@@ -17,6 +17,7 @@ Demo.components.AnimatedSprite = function(spec) {
 			set center(val){spec.spriteCenter = val; }
 		};
 
+	var isAnimating = false
 	//
 	// Check to see if the frame animation times need to be scaled, and do so if necessary.
 	if (spec.animationScale) {
@@ -35,31 +36,33 @@ Demo.components.AnimatedSprite = function(spec) {
 	// Update the animation of the sprite based upon elapsed time.
 	//
 	//------------------------------------------------------------------
-	that.update = function(elapsedTime, forward) {
+	that.update = function(elapsedTime, animating) {
 		spec.elapsedTime += elapsedTime;
+		if(animating){
+		  spec.elapsedTime = 0
+      spec.sprite = 0
+      isAnimating = true
+    }
 		//
 		// Check to see if we should update the animation frame
-		while (spec.elapsedTime >= spec.spriteTime[spec.sprite]) {
-			//
-			// When switching sprites, keep the leftover time because
-			// it needs to be accounted for the next sprite animation frame.
-			spec.elapsedTime -= spec.spriteTime[spec.sprite];
-			//
-			// Depending upon the direction of the animation...
-			if (forward === true) {
-				spec.sprite += 1;
-				//
-				// This provides wrap around from the last back to the first sprite
-				spec.sprite = spec.sprite % spec.spriteCount;
-			} else {
-				spec.sprite -= 1;
-				//
-				// This provides wrap around from the first to the last sprite
-				if (spec.sprite < 0) {
-					spec.sprite = spec.spriteCount - 1;
-				}
-			}
-		}
+    if(isAnimating || spec.creep) {
+      while (spec.elapsedTime >= spec.spriteTime[spec.sprite]) {
+        //
+        // When switching sprites, keep the leftover time because
+        // it needs to be accounted for the next sprite animation frame.
+        spec.elapsedTime -= spec.spriteTime[spec.sprite];
+        //
+        // Depending upon the direction of the animation...
+
+          spec.sprite += 1;
+          //
+          // This provides wrap around from the last back to the first sprite
+          if (spec.sprite === spec.spriteCount){
+            spec.sprite = 0
+            isAnimating = false
+        }
+      }
+    }
 	};
 
 	return that;

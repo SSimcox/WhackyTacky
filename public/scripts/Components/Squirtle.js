@@ -18,8 +18,9 @@ Demo.components.Squirtle = function(spec) {
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
       damage: 5,
-      speed: 600,
-      range: 200
+      speed: 300,
+      timeSinceAttack: 0,
+      range: 100
     }
   });
 
