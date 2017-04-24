@@ -106,7 +106,68 @@ Components.AnimatedSprite = function (spec) {
 //	}
 //
 //------------------------------------------------------------------
-Components.Tower = function (spec) {
+
+// Components.Tower = function (spec) {
+//   'use strict';
+//   var facingDown = true,
+//     that = {
+//       get type() {
+//         return spec.type
+//       },
+//       get center() {
+//         return spec.spriteCenter;
+//       },
+//       get attack() {
+//         return spec.attack;
+//       }
+//     };
+//   spec.attack.target = -1
+//
+//   //------------------------------------------------------------------
+//   //
+//   // The only update to do is to tell the underlying animated sprite
+//   // to update.
+//   //
+//   //------------------------------------------------------------------
+//   that.update = function (elapsedTime, creeps) {
+//     spec.attack.timeSinceAttack += elapsedTime;
+//     let returnTarget = -1
+//
+//     if(spec.attack.timeSinceAttack > spec.attack.speed) {
+//       var sameTarget = false
+//       if(spec.attack.target > 0){
+//         for(let i = 0; i < creeps.length; i++){
+//           if(creeps[i].id === spec.attack.target && creeps[i].type !== "deleted" && distance(creeps[i].center,spec.spriteCenter) < spec.attack.range){
+//             sameTarget = true
+//             returnTarget = i
+//           }
+//         }
+//       }
+//
+//       if(!sameTarget) {
+//         spec.attack.target = -1;
+//         let shortestCreepPath = 400
+//         for (let i = 0; i < creeps.length; i++) {
+//           if (distance(creeps[i].center,spec.spriteCenter) <= spec.attack.range) {
+//             if (creeps[i].stats.path.length < shortestCreepPath) {
+//               shortestCreepPath = creeps[i].stats.path.length
+//               spec.attack.target = creeps[i].id;
+//               returnTarget = i
+//             }
+//           }
+//         }
+//       }
+//       if(returnTarget !== -1){
+//         spec.attack.timeSinceAttack = 0
+//       }
+//     }
+//     return returnTarget
+//   };
+//
+//   return that;
+// };
+
+Components.Tower = function (spec, center) {
   'use strict';
   var facingDown = true,
     that = {
@@ -114,7 +175,7 @@ Components.Tower = function (spec) {
         return spec.type
       },
       get center() {
-        return spec.spriteCenter;
+        return center;
       },
       get attack() {
         return spec.attack;
@@ -136,7 +197,7 @@ Components.Tower = function (spec) {
       var sameTarget = false
       if(spec.attack.target > 0){
         for(let i = 0; i < creeps.length; i++){
-          if(creeps[i].id === spec.attack.target && creeps[i].type !== "deleted" && distance(creeps[i].center,spec.spriteCenter) < spec.attack.range){
+          if(creeps[i].id === spec.attack.target && creeps[i].type !== "deleted" && distance(creeps[i].center,center) < spec.attack.range){
             sameTarget = true
             returnTarget = i
           }
@@ -147,7 +208,7 @@ Components.Tower = function (spec) {
         spec.attack.target = -1;
         let shortestCreepPath = 400
         for (let i = 0; i < creeps.length; i++) {
-          if (distance(creeps[i].center,spec.spriteCenter) <= spec.attack.range) {
+          if (distance(creeps[i].center,center) <= spec.attack.range) {
             if (creeps[i].stats.path.length < shortestCreepPath) {
               shortestCreepPath = creeps[i].stats.path.length
               spec.attack.target = creeps[i].id;

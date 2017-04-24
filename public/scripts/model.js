@@ -128,6 +128,8 @@ Demo.model = (function(input, components) {
 		}
 		myKeyboard.changeCommands(gameCommands);
 
+
+    components.TowerData.load()
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({
     //   center: towers[i].center,
@@ -434,9 +436,12 @@ Demo.model = (function(input, components) {
   }
 
   function createTowerFromServer(tower){
-	  return components[tower.type]({
-	    spriteCenter: tower.center
-    })
+
+	  return components.Tower(components.TowerData[tower.type], tower.center)
+
+    // return components[tower.type]({
+	   //  spriteCenter: tower.center
+    // })
   }
 
   function createCreepFromServer(creep){

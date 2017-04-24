@@ -24,11 +24,11 @@ Demo.components.Charmander = function(spec) {
   tower = Demo.components.Tower({
     type: 'Charmander',
     spriteSheetFront: Demo.assets['charmander'],
-    spriteSheetBack: Demo.assets['charmander'],
+    spriteSheetBack: Demo.assets['charmander-back'],
     spriteCountFront: 19,
     spriteTimeFront: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19,14,16],
-    spriteCountBack: 19,
-    spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19,14,16],
+    spriteCountBack: 18,
+    spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19,14],
     animationScale: 1.0,
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{
