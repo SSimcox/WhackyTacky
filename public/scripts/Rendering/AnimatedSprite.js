@@ -13,10 +13,10 @@ Demo.renderer.AnimatedSprite = (function(core) {
     // var bgColor = p == 0 ? "rgba(0,0,255,.5)" : "rgba(255,0,0,.5)"
     // core.drawRectangle(bgColor,sprite.center.x-50,sprite.center.y-50,100,100,false,p)
 
-		if(!sprite.creep) {
-      for (let i = sprite.center.y - 50; i <= sprite.center.y; i += 50) {
-        for (let j = sprite.center.x - 50; j <= sprite.center.x; j += 50) {
-          core.drawImage2({image: Demo.assets['grass']}, j, i, 50, 50, p)
+    if(!sprite.creep) {
+      for (let i = sprite.center.y - sprite.height / 2; i <= sprite.center.y; i += sprite.height / 2) {
+        for (let j = sprite.center.x - sprite.width / 2; j <= sprite.center.x; j += sprite.width / 2) {
+          core.drawImage2({image: Demo.assets['grass']}, j, i, sprite.width / 2, sprite.height/2, p)
         }
       }
     }

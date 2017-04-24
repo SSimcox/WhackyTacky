@@ -2,7 +2,6 @@
  * Created by Steven on 4/23/2017.
  */
 
-
 Demo.components.TowerData = {}
 
 Demo.components.TowerData.load = function() {
@@ -16,6 +15,7 @@ Demo.components.TowerData.load = function() {
       spriteCountBack: 24,
       spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 14, 16, 15, 15, 15, 15, 15],
       animationScale: 1.0,
+      spriteSize: {width: 75, height: 75},
       attack: {
         damage: 5,
         speed: 600,
@@ -31,9 +31,10 @@ Demo.components.TowerData.load = function() {
       spriteTimeFront: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19],
       spriteCountBack: 10,
       spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180],
-      animationScale: 1.0,	// Maintain the center on the sprite
+      animationScale: 1.0,
+      spriteSize: {width: 85, height: 85},
       attack: {
-        damage: 5,
+        damage: 15,
         speed: 600,
         timeSinceAttack: 0,
         range: 200
@@ -47,9 +48,10 @@ Demo.components.TowerData.load = function() {
       spriteTimeFront: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14],
       spriteCountBack: 18,
       spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 15],
-      animationScale: 1.0,	// Maintain the center on the sprite
+      animationScale: 1.0,
+      spriteSize: {width: 110, height: 110},
       attack: {
-        damage: 5,
+        damage: 45,
         speed: 600,
         timeSinceAttack: 0,
         range: 200
@@ -64,11 +66,12 @@ Demo.components.TowerData.load = function() {
       spriteCountBack: 18,
       spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 14],
       animationScale: 1.0,
+      spriteSize: {width: 75, height: 75},
       attack: {
         damage: 10,
         speed: 2000,
         timeSinceAttack: 0,
-        range: 500
+        range: 400
       }
     },
     'Charmeleon': {
@@ -80,11 +83,12 @@ Demo.components.TowerData.load = function() {
       spriteCountBack: 16,
       spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14],
       animationScale: 1.0,
+      spriteSize: {width: 100, height: 100},
       attack: {
-        damage: 10,
+        damage: 25,
         speed: 2000,
         timeSinceAttack: 0,
-        range: 500
+        range: 400
       }
     },
     'Charizard': {
@@ -96,11 +100,12 @@ Demo.components.TowerData.load = function() {
       spriteCountBack: 35,
       spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 16, 14, 16, 18, 15, 14, 19, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15,15],
       animationScale: 1.0,
+      spriteSize: {width: 125, height: 125},
       attack: {
-        damage: 10,
+        damage: 57,
         speed: 2000,
         timeSinceAttack: 0,
-        range: 500
+        range: 400
       }
     },
     'Squirtle': {
@@ -112,7 +117,7 @@ Demo.components.TowerData.load = function() {
       spriteCountBack: 19,
       spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 15, 15],
       animationScale: 1.0,
-      spriteSize: {width: 50, height: 50},
+      spriteSize: {width: 75, height: 75},
       attack: {
         damage: 5,
         speed: 300,
@@ -129,8 +134,9 @@ Demo.components.TowerData.load = function() {
       spriteCountBack: 27,
       spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
       animationScale: 1.0,
+      spriteSize: {width: 90, height: 90},
       attack: {
-        damage: 5,
+        damage: 15,
         speed: 300,
         timeSinceAttack: 0,
         range: 100
@@ -147,7 +153,7 @@ Demo.components.TowerData.load = function() {
       animationScale: 1.0,
       spriteSize: {width: 100, height: 100},
       attack: {
-        damage: 5,
+        damage: 45,
         speed: 300,
         timeSinceAttack: 0,
         range: 100

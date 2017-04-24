@@ -31,6 +31,7 @@ var Socket = function(Main) {
   })
 
   socket.on('player left', function () {
+    Main.stop()
     Game.game.showScreen('main-menu')
   })
 

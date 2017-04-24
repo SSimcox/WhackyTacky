@@ -140,7 +140,9 @@ Events.AddCreep = function(spec){
   return true
 }
 
-Events.UpgradeTower = function(spec){}
+Events.UpgradeTower = function(spec){
+
+}
 
 Events.Kill = function(spec){
   spec.player.money += creepCost[spec.creep.type][1]*2

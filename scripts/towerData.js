@@ -15,7 +15,7 @@ module.exports = {
   'Ivysaur': {
     type: 'Ivysaur',
     attack:{
-      damage: 5,
+      damage: 15,
       speed: 600,
       timeSinceAttack: 0,
       range: 200
@@ -24,7 +24,7 @@ module.exports = {
   'Venusaur': {
     type: 'Venusaur',
     attack:{
-      damage: 5,
+      damage: 45,
       speed: 600,
       timeSinceAttack: 0,
       range: 200
@@ -36,25 +36,25 @@ module.exports = {
       damage: 10,
       speed: 2000,
       timeSinceAttack: 0,
-      range: 500
+      range: 400
     }
   },
   'Charmeleon':{
     type: 'Charmeleon',
     attack:{
-      damage: 10,
+      damage: 25,
       speed: 2000,
       timeSinceAttack: 0,
-      range: 500
+      range: 400
     }
   },
   'Charizard':{
     type: 'Charizard',
     attack:{
-      damage: 10,
+      damage: 57,
       speed: 2000,
       timeSinceAttack: 0,
-      range: 500
+      range: 400
     }
   },
   'Squirtle':{
@@ -69,7 +69,7 @@ module.exports = {
   'Wartortle':{
     type: 'Wartortle',
     attack:{
-      damage: 5,
+      damage: 15,
       speed: 300,
       timeSinceAttack: 0,
       range: 100
@@ -78,7 +78,7 @@ module.exports = {
   'Blastoise':{
     type: 'Blastoise',
     attack:{
-      damage: 5,
+      damage: 45,
       speed: 300,
       timeSinceAttack: 0,
       range: 100

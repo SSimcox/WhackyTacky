@@ -5,7 +5,7 @@ Demo.main = (function(renderer, components, model) {
 		textFPS = components.Text({
 			text : 'fps',
 			font : '16px Arial, sans-serif',
-			fill : 'rgba(255, 255, 255, 1)',
+			fill : 'rgba(255, 0, 0, 1)',
 			position : { x : 950, y : 0.00 }
 		});
 
@@ -93,8 +93,13 @@ Demo.main = (function(renderer, components, model) {
 		requestAnimationFrame(gameLoop);
 	}
 
+	function stop(){
+		model.stopMusic()
+	}
+
 	return {
-		initialize: initialize
+		initialize: initialize,
+		stop: stop
 	};
 
 }(Demo.renderer, Demo.components, Demo.model));

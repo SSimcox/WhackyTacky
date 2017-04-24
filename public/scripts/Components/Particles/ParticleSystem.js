@@ -12,10 +12,10 @@ Demo.components.ParticleSystem = function(spec){
 	that.create = function() {
 		console.log('creating particles')
     let image = [Demo.assets['pokeball'], Demo.assets['pokeballred']];
-		for(let i = 0; i < 15; ++i){
+		for(let i = 0; i < 50; ++i){
 			var p = Demo.components.Particle({
 				image: image[i%2],
-				imageCenter: {x: spec.center.x, y: spec.center.y},	// How long the particle should live, in seconds
+				imageCenter: {x: spec.center.x, y: spec.center.y}, // How long the particle should live, in seconds
 				alive: 0	// How long the particle has been alive, in seconds
 			});
 			p.size = Math.max(1, p.size);

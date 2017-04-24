@@ -18,7 +18,8 @@ Demo = {
   components: {},
   renderer: {},
   assets: {},
-  main: {}
+  main: {},
+  audio: {}
 };
 
 let Game = {

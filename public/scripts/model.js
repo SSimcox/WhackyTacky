@@ -3,7 +3,7 @@
 // This namespace holds the animated spritesheet demo model.
 //
 // ------------------------------------------------------------------
-Demo.model = (function(input, components) {
+Demo.model = (function(input, components, audio) {
 	'use strict';
 	var players = [
 	  {
@@ -120,6 +120,8 @@ Demo.model = (function(input, components) {
 			imageCenter: {x: 150, y: 950}
 		}))
 
+
+
 		for(let i = 0; i < 16; ++ i){
 			players[0].map.push([]);
 			players[1].map.push([]);
@@ -132,6 +134,7 @@ Demo.model = (function(input, components) {
 
 
     components.TowerData.load()
+
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({
     //   center: towers[i].center,
@@ -143,7 +146,7 @@ Demo.model = (function(input, components) {
 		// 	},
 		// 	input.KeyEvent.DOM_VK_W, true);
 
-
+    audio.playSound('/audio/song1')
 	};
 
 	// ------------------------------------------------------------------
@@ -177,17 +180,17 @@ Demo.model = (function(input, components) {
 			if(t.type === "Bulbasaur"){
 				hover = components.BulbasaurHover({
 					imageCenter: {x:t.x, y:t.y},
-					range: 200
+					range: components.TowerData[t.type].attack.range
 				})
 			}else if(t.type === "Squirtle"){
 				hover = components.SquirtleHover({
 					imageCenter: {x:t.x, y:t.y},
-					range: 200
+          range: components.TowerData[t.type].attack.range
 				})
 			}else if(t.type === "Charmander"){
 				hover = components.CharmanderHover({
 					imageCenter: {x:t.x, y:t.y},
-					range: 200
+          range: components.TowerData[t.type].attack.range
 				})
 			}
 			hover.cost.text = ''
@@ -409,10 +412,11 @@ Demo.model = (function(input, components) {
           for (let i = 0; i < serverModel[key].creeps.length; i++) {
             if (players[p].creeps[i] === undefined || players[p].creeps[i].type != serverModel[key].creeps[i].type) {
               if (serverModel[key].creeps[i].type === "deleted") {
-                //players[p].creeps[i] = {type: "deleted"}
-								let particle = components.ParticleSystem(serverModel[key].creeps[i])
-								particle.create()
-								players[p].particles.push(particle)
+                if(serverModel[key].creeps[i].killed) {
+                  let particle = components.ParticleSystem(serverModel[key].creeps[i])
+                  particle.create()
+                  players[p].particles.push(particle)
+                }
                 players[p].creeps.splice(i, 1)
                 serverModel[key].creeps.splice(i, 1)
                 i--
@@ -569,6 +573,10 @@ Demo.model = (function(input, components) {
     }
   }
 
+  that.stopMusic = function(){
+    audio.stop()
+  }
+
 	return that;
 
-}(Demo.input, Demo.components, Demo.assets));
+}(Demo.input, Demo.components, Demo.audio));

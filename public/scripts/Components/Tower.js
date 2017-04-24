@@ -117,7 +117,8 @@ Demo.components.Tower = function(spec, center) {
       get damage() { return spec.damage; },
       get attack() { return spec.attack; },
       get timeSinceAttack() {return spec.timeSinceAttack},
-      set timeSinceAttack(val) {spec.timeSinceAttack = val;}
+      set timeSinceAttack(val) {spec.timeSinceAttack = val;},
+      get spriteSize() { return spec.spriteSize}
     };
   spec.attack.target = -1
 

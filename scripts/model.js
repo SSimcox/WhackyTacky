@@ -130,6 +130,7 @@ module.exports = function(player1, player2){
                 creep: players[key].creeps[attackTarget]
               })
               players[key].creeps[attackTarget].type = "deleted"
+              players[key].creeps[attackTarget].killed = true
             }
           }
         }
