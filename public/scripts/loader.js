@@ -11,12 +11,6 @@
 Demo.loader = (function() {
 	'use strict';
 	var assetOrder = [
-	  {
-			// Source: http://www.xojo3d.com/tut015.php
-			// License: Public domain as noted at the bottom of the page
-			key: 'charmander',
-			source: '/public/assets/graphics/towers/charmander.png'
-		},
     {
       key: 'bulbasaur',
       source: '/public/assets/graphics/towers/bulbasaur.png'
@@ -26,52 +20,136 @@ Demo.loader = (function() {
       source: '/public/assets/graphics/towers/bulbasaur-back.png'
     },
     {
+      key: 'bulbasaurHover',
+      source: '/public/assets/graphics/towerHover/bulbasaurHover.png'
+    },
+    {
+      key: 'ivysaur',
+      source: '/public/assets/graphics/towers/ivysaur.png'
+    },
+    {
+      key: 'ivysaur-back',
+      source: '/public/assets/graphics/towers/ivysaur-back.png'
+    },
+    {
+      key: 'ivysaurHover',
+      source: '/public/assets/graphics/towerHover/ivysaurHover.png'
+    },
+    {
+      key: 'venusaur',
+      source: '/public/assets/graphics/towers/venusaur.png'
+    },
+    {
+      key: 'venusaur-back',
+      source: '/public/assets/graphics/towers/venusaur-back.png'
+    },
+    {
+      key: 'venusaurHover',
+      source: '/public/assets/graphics/towerHover/venusaurHover.png'
+    },
+    {
+      key: 'charmander',
+      source: '/public/assets/graphics/towers/charmander.png'
+    },
+    {
+      key: 'charmander-back',
+      source: '/public/assets/graphics/towers/charmander-back.png'
+    },
+    {
+      key: 'charmanderHover',
+      source: '/public/assets/graphics/towerHover/charmanderHover.png'
+    },
+    {
+      key: 'charmeleon',
+      source: '/public/assets/graphics/towers/charmeleon.png'
+    },
+    {
+      key: 'charmeleon-back',
+      source: '/public/assets/graphics/towers/charmeleon-back.png'
+    },
+    {
+      key: 'charmeleonHover',
+      source: '/public/assets/graphics/towerHover/charmeleonHover.png'
+    },
+    {
+      key: 'charizard',
+      source: '/public/assets/graphics/towers/charizard.png'
+    },
+    {
+      key: 'charizard-back',
+      source: '/public/assets/graphics/towers/charizard-back.png'
+    },
+    {
+      key: 'charizardHover',
+      source: '/public/assets/graphics/towerHover/charizardHover.png'
+    },
+    {
       key: 'squirtle',
       source: '/public/assets/graphics/towers/squirtle.png'
     },
-		{
-			key: 'bulbasaurHover',
-			source: '/public/assets/graphics/towerHover/bulbasaurHover.png'
-		},
+    {
+      key: 'squirtle-back',
+      source: '/public/assets/graphics/towers/squirtle-back.png'
+    },
 		{
 			key: 'squirtleHover',
 			source: '/public/assets/graphics/towerHover/squirtleHover.png'
 		},
-		{
-			key: 'charmanderHover',
-			source: '/public/assets/graphics/towerHover/charmanderHover.png'
-		},
+    {
+      key: 'wartortle',
+      source: '/public/assets/graphics/towers/wartortle.png'
+    },
+    {
+      key: 'wartortle-back',
+      source: '/public/assets/graphics/towers/wartortle-back.png'
+    },
+    {
+      key: 'wartortleHover',
+      source: '/public/assets/graphics/towerHover/wartortleHover.png'
+    },
+    {
+      key: 'blastoise',
+      source: '/public/assets/graphics/towers/blastoise.png'
+    },
+    {
+      key: 'blastoise-back',
+      source: '/public/assets/graphics/towers/blastoise-back.png'
+    },
+    {
+      key: 'blastoiseHover',
+      source: '/public/assets/graphics/towerHover/blastoiseHover.png'
+    },
+    {
+      key: 'rocketM',
+      source: '/public/assets/graphics/creeps/rocketM.png'
+    },
+    {
+      key: 'rocketMHover',
+      source: '/public/assets/graphics/creepsHover/rocketMHover.png'
+    },
+    {
+      key: 'scientist',
+      source: '/public/assets/graphics/creeps/scientist.png'
+    },
+    {
+      key: 'scientistHover',
+      source: '/public/assets/graphics/creepsHover/scientistHover.png'
+    },
 		{
 			key: 'biker',
 			source: '/public/assets/graphics/creeps/biker.png'
 		},
+    {
+      key: 'bikerHover',
+      source: '/public/assets/graphics/creepsHover/bikerHover.png'
+    },
 		{
 			key: 'eyepatch',
 			source: '/public/assets/graphics/creeps/eyepatch.png'
 		},
 		{
-			key: 'rocketM',
-			source: '/public/assets/graphics/creeps/rocketM.png'
-		},
-		{
-			key: 'scientist',
-			source: '/public/assets/graphics/creeps/scientist.png'
-		},
-		{
-			key: 'bikerHover',
-			source: '/public/assets/graphics/creepsHover/bikerHover.png'
-		},
-		{
 			key: 'eyepatchHover',
 			source: '/public/assets/graphics/creepsHover/eyepatchHover.png'
-		},
-		{
-			key: 'rocketMHover',
-			source: '/public/assets/graphics/creepsHover/rocketMHover.png'
-		},
-		{
-			key: 'scientistHover',
-			source: '/public/assets/graphics/creepsHover/scientistHover.png'
 		},
 		{
 			key: 'dirt',
@@ -135,7 +213,15 @@ Demo.loader = (function() {
     },
     {
       key: 'income',
-      source: '/public/assets/graphics/tiles/income2.png'
+      source: '/public/assets/graphics/tiles/income.png'
+    },
+    {
+      key: 'pokeball',
+      source: '/public/assets/graphics/tiles/pokeball.png'
+    },
+    {
+      key: 'pokeballred',
+      source: '/public/assets/graphics/tiles/pokeballred.png'
     }
 
   ];

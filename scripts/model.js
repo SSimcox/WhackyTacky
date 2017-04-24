@@ -4,6 +4,8 @@
 
 let Events = require('./Events')
 let Path = require('./pathing')
+let Components = require('./Components')
+let Towers = require('./towerData')
 
 module.exports = function(player1, player2){
   'use strict';
@@ -52,6 +54,18 @@ module.exports = function(player1, player2){
         players[player2].map[i].push(-1)
       }
     }
+
+
+
+    // Debugging check all images
+    players[player1].towers.push(Components.Tower(Towers['Ivysaur'],{x:550, y: 350}))
+    players[player1].towers.push(Components.Tower(Towers['Venusaur'],{x:150, y: 350}))
+
+    players[player1].towers.push(Components.Tower(Towers['Charmeleon'],{x:550, y: 550}))
+    players[player1].towers.push(Components.Tower(Towers['Charizard'],{x:150, y: 550}))
+
+    players[player1].towers.push(Components.Tower(Towers['Wartortle'],{x:550, y: 750}))
+    players[player1].towers.push(Components.Tower(Towers['Blastoise'],{x:150, y: 750}))
 
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({

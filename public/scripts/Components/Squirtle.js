@@ -9,11 +9,11 @@ Demo.components.Squirtle = function(spec) {
   tower = Demo.components.Tower({
     type: 'Squirtle',
     spriteSheetFront: Demo.assets['squirtle'],
-    spriteSheetBack: Demo.assets['squirtle'],
+    spriteSheetBack: Demo.assets['squirtle-back'],
     spriteCountFront: 17,
     spriteTimeFront: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19],
-    spriteCountBack: 17,
-    spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19],
+    spriteCountBack: 19,
+    spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18,15,14,19,15,15],
     animationScale: 1.0,
     spriteCenter: spec.spriteCenter,		// Maintain the center on the sprite
     attack:{

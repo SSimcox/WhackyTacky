@@ -5,6 +5,8 @@
 let Events = {}
 let Components = require('./Components')
 let Path = require('./pathing')
+let Towers = require('./towerData')
+
 let towerCost = {
   Bulbasaur: 10,
   Squirtle: 12,
@@ -26,8 +28,7 @@ let creepCost = {
 Events.process = function(event, emit){
   if(event.event === 'build'){
     if(towerCost[event.type] > event.player.money) return false
-    if(!Events.AddTower(
-      {
+    if(!Events.AddTower({
         type: event.type,
         center: event.center,
         player: event.player.towers,
@@ -72,8 +73,7 @@ Events.process = function(event, emit){
   }
   else if(event.event === 'upgrade'){
     //if(towerCost[event.type] > event.player.money) return false
-    if(!Events.UpgradeTower(
-        {
+    if(!Events.UpgradeTower({
           type: event.type,
           center: event.center,
           player: event.player.towers,
@@ -119,9 +119,12 @@ Events.AddTower = function(spec){
     return false
   }
 
-  spec.player.push(Components[spec.type]({
-    spriteCenter: spec.center
-  }))
+  console.log(spec.type)
+  spec.player.push(Components.Tower(Towers[spec.type],spec.center))
+
+  // spec.player.push(Components[spec.type]({
+  //   spriteCenter: spec.center
+  // }))
   return true
 }
 
