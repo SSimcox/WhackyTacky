@@ -6,7 +6,8 @@ Demo.components.StaticImage = function(spec) {
 			get width() { return spec.imageSize.width; },
 			get height() { return spec.imageSize.height; },
 			get center() { return spec.imageCenter; },
-			set center(val) {spec.imageCenter = val;}
+			set center(val) {spec.imageCenter = val;},
+			get range () { return spec.range; }
 		};
 
 	that.update = function(elapsedTime, center) {

@@ -176,15 +176,18 @@ Demo.model = (function(input, components) {
 			document.getElementById('my-canvas').className += "no-cursor"
 			if(t.type === "Bulbasaur"){
 				hover = components.BulbasaurHover({
-					imageCenter: {x:t.x, y:t.y}
+					imageCenter: {x:t.x, y:t.y},
+					range: 200
 				})
 			}else if(t.type === "Squirtle"){
 				hover = components.SquirtleHover({
-					imageCenter: {x:t.x, y:t.y}
+					imageCenter: {x:t.x, y:t.y},
+					range: 200
 				})
 			}else if(t.type === "Charmander"){
 				hover = components.CharmanderHover({
-					imageCenter: {x:t.x, y:t.y}
+					imageCenter: {x:t.x, y:t.y},
+					range: 200
 				})
 			}
 			hover.cost.text = ''

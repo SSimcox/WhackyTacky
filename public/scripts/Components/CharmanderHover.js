@@ -6,7 +6,8 @@ Demo.components.CharmanderHover = function(spec) {
     image: Demo.assets['charmanderHover'],
     imageCenter: spec.imageCenter,
     cost: 15,
-    hotkey: Persistance.getControls()['Charmander'].substring(7)
+    hotkey: Persistance.getControls()['Charmander'].substring(7),
+    range: spec.range || undefined
   });
 
   spec.orientation = 0;

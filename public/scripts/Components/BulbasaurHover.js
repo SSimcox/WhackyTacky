@@ -6,7 +6,8 @@ Demo.components.BulbasaurHover = function(spec) {
     image: Demo.assets['bulbasaurHover'],
     imageCenter: spec.imageCenter,
     cost: 10,
-    hotkey: Persistance.getControls()['Bulbasaur'].substring(7)
+    hotkey: Persistance.getControls()['Bulbasaur'].substring(7),
+    range: spec.range || undefined
   });
 
   spec.orientation = 0;

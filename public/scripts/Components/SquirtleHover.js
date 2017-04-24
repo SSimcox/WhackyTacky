@@ -6,7 +6,8 @@ Demo.components.SquirtleHover = function(spec) {
     image: Demo.assets['squirtleHover'],
     imageCenter: spec.imageCenter,
     cost: 12,
-    hotkey: Persistance.getControls()['Squirtle'].substring(7)
+    hotkey: Persistance.getControls()['Squirtle'].substring(7),
+    range: spec.range || undefined
   });
 
   spec.orientation = 0;

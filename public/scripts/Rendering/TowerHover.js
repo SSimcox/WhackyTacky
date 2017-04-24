@@ -9,6 +9,7 @@ Demo.renderer.TowerHover = (function(core) {
   var that = {};
 
   that.render = function(image, p) {
+//    console.log(image)
     core.saveContext(p);
     image.bg = 'buildingselectbgblue'
     Demo.renderer.StaticImage.render(image,p);

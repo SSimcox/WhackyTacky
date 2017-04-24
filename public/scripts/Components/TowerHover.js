@@ -7,7 +7,8 @@ Demo.components.TowerHover = function(spec) {
 			get center() { return image.center},
 			get image() { return image; },
 			get cost() { return text; },
-			get hotkey() { return hotkey; }
+			get hotkey() { return hotkey; },
+			get range() {return spec.range; }
 		};
 
 		that.update = function(elapsedTime){
