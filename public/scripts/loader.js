@@ -223,7 +223,6 @@ Demo.loader = (function() {
       key: 'pokeballred',
       source: '/public/assets/graphics/tiles/pokeballred.png'
     }
-
   ];
 
 	//------------------------------------------------------------------

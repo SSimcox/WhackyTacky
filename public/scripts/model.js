@@ -81,6 +81,7 @@ Demo.model = (function(input, components) {
         towers: [],
         creeps: [],
 				map: [],
+				particles: [],
         money: 10,
         income: 1,
         lives: 10
@@ -91,6 +92,7 @@ Demo.model = (function(input, components) {
         towers: [],
         creeps: [],
 				map: [],
+				particles: [],
         money: 10,
         income: 1,
         lives: 10
@@ -280,6 +282,11 @@ Demo.model = (function(input, components) {
         for (let i = 0; i < players[p].sendCreeps.length; i++) {
           players[p].sendCreeps[i].update(elapsedTime)
         }
+				// if(players[p].particles.length > 0) console.log(players[p].particles.length)
+				for (let i = 0; i < players[p].particles.length; i++){
+					players[p].particles[i].update(elapsedTime)
+					if(players[p].particles[i].getDimensions()) players[p].particles.splice(i, 1)
+				}
       }
     }
     if (imageHovering === true) {
@@ -343,6 +350,9 @@ Demo.model = (function(input, components) {
 			for(let i = 0; i < players[p].sendCreeps.length; i++){
 				renderer.CreepsHover.render(players[p].sendCreeps[i],p)
 			}
+			for(let i = 0; i < players[p].particles.length; i++){
+				renderer.ParticleSystem.render(players[p].particles[i],p)
+			}
 			if(hover && (myMouse.buildSelected() || myMouse.creepSelected())){
 				if(myMouse.buildSelected()){
 					renderer.TowerHover.render(hover, 0);
@@ -389,6 +399,9 @@ Demo.model = (function(input, components) {
             if (players[p].creeps[i] === undefined || players[p].creeps[i].type != serverModel[key].creeps[i].type) {
               if (serverModel[key].creeps[i].type === "deleted") {
                 //players[p].creeps[i] = {type: "deleted"}
+								let particle = components.ParticleSystem(serverModel[key].creeps[i])
+								particle.create()
+								players[p].particles.push(particle)
                 players[p].creeps.splice(i, 1)
                 serverModel[key].creeps.splice(i, 1)
                 i--
