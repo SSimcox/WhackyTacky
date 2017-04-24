@@ -58,6 +58,10 @@ Demo.input.Mouse = function() {
   }
 
   function onClick(event){
+    // console.log(event.button)
+    // if(event.which ==3){
+    //   console.log('right click')
+    // }
       let x = (event.pageX - myOffset.x) / scaleOffset;
       let y = (event.pageY - myOffset.y) / scaleOffset;
       if(y > 900 && y < 1000){
@@ -142,6 +146,14 @@ Demo.input.Mouse = function() {
           creep = true;
         }
       }
+  }
+
+  that.resetSelection = function(){
+    buildSelected = false;
+    building = false;
+    creepSelected = false;
+    creep = false;
+    hoverImage = {};
   }
 
   that.buildSelected = function(){
@@ -231,8 +243,17 @@ Demo.input.Mouse = function() {
 
   }
 
+  function mouseDown(event){
+    // console.log(event.button)
+    if(event.button == 2){
+      that.resetSelection();
+    }
+  }
+
   window.addEventListener('click', onClick);
   window.addEventListener('mousemove', mouseMove);
+  window.addEventListener('mousedown', mouseDown);
+  window.addEventListener('contextmenu', event => event.preventDefault());
 
   return that;
 

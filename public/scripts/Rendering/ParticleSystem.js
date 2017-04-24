@@ -5,7 +5,6 @@ Demo.renderer.ParticleSystem = (function(core) {
     // console.log('image: ', image)
     let particles = image.getParticlesToRender();
     for(let par in particles){
-      console.log(particles[par].image)
       core.drawImage2(
         particles[par],
         particles[par].imageCenter.x - particles[par].imageSize.width / 2,

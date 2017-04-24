@@ -51,6 +51,10 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
     myMouse.sendCreep(150, 875);
   }
 
+  that.cancel = function(){
+    myMouse.resetSelection()
+  }
+
   that.pause = function(){
     //this will send creep waves
   }

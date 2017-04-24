@@ -14,7 +14,8 @@ var Persistance = (function() {
         Pirate: 'DOM_VK_I',
         Rocket: 'DOM_VK_R',
         Scientist: 'DOM_VK_S',
-        Pause: 'DOM_VK_D'
+        Pause: 'DOM_VK_P',
+        Cancel: 'DOM_VK_ESCAPE'
       };
   		localStorage['MyControls.playerControls'] = JSON.stringify(controls);
     }
@@ -28,7 +29,8 @@ var Persistance = (function() {
         Pirate: 'DOM_VK_' + document.getElementById('Pirate').value.toUpperCase(),
         Rocket: 'DOM_VK_' + document.getElementById('Rocket').value.toUpperCase(),
         Scientist: 'DOM_VK_' + document.getElementById('Scientist').value.toUpperCase(),
-        Pause: 'DOM_VK_' + document.getElementById('Pause').value.toUpperCase()
+        Pause: 'DOM_VK_' + document.getElementById('Pause').value.toUpperCase(),
+        Cancel: 'DOM_VK_' + document.getElementById('Cancel').value.toUpperCase()
       };
   		localStorage['MyControls.playerControls'] = JSON.stringify(controls);
   	}
@@ -47,6 +49,7 @@ var Persistance = (function() {
   		document.getElementById('Rocket').value = controls['Rocket'].substring(7)
   		document.getElementById('Scientist').value = controls['Scientist'].substring(7)
   		document.getElementById('Pause').value = controls['Pause'].substring(7)
+  		document.getElementById('Cancel').value = controls['Cancel'].substring(7)
   	}
 
 

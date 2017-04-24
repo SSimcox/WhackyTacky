@@ -157,9 +157,17 @@ Demo.model = (function(input, components) {
 		if(build) buildTower(build.type, build.x, build.y);
 		let wave = gameCommands.sendCreeps(myMouse);
 		if(wave) sendCreeps(wave.type, wave.x, wave.y);
+		resetHover();
 		buildingHovering();
 		mouseHovering();
 	};
+
+	function resetHover(){
+		if(!myMouse.buildSelected() || !myMouse.creepSelected() && imageHovering){
+			hover = null;
+			imageHovering = false;
+		}
+	}
 
 	function buildingHovering(){
 		if(myMouse.buildSelected() && !imageHovering){

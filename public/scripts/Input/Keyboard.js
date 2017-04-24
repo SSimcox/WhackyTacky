@@ -10,6 +10,7 @@ Demo.input.Keyboard = function() {
 			handlers = {};
 
 	function keyPress(e) {
+    console.log('key', e.keyCode)
 		keys[e.keyCode] = e.timeStamp;
 	}
 
@@ -28,6 +29,7 @@ Demo.input.Keyboard = function() {
 		that.registerCommand(KeyEvent[Persistance.getControls()['Rocket']], gameCommands.sendRocket)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Scientist']], gameCommands.sendScientist)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Pause']], gameCommands.pause)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Cancel']], gameCommands.cancel)
 	}
 
 	// ------------------------------------------------------------------
