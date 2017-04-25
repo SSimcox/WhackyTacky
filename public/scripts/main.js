@@ -65,12 +65,14 @@ Demo.main = (function(renderer, components, model) {
 		var elapsedTime = (time - lastTimeStamp);
 		lastTimeStamp = time;
 
-		processInput(elapsedTime);
-		update(elapsedTime);
-		render(elapsedTime);
 
-		//console.log(performance.now() - time)
-		requestAnimationFrame(gameLoop);
+      processInput(elapsedTime);
+      update(elapsedTime);
+      render(elapsedTime);
+    if(!model.gameOver()) {
+      //console.log(performance.now() - time)
+      requestAnimationFrame(gameLoop);
+    }
 	}
 
 	//------------------------------------------------------------------
@@ -94,7 +96,8 @@ Demo.main = (function(renderer, components, model) {
 	}
 
 	function stop(leaver){
-		model.stop(leaver)
+		if(!model.gameOver())
+			model.stop(leaver)
 	}
 
 	return {

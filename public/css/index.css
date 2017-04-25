@@ -145,3 +145,14 @@ table{
 h2, h3, .centered{
     text-align: center;
 }
+
+#mask{
+    background-color: black;
+    opacity: .75;
+    z-index: 10;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left:0;
+    top:0;
+}

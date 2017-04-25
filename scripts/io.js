@@ -92,6 +92,13 @@ module.exports = function(app) {
     socket.on('event', function(data){
       activeGames[data.game].addEvent(data)
     })
+
+    socket.on('leave room',function(data){
+      socket.leave(data.room)
+      io.to(data.room).emit('player left')
+      delete activeGames[data.game]
+    })
+
     /*****************************************
      *                                       *
      * On Disconnect we boot everyone

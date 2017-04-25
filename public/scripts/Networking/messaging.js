@@ -32,7 +32,7 @@ var Socket = function(Main) {
 
   socket.on('player left', function () {
     Main.stop(true)
-    Game.game.showScreen('main-menu')
+    //Game.game.showScreen('main-menu')
   })
 
   socket.on('update', function(message){

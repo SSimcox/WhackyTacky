@@ -84,7 +84,6 @@
         </div>
     </div>
 
-
     <div id="game-won" class="hidden">
         <div id="game-won-text">
             <h1>You Have Won!</h1>
@@ -116,6 +115,11 @@
                         <td>Towers Built</td>
                         <td id="your-towers-built-winner" class="centered"></td>
                         <td id="enemy-towers-built-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td>Towers upgraded</td>
+                        <td id="your-towers-upgraded-winner" class="centered"></td>
+                        <td id="enemy-towers-upgraded-winner" class="centered"></td>
                     </tr>
                     <tr>
                         <td>Creeps Sent</td>
@@ -192,6 +196,11 @@
                     <td id="enemy-towers-built-loser" class="centered"></td>
                 </tr>
                 <tr>
+                    <td>Towers upgraded</td>
+                    <td id="your-towers-upgraded-loser" class="centered"></td>
+                    <td id="enemy-towers-upgraded-loser" class="centered"></td>
+                </tr>
+                <tr>
                     <td>Creeps Sent</td>
                     <td id="your-creeps-sent-loser" class="centered"></td>
                     <td id="enemy-creeps-sent-loser" class="centered"></td>
@@ -237,6 +246,8 @@
         <h3 id="game-timer"></h3>
         </div>
     </div>
+
+    <div id="mask" class="hidden"></div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
 

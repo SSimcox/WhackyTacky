@@ -47,6 +47,7 @@ Demo.model = (function(input, components, audio) {
     gamePaused: false,
     gameStarts: 3000
   }
+
   let paths = []
 
 	var hover;
@@ -65,6 +66,27 @@ Demo.model = (function(input, components, audio) {
 
     players[0] = Player()
     players[1] = Player()
+    myKeyboard = input.Keyboard()
+    myMouse = input.Mouse()
+    gameCommands = input.GameCommands(myMouse, myKeyboard)
+
+    gameVars = {
+      totalTime: 0,
+      lastIncome: 0,
+      gameOver: false,
+      gamePaused: false,
+      gameStarts: 3000
+    }
+
+    paths = []
+
+    myMoney.setText = players[0].money
+    myIncome.setText = players[0].income
+    nextIncome.setText = "in " + 7 +" sec"
+    gameTime.setText = "Time Elapsed: " + 0 + ":00"
+
+    imageHovering = false;
+    upgrading = false;
 
 		players[0].buildTowers.push(components.BulbasaurHover({
 			imageCenter: {x:50, y: 950}
@@ -114,7 +136,7 @@ Demo.model = (function(input, components, audio) {
 		// 	},
 		// 	input.KeyEvent.DOM_VK_W, true);
 
-    audio.playSound('/audio/song1')
+    audio.playSong('battle')
 	};
 
 	// ------------------------------------------------------------------
@@ -152,6 +174,8 @@ Demo.model = (function(input, components, audio) {
 		if(!myMouse.buildSelected() || !myMouse.creepSelected() && imageHovering){
 			hover = null;
 			imageHovering = false;
+      document.getElementById('my-canvas').className = ''
+      document.getElementById('your-canvas').className = ''
 		}
 	}
 
@@ -159,7 +183,7 @@ Demo.model = (function(input, components, audio) {
 		if(myMouse.buildSelected() && !imageHovering){
 			let t = gameCommands.hoverTower();
 			imageHovering = true;
-			document.getElementById('my-canvas').className += "no-cursor"
+			document.getElementById('my-canvas').className = "no-cursor"
 			if(t.type === "Bulbasaur"){
 				hover = components.BulbasaurHover({
 					imageCenter: {x:t.x, y:t.y},
@@ -185,7 +209,7 @@ Demo.model = (function(input, components, audio) {
 		if(myMouse.creepSelected() && !imageHovering){
 			let t = gameCommands.hoverTower();
 			imageHovering = true;
-			document.getElementById('your-canvas').className += "no-cursor"
+			document.getElementById('your-canvas').className = "no-cursor"
 			if(t.type === "Biker"){
 				hover = components.BikerHover({
 					imageCenter: {x:t.x, y:t.y},
@@ -331,9 +355,11 @@ Demo.model = (function(input, components, audio) {
         if (gameVars.gameStarts > 0) {
           document.getElementById('start-game-modal').className = "modal"
           document.getElementById('game-timer').innerHTML = "Game Start in " + Math.ceil(gameVars.gameStarts / 1000)
+          document.getElementById('mask').className = ''
         }
         else {
           document.getElementById('start-game-modal').className = 'hidden'
+          document.getElementById('mask').className = 'hidden'
         }
       }
     }else{
@@ -602,7 +628,11 @@ Demo.model = (function(input, components, audio) {
   that.stop = function(leaver){
     gameVars.gameOver = true
     gameVars.gamePause = true
+
+    document.getElementById('mask').className = ''
     if(players[0].lives <= 0){
+      //audio.playSong('defeat')
+      //audio.stopAll()
       document.getElementById("final-score-lost").innerHTML = (players[0].totalMoney + players[0].totalTowersBuilt + players[0].sent.total + (players[0].kills.total * 2) + (players[0].lives*100))
 
       document.getElementById("your-gold-farmed-loser").innerHTML = players[0].totalMoney
@@ -616,6 +646,9 @@ Demo.model = (function(input, components, audio) {
 
       document.getElementById("your-towers-built-loser").innerHTML = players[0].totalTowersBuilt
       document.getElementById("enemy-towers-built-loser").innerHTML = players[1].totalTowersBuilt
+
+      document.getElementById("your-towers-upgraded-loser").innerHTML = players[0].totalTowersUpgraded
+      document.getElementById("enemy-towers-upgraded-loser").innerHTML = players[1].totalTowersUpgraded
 
       document.getElementById("your-creeps-sent-loser").innerHTML = players[0].sent.total
       document.getElementById("enemy-creeps-sent-loser").innerHTML = players[1].sent.total
@@ -635,10 +668,13 @@ Demo.model = (function(input, components, audio) {
       document.getElementById("your-total-killed-loser").innerHTML = players[0].kills.total
       document.getElementById("enemy-total-killed-loser").innerHTML = players[1].kills.total
 
+      document.getElementById('game-lost-submit').addEventListener('click',function(){returnToMainMenu(audio,socket)})
+
       document.getElementById('game-lost').className = 'modal'
     }else{
-
-      document.getElementById("final-score").innerHTML = (players[0].totalMoney + players[0].totalTowersBuilt + players[0].sent.total + (players[0].kills.total * 2) + (players[0].lives*100))
+      //audio.playSong('victory')
+      //audio.stopAll()
+      document.getElementById("final-score").innerHTML = (players[0].totalMoney + players[0].totalTowersBuilt + (players[0].totalTowersUpgraded * 2) + players[0].sent.total + (players[0].kills.total * 2) + (players[0].lives*100))
 
       document.getElementById("your-gold-farmed-winner").innerHTML = players[0].totalMoney
       document.getElementById("enemy-gold-farmed-winner").innerHTML = players[1].totalMoney
@@ -651,6 +687,9 @@ Demo.model = (function(input, components, audio) {
 
       document.getElementById("your-towers-built-winner").innerHTML = players[0].totalTowersBuilt
       document.getElementById("enemy-towers-built-winner").innerHTML = players[1].totalTowersBuilt
+
+      document.getElementById("your-towers-upgraded-winner").innerHTML = players[0].totalTowersUpgraded
+      document.getElementById("enemy-towers-upgraded-winner").innerHTML = players[1].totalTowersUpgraded
 
       document.getElementById("your-creeps-sent-winner").innerHTML = players[0].sent.total
       document.getElementById("enemy-creeps-sent-winner").innerHTML = players[1].sent.total
@@ -670,9 +709,17 @@ Demo.model = (function(input, components, audio) {
       document.getElementById("your-total-killed-winner").innerHTML = players[0].kills.total
       document.getElementById("enemy-total-killed-winner").innerHTML = players[1].kills.total
 
+      document.getElementById('game-won-submit').addEventListener('click',function(){saveScore(audio,socket)})
       document.getElementById('game-won').className = 'modal'
     }
-    audio.stop()
+    //audio.stop()
+
+    // myKeyboard.removeAllListeners()
+    // myMouse.removeAllListeners()
+  }
+
+  that.gameOver = function(){
+    return gameVars.gameOver
   }
 
 	return that;
@@ -708,4 +755,24 @@ function Player(){
       total: 0
     }
   }
+}
+
+function saveScore(audio,socket){
+
+  // send score to server
+
+  returnToMainMenu(audio,socket)
+}
+
+function returnToMainMenu(audio, socket){
+  audio.stopAll()
+  if(room != socket.id){
+    socket.emit('leave room', {room: room})
+  }
+  var modals = document.getElementsByClassName('modal')
+  for(let i = 0; i < modals.length; i++){
+    modals[i].className = 'hidden'
+  }
+  document.getElementById('mask').className = 'hidden'
+  Game.game.showScreen('main-menu')
 }
