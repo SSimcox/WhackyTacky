@@ -93,8 +93,8 @@ Demo.main = (function(renderer, components, model) {
 		requestAnimationFrame(gameLoop);
 	}
 
-	function stop(){
-		model.stopMusic()
+	function stop(leaver){
+		model.stop(leaver)
 	}
 
 	return {

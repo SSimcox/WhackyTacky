@@ -108,3 +108,40 @@ li input{
 .no-cursor{
   cursor: none;
 }
+
+.modal{
+    z-index: 50;
+    border: 3px solid black;
+    border-radius: 10px;
+    position: absolute;
+    width: 600px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #000050;
+}
+
+.modal div{
+    display: block;
+    width: 500px;
+    background-color: #500000;
+    border: 3px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px auto;
+}
+
+table{
+    width: 100%;
+    border: 3px solid black;
+    padding: 3px;
+    border-radius: 10px;
+}
+
+#winner-name{
+    margin: 2px auto;
+}
+
+h2, h3, .centered{
+    text-align: center;
+}

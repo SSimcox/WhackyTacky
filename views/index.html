@@ -83,6 +83,161 @@
             </ul>
         </div>
     </div>
+
+
+    <div id="game-won" class="hidden">
+        <div id="game-won-text">
+            <h1>You Have Won!</h1>
+            <h3>Your final score for the game was</h3>
+            <h2 id="final-score"></h2>
+            <table class="game-stats">
+                <thead>
+                    <th></th>
+                    <th>Your Stats</th>
+                    <th>Enemy Stats</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gold Farmed</td>
+                        <td id="your-gold-farmed-winner" class="centered"></td>
+                        <td id="enemy-gold-farmed-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Income</td>
+                        <td id="your-total-income-winner" class="centered"></td>
+                        <td id="enemy-total-income-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td>Lives Remaining</td>
+                        <td id="your-lives-remaining-winner" class="centered"></td>
+                        <td id="enemy-lives-remaining-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td>Towers Built</td>
+                        <td id="your-towers-built-winner" class="centered"></td>
+                        <td id="enemy-towers-built-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td>Creeps Sent</td>
+                        <td id="your-creeps-sent-winner" class="centered"></td>
+                        <td id="enemy-creeps-sent-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td>Creeps Destroyed:</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="centered">Team Rocket</td>
+                        <td id="your-rocket-killed-winner" class="centered"></td>
+                        <td id="enemy-rocket-killed-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td class="centered">Scientist</td>
+                        <td id="your-scientist-killed-winner" class="centered"></td>
+                        <td id="enemy-scientist-killed-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td class="centered">Biker</td>
+                        <td id="your-biker-killed-winner" class="centered"></td>
+                        <td id="enemy-biker-killed-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td class="centered">Pirate</td>
+                        <td id="your-pirate-killed-winner" class="centered"></td>
+                        <td id="enemy-pirate-killed-winner" class="centered"></td>
+                    </tr>
+                    <tr>
+                        <td class="centered">Total</td>
+                        <td id="your-total-killed-winner" class="centered"></td>
+                        <td id="enemy-total-killed-winner" class="centered"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <input id="winner-name" placeholder="Enter Your Name For High Scores">
+        <button id="game-won-submit">Send Score</button>
+    </div>
+
+    <div id="game-lost" class="hidden">
+        <div id="game-lost-text">
+            <h1>You Have Lost!</h1>
+            <h3>Your final score for the game was</h3>
+            <h2 id="final-score-lost"></h2>
+            <table class="game-stats-lost">
+                <thead>
+                <th></th>
+                <th>Your Stats</th>
+                <th>Enemy Stats</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Gold Farmed</td>
+                    <td id="your-gold-farmed-loser" class="centered"></td>
+                    <td id="enemy-gold-farmed-loser" class="centered"></td>
+                </tr>
+                <tr>
+                    <td>Total Income</td>
+                    <td id="your-total-income-loser" class="centered"></td>
+                    <td id="enemy-total-income-loser" class="centered"></td>
+                </tr>
+                <tr>
+                    <td>Lives Remaining</td>
+                    <td id="your-lives-remaining-loser" class="centered"></td>
+                    <td id="enemy-lives-remaining-loser" class="centered"></td>
+                </tr>
+                <tr>
+                    <td>Towers Built</td>
+                    <td id="your-towers-built-loser" class="centered"></td>
+                    <td id="enemy-towers-built-loser" class="centered"></td>
+                </tr>
+                <tr>
+                    <td>Creeps Sent</td>
+                    <td id="your-creeps-sent-loser" class="centered"></td>
+                    <td id="enemy-creeps-sent-loser" class="centered"></td>
+                </tr>
+                <tr>
+                    <td>Creeps Destroyed:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="centered">Team Rocket</td>
+                    <td id="your-rocket-killed-loser" class="centered"></td>
+                    <td id="enemy-rocket-killed-loser" class="centered"></td>
+                </tr>
+                <tr>
+                    <td class="centered">Scientist</td>
+                    <td id="your-scientist-killed-loser" class="centered"></td>
+                    <td id="enemy-scientist-killed-loser" class="centered"></td>
+                </tr>
+                <tr>
+                    <td class="centered">Biker</td>
+                    <td id="your-biker-killed-loser" class="centered"></td>
+                    <td id="enemy-biker-killed-loser" class="centered"></td>
+                </tr>
+                <tr>
+                    <td class="centered">Pirate</td>
+                    <td id="your-pirate-killed-loser" class="centered"></td>
+                    <td id="enemy-pirate-killed-loser" class="centered"></td>
+                </tr>
+                <tr>
+                    <td class="centered">Total</td>
+                    <td id="your-total-killed-loser" class="centered"></td>
+                    <td id="enemy-total-killed-loser" class="centered"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <button id="game-lost-submit">Return Home</button>
+    </div>
+
+    <div id="start-game-modal" class="hidden">
+        <div>
+        <h3 id="game-timer"></h3>
+        </div>
+    </div>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
 
     <script src="/public/scripts/Input/Configurable.js"></script>

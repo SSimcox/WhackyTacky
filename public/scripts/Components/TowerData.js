@@ -11,9 +11,9 @@ Demo.components.TowerData.load = function() {
       spriteSheetFront: Demo.assets['bulbasaur'],
       spriteSheetBack: Demo.assets['bulbasaur-back'],
       spriteCountFront: 19,
-      spriteTimeFront: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 14, 16],
+      spriteTimeFront: [12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12],//[15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 14, 16],
       spriteCountBack: 24,
-      spriteTimeBack: [15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 14, 16, 15, 15, 15, 15, 15],
+      spriteTimeBack: [12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5,12.5],//[15, 17, 16, 16, 170, 150, 160, 160, 160, 180, 16, 14, 16, 18, 15, 14, 19, 14, 16, 15, 15, 15, 15, 15],
       animationScale: 1.0,
       spriteSize: {width: 75, height: 75},
       attack: {

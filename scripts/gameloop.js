@@ -27,20 +27,21 @@ module.exports = function(player1, player2, io){
 
   function gameLoop(currentTime){
     var elapsedTime = currentTime - previousTime
+
     var sendUpdate = model.processEvents(events, emit)
-    model.update(elapsedTime)
+    if(!model.isPaused()) {
+      model.update(elapsedTime)
+      loopTimes.push(present() - currentTime)
+    }
     previousTime = currentTime
 
     timeSinceLastSend += elapsedTime
-    if(timeSinceLastSend > 100 || sendUpdate){
+    if (timeSinceLastSend > 100 || sendUpdate) {
       emit()
       timeSinceLastSend = 0
       model.cleanseModel()
       //console.log((present() - startTime)/1000)
     }
-
-    loopTimes.push(present()-currentTime)
-
 
     if(!gameOver) {
       setTimeout(function () {

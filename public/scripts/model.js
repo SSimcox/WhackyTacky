@@ -5,27 +5,7 @@
 // ------------------------------------------------------------------
 Demo.model = (function(input, components, audio) {
 	'use strict';
-	var players = [
-	  {
-			buildTowers: [],
-			sendCreeps: [],
-      towers: [],
-      creeps: [],
-			map: [],
-      money: 0,
-      income: 1,
-      lives: 10,
-    },
-    {
-			buildTowers: [],
-			sendCreeps: [],
-      towers: [],
-      creeps: [],
-			map: [],
-      money: 0,
-      income: 1,
-      lives: 10,
-    }],
+	var players = [],
 		myKeyboard = input.Keyboard(),
 		myMouse = input.Mouse(),
 		gameCommands = input.GameCommands(myMouse, myKeyboard),
@@ -33,22 +13,27 @@ Demo.model = (function(input, components, audio) {
     diffed,
 		that = {};
 
+	players[0] = Player()
+  players[1] = Player()
 	let myMoney = components.Text({
     text : players[0].money,
     font : '30px Oswald, sans-serif',
     fill : 'rgba(0, 0, 255, 1)',
     position : { x : 50, y : 5 }
-  }),myIncome = components.Text({
+  }),
+    myIncome = components.Text({
     text : players[0].income,
     font : '30px Oswald, sans-serif',
     fill : 'rgba(0, 0, 255, 1)',
     position : { x : 175, y : 5 }
-  }),nextIncome = components.Text({
+  }),
+    nextIncome = components.Text({
     text : "in " + 7 +" sec",
     font : '30px Oswald, sans-serif',
     fill : 'rgba(0, 0, 255, 1)',
     position : { x : 225, y : 5 }
-  }),gameTime = components.Text({
+  }),
+    gameTime = components.Text({
     text : "Time Elapsed: " + 0 + ":00",
     font : '30px Oswald, sans-serif',
     fill : 'rgba(0, 0, 255, 1)',
@@ -56,8 +41,11 @@ Demo.model = (function(input, components, audio) {
   })
 
 	let gameVars = {
-	totalTime: 0,
-  lastIncome: 0
+    totalTime: 0,
+    lastIncome: 0,
+    gameOver: false,
+    gamePaused: false,
+    gameStarts: 3000
   }
   let paths = []
 
@@ -75,31 +63,8 @@ Demo.model = (function(input, components, audio) {
 	// ------------------------------------------------------------------
 	that.initialize = function() {
 
-		//
-		// Get our animated bird model and renderer created
-    players = [
-      {
-        buildTowers: [],
-				sendCreeps: [],
-        towers: [],
-        creeps: [],
-				map: [],
-				particles: [],
-        money: 10,
-        income: 1,
-        lives: 10
-      },
-      {
-        buildTowers: [],
-				sendCreeps: [],
-        towers: [],
-        creeps: [],
-				map: [],
-				particles: [],
-        money: 10,
-        income: 1,
-        lives: 10
-      }]
+    players[0] = Player()
+    players[1] = Player()
 
 		players[0].buildTowers.push(components.BulbasaurHover({
 			imageCenter: {x:50, y: 950}
@@ -297,78 +262,85 @@ Demo.model = (function(input, components, audio) {
 	//
 	// ------------------------------------------------------------------
 	that.update = function(elapsedTime) {
-	  if(!diffed) {
-      gameVars.totalTime += elapsedTime
-      if (Math.floor(gameVars.totalTime / 1000) % 7 === 0 && Math.floor(gameVars.totalTime / 1000) / 7 !== gameVars.lastIncome) {
-        players[0].money += players[0].income
-        players[1].money += players[1].income
-        gameVars.lastIncome = Math.floor(gameVars.totalTime / 1000) / 7
-      }
-      for (let p = 0; p < players.length; ++p) {
-        resetMap(p)
-        for (let i = 0; i < players[p].towers.length; i++) {
-          if (players[p].towers[i].type === "deleted") continue
-          let attackTarget = players[p].towers[i].update(elapsedTime, players[p].creeps)
-          for (let k = players[p].towers[i].center.y / 50 - 3; k <= players[p].towers[i].center.y / 50 - 2; k++) {
-            for (let j = players[p].towers[i].center.x / 50 - 1; j <= players[p].towers[i].center.x / 50; j++) {
-              players[p].map[k][j] = i
+	  if(!gameVars.gameOver && !gameVars.gamePaused) {
+      if (gameVars.gameStarts <= 0) {
+        if (!diffed) {
+          gameVars.totalTime += elapsedTime
+          if (Math.floor(gameVars.totalTime / 1000) % 7 === 0 && Math.floor(gameVars.totalTime / 1000) / 7 !== gameVars.lastIncome) {
+            players[0].money += players[0].income
+            players[1].money += players[1].income
+            gameVars.lastIncome = Math.floor(gameVars.totalTime / 1000) / 7
+          }
+          for (let p = 0; p < players.length; ++p) {
+            resetMap(p)
+            for (let i = 0; i < players[p].towers.length; i++) {
+              if (players[p].towers[i].type === "deleted") continue
+              let attackTarget = players[p].towers[i].update(elapsedTime, players[p].creeps)
+              for (let k = players[p].towers[i].center.y / 50 - 3; k <= players[p].towers[i].center.y / 50 - 2; k++) {
+                for (let j = players[p].towers[i].center.x / 50 - 1; j <= players[p].towers[i].center.x / 50; j++) {
+                  players[p].map[k][j] = i
+                }
+              }
+            }
+            for (let i = 0; i < players[p].creeps.length; i++) {
+              if (players[p].creeps[i].type === "deleted") continue
+              players[p].creeps[i].update(elapsedTime)
+              if (players[p].creeps[i].center.y > 100) {
+                players[p].map[Math.floor(players[p].creeps[i].center.y / 50) - 2][Math.floor(players[p].creeps[i].center.x / 50)] = (-i) - 2
+              } else {
+                if (players[p].creeps[i].type !== "deleted")
+                  players[p].lives--
+                players[p].creeps[i].type = "deleted"
+              }
+            }
+            for (let i = 0; i < players[p].buildTowers.length; i++) {
+              players[p].buildTowers[i].update(elapsedTime)
+            }
+            for (let i = 0; i < players[p].sendCreeps.length; i++) {
+              players[p].sendCreeps[i].update(elapsedTime)
+            }
+            // if(players[p].particles.length > 0) console.log(players[p].particles.length)
+            for (let i = 0; i < players[p].particles.length; i++) {
+              players[p].particles[i].update(elapsedTime)
+              if (players[p].particles[i].getDimensions()) players[p].particles.splice(i, 1)
             }
           }
-
-          //Attacking stuff
-          // if (attackTarget > -1) {
-          //   console.log("Before Attack:", players[p].creeps[attackTarget].stats.curHealth)
-          //   players[p].creeps[attackTarget].curHealth = players[p].towers[i].attack.damage
-          //   if(players[p].creeps[attackTarget].stats.curHealth <= 0){
-          //     players[p].creeps[attackTarget].type = "deleted"
-          //   }
-          //   console.log("After Attack:", players[p].creeps[attackTarget].stats.curHealth)
-          // }
-
         }
-        for (let i = 0; i < players[p].creeps.length; i++) {
-          if (players[p].creeps[i].type === "deleted") continue
-          players[p].creeps[i].update(elapsedTime)
-          if (players[p].creeps[i].center.y > 100) {
-            players[p].map[Math.floor(players[p].creeps[i].center.y / 50) - 2][Math.floor(players[p].creeps[i].center.x / 50)] = (-i) - 2
-          } else {
-            players[p].lives--
-            players[p].creeps[i].type = "deleted"
+        if (imageHovering === true) {
+          let h = gameCommands.hoverTower()
+          if (h) {
+            hover.image.center = {x: h.x, y: h.y}
           }
         }
-        for (let i = 0; i < players[p].buildTowers.length; i++) {
-          players[p].buildTowers[i].update(elapsedTime)
+
+        myMoney.text = players[0].money
+        myIncome.text = players[0].income
+        nextIncome.text = "in " + (7 - Math.floor(gameVars.totalTime / 1000) % 7) + " sec"
+
+        let seconds = Math.floor(gameVars.totalTime / 1000)
+        let minutes = Math.floor(seconds / 60)
+        while (seconds >= 60) {
+          seconds %= 60
         }
-        for (let i = 0; i < players[p].sendCreeps.length; i++) {
-          players[p].sendCreeps[i].update(elapsedTime)
+        if (seconds < 10) seconds = "0" + Math.floor(seconds)
+        gameTime.text = "Time Elapsed: " + minutes + ":" + seconds
+
+        diffed = false
+      } else {
+        gameVars.gameStarts -= elapsedTime
+        if (gameVars.gameStarts > 0) {
+          document.getElementById('start-game-modal').className = "modal"
+          document.getElementById('game-timer').innerHTML = "Game Start in " + Math.ceil(gameVars.gameStarts / 1000)
         }
-				// if(players[p].particles.length > 0) console.log(players[p].particles.length)
-				for (let i = 0; i < players[p].particles.length; i++){
-					players[p].particles[i].update(elapsedTime)
-					if(players[p].particles[i].getDimensions()) players[p].particles.splice(i, 1)
-				}
+        else {
+          document.getElementById('start-game-modal').className = 'hidden'
+        }
+      }
+    }else{
+	    if(gameVars.gameOver){
+	      that.stop()
       }
     }
-    if (imageHovering === true) {
-      let h = gameCommands.hoverTower()
-      if (h) {
-        hover.image.center = {x: h.x, y: h.y}
-      }
-    }
-
-    myMoney.text = players[0].money
-    myIncome.text = players[0].income
-    nextIncome.text = "in " +  (7 - Math.floor(gameVars.totalTime / 1000) % 7) + " sec"
-
-    let seconds = Math.floor(gameVars.totalTime / 1000)
-    let minutes = Math.floor(seconds / 60)
-    while(seconds >= 60){
-	    seconds %= 60
-    }
-    if(seconds < 10) seconds = "0"+Math.floor(seconds)
-     gameTime.text = "Time Elapsed: " + minutes +":"+seconds
-
-    diffed = false
 	};
 
 	// ------------------------------------------------------------------
@@ -497,10 +469,17 @@ Demo.model = (function(input, components, audio) {
           players[p].income = serverModel[key].income
         if(serverModel[key].hasOwnProperty("lives"))
           players[p].lives = serverModel[key].lives
+        if(serverModel[key].hasOwnProperty("kills"))
+          players[p].kills = serverModel[key].kills
+        if(serverModel[key].hasOwnProperty("sent"))
+          players[p].sent = serverModel[key].sent
+        if(serverModel[key].hasOwnProperty("totalMoney"))
+          players[p].totalMoney = serverModel[key].totalMoney
+        if(serverModel[key].hasOwnProperty("totalTowersBuilt"))
+          players[p].totalTowersBuilt = serverModel[key].totalTowersBuilt
 
         if(serverModel[key].hasOwnProperty("totalTime")) {
-          gameVars.totalTime = serverModel[key].totalTime
-          gameVars.lastIncome = serverModel[key].lastIncome
+          gameVars = serverModel[key]
         }
 
 
@@ -605,6 +584,7 @@ Demo.model = (function(input, components, audio) {
     }
 
   }
+
   that.setSocket = function(s){
     socket = s;
   }
@@ -619,10 +599,113 @@ Demo.model = (function(input, components, audio) {
     }
   }
 
-  that.stopMusic = function(){
+  that.stop = function(leaver){
+    gameVars.gameOver = true
+    gameVars.gamePause = true
+    if(players[0].lives <= 0){
+      document.getElementById("final-score-lost").innerHTML = (players[0].totalMoney + players[0].totalTowersBuilt + players[0].sent.total + (players[0].kills.total * 2) + (players[0].lives*100))
+
+      document.getElementById("your-gold-farmed-loser").innerHTML = players[0].totalMoney
+      document.getElementById("enemy-gold-farmed-loser").innerHTML = players[1].totalMoney
+
+      document.getElementById("your-total-income-loser").innerHTML = players[0].income
+      document.getElementById("enemy-total-income-loser").innerHTML = players[1].income
+
+      document.getElementById("your-lives-remaining-loser").innerHTML = players[0].lives
+      document.getElementById("enemy-lives-remaining-loser").innerHTML = players[1].lives
+
+      document.getElementById("your-towers-built-loser").innerHTML = players[0].totalTowersBuilt
+      document.getElementById("enemy-towers-built-loser").innerHTML = players[1].totalTowersBuilt
+
+      document.getElementById("your-creeps-sent-loser").innerHTML = players[0].sent.total
+      document.getElementById("enemy-creeps-sent-loser").innerHTML = players[1].sent.total
+
+      document.getElementById("your-rocket-killed-loser").innerHTML = players[0].kills['RocketM']
+      document.getElementById("enemy-rocket-killed-loser").innerHTML = players[1].kills['RocketM']
+
+      document.getElementById("your-scientist-killed-loser").innerHTML = players[0].kills['Scientist']
+      document.getElementById("enemy-scientist-killed-loser").innerHTML = players[1].kills['Scientist']
+
+      document.getElementById("your-biker-killed-loser").innerHTML = players[0].kills['Biker']
+      document.getElementById("enemy-biker-killed-loser").innerHTML = players[1].kills['Biker']
+
+      document.getElementById("your-pirate-killed-loser").innerHTML = players[0].kills['Eyepatch']
+      document.getElementById("enemy-pirate-killed-loser").innerHTML = players[1].kills['Eyepatch']
+
+      document.getElementById("your-total-killed-loser").innerHTML = players[0].kills.total
+      document.getElementById("enemy-total-killed-loser").innerHTML = players[1].kills.total
+
+      document.getElementById('game-lost').className = 'modal'
+    }else{
+
+      document.getElementById("final-score").innerHTML = (players[0].totalMoney + players[0].totalTowersBuilt + players[0].sent.total + (players[0].kills.total * 2) + (players[0].lives*100))
+
+      document.getElementById("your-gold-farmed-winner").innerHTML = players[0].totalMoney
+      document.getElementById("enemy-gold-farmed-winner").innerHTML = players[1].totalMoney
+
+      document.getElementById("your-total-income-winner").innerHTML = players[0].income
+      document.getElementById("enemy-total-income-winner").innerHTML = players[1].income
+
+      document.getElementById("your-lives-remaining-winner").innerHTML = players[0].lives
+      document.getElementById("enemy-lives-remaining-winner").innerHTML = players[1].lives
+
+      document.getElementById("your-towers-built-winner").innerHTML = players[0].totalTowersBuilt
+      document.getElementById("enemy-towers-built-winner").innerHTML = players[1].totalTowersBuilt
+
+      document.getElementById("your-creeps-sent-winner").innerHTML = players[0].sent.total
+      document.getElementById("enemy-creeps-sent-winner").innerHTML = players[1].sent.total
+
+      document.getElementById("your-rocket-killed-winner").innerHTML = players[0].kills['RocketM']
+      document.getElementById("enemy-rocket-killed-winner").innerHTML = players[1].kills['RocketM']
+
+      document.getElementById("your-scientist-killed-winner").innerHTML = players[0].kills['Scientist']
+      document.getElementById("enemy-scientist-killed-winner").innerHTML = players[1].kills['Scientist']
+
+      document.getElementById("your-biker-killed-winner").innerHTML = players[0].kills['Biker']
+      document.getElementById("enemy-biker-killed-winner").innerHTML = players[1].kills['Biker']
+
+      document.getElementById("your-pirate-killed-winner").innerHTML = players[0].kills['Eyepatch']
+      document.getElementById("enemy-pirate-killed-winner").innerHTML = players[1].kills['Eyepatch']
+
+      document.getElementById("your-total-killed-winner").innerHTML = players[0].kills.total
+      document.getElementById("enemy-total-killed-winner").innerHTML = players[1].kills.total
+
+      document.getElementById('game-won').className = 'modal'
+    }
     audio.stop()
   }
 
 	return that;
 
 }(Demo.input, Demo.components, Demo.audio));
+
+function Player(){
+  return{
+    buildTowers: [],
+    sendCreeps: [],
+    towers: [],
+    creeps: [],
+    map: [],
+    particles: [],
+    money: 10,
+    totalMoney: 10,
+    income: 1,
+    lives: 10,
+    totalTowersBuilt: 0,
+    totalTowersUpgraded: 0,
+    kills: {
+      RocketM: 0,
+      Scientist: 0,
+      Biker: 0,
+      Eyepatch: 0,
+      total: 0
+    },
+    sent: {
+      RocketM: 0,
+      Scientist: 0,
+      Biker: 0,
+      Eyepatch: 0,
+      total: 0
+    }
+  }
+}
