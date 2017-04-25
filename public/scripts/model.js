@@ -63,6 +63,9 @@ Demo.model = (function(input, components, audio) {
 
 	var hover;
 	var imageHovering = false;
+	var towerToEvolve;
+	var upgrading = false;
+	var location;
 
 	// ------------------------------------------------------------------
 	//
@@ -157,9 +160,24 @@ Demo.model = (function(input, components, audio) {
 	that.processInput = function(elapsedTime) {
 		myKeyboard.update(elapsedTime);
 		let build = gameCommands.buildTower(myMouse);
-		if(build) buildTower(build.type, build.x, build.y);
 		let wave = gameCommands.sendCreeps(myMouse);
-		if(wave) sendCreeps(wave.type, wave.x, wave.y);
+		location = gameCommands.evolveTowerSelection(myMouse);
+		if(location){
+			selectTowerToEvolve(location);
+		}
+		if(build || wave){
+			if(build) buildTower(build.type, build.x, build.y);
+			if(wave) sendCreeps(wave.type, wave.x, wave.y);
+		}else if(towerToEvolve){
+			// do we want to evolve it?
+			upgrading = gameCommands.evolveTower(myMouse);
+			// upgrading = gameCommands.evolveTowerKeyboard(myMouse)
+
+			if(upgrading){// || gameCommands.evolveTowerKey()){
+				console.log('upgrading Tower')
+				upgradeTower(towerToEvolve)
+			}
+		}
 		resetHover();
 		buildingHovering();
 		mouseHovering();
@@ -235,6 +253,7 @@ Demo.model = (function(input, components, audio) {
 		hover = undefined
 		imageHovering = false;
 		document.getElementById('my-canvas').className = ''
+		console.log('building')
 	}
 
 	function sendCreeps(type, x1, y1){
@@ -245,6 +264,33 @@ Demo.model = (function(input, components, audio) {
 		document.getElementById('your-canvas').className = ''
 	}
 
+	function selectTowerToEvolve(location){
+		let mapX = Math.floor(location.x /50)
+		let mapY = Math.floor(location.y /50) - 2;
+		console.log('map', mapX, mapY)
+
+		let playerTower  = players[0].map[mapY][mapX];
+		if(playerTower === -1){
+			console.log('first if')
+			myMouse.noTowerFound();
+			towerToEvolve = undefined;
+			upgrading = false;
+			myMouse.setUpgrading(false)
+		}else if(players[0].towers[playerTower].typeUpgrade){
+			console.log('second if',players[0].towers[playerTower])
+			myMouse.setUpgrading(true)
+			towerToEvolve = {tower: players[0].towers[playerTower], id: playerTower};
+		}
+
+	}
+
+	function upgradeTower(tower){
+		gameCommands.getKeyCommands();
+		// console.log('sending tower to upgrade', tower.tower.typeUpgrade)
+		socket.emit('event', {game:room, event: 'upgrade', type: tower.tower.typeUpgrade, center: {x:tower.tower.center.x, y:tower.tower.center.y}, player: socket.id, tower: tower.id})
+		towerToEvolve = undefined;
+		upgrading = false;
+	}
 	// ------------------------------------------------------------------
 	//
 	// This function is used to update the state of the demo model.

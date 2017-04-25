@@ -21,7 +21,8 @@ Demo.components.TowerData.load = function() {
         speed: 600,
         timeSinceAttack: 0,
         range: 200
-      }
+      },
+      typeUpgrade: 'Ivysaur'
     },
     'Ivysaur': {
       type: 'Ivysaur',
@@ -38,7 +39,8 @@ Demo.components.TowerData.load = function() {
         speed: 600,
         timeSinceAttack: 0,
         range: 200
-      }
+      },
+      typeUpgrade: 'Venusaur'
     },
     'Venusaur': {
       type: 'Venusaur',
@@ -55,7 +57,8 @@ Demo.components.TowerData.load = function() {
         speed: 600,
         timeSinceAttack: 0,
         range: 200
-      }
+      },
+      typeUpgrade: undefined
     },
     'Charmander': {
       type: 'Charmander',
@@ -72,7 +75,8 @@ Demo.components.TowerData.load = function() {
         speed: 2000,
         timeSinceAttack: 0,
         range: 400
-      }
+      },
+      typeUpgrade: 'Charmeleon'
     },
     'Charmeleon': {
       type: 'Charmeleon',
@@ -89,7 +93,8 @@ Demo.components.TowerData.load = function() {
         speed: 2000,
         timeSinceAttack: 0,
         range: 400
-      }
+      },
+      typeUpgrade: 'Charizard'
     },
     'Charizard': {
       type: 'Charizard',
@@ -106,7 +111,8 @@ Demo.components.TowerData.load = function() {
         speed: 2000,
         timeSinceAttack: 0,
         range: 400
-      }
+      },
+      typeUpgrade: undefined
     },
     'Squirtle': {
       type: 'Squirtle',
@@ -123,7 +129,8 @@ Demo.components.TowerData.load = function() {
         speed: 300,
         timeSinceAttack: 0,
         range: 100
-      }
+      },
+      typeUpgrade: 'Wartortle'
     },
     'Wartortle': {
       type: 'Wartortle',
@@ -140,7 +147,8 @@ Demo.components.TowerData.load = function() {
         speed: 300,
         timeSinceAttack: 0,
         range: 100
-      }
+      },
+      typeUpgrade: 'Blastoise'
     },
     'Blastoise': {
       type: 'Blastoise',
@@ -157,7 +165,8 @@ Demo.components.TowerData.load = function() {
         speed: 300,
         timeSinceAttack: 0,
         range: 100
-      }
+      },
+      typeUpgrade: undefined
     }
   }
 }

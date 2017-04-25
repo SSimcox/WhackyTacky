@@ -1,5 +1,3 @@
-//var myOffset = {x:0,y:0}
-//var yourOffset = {x:0,y:0}
 var scaleOffset = 1
 
 Demo.input.Mouse = function() {
@@ -13,18 +11,21 @@ Demo.input.Mouse = function() {
       creep = false,
       building = false,
       towerToBuild,
-      creepToSend;
+      creepToSend,
+      location,
+      upgrading = false,
+      towerTypes = ['Bulbasaur', 'Ivysaur', 'Venusaur', 'Charmander', 'Charmeleon', 'Charizard', 'Squirtle', 'Wartortle', 'Blastoise']
 
   that.buildTower = function(x, y){
     creepSelected = false;
     if(x < 100.0){
-      towerType = 'Bulbasaur'
+      towerType = towerTypes[0];
       buildSelected = true;
     }else if(x < 200){
-      towerType = 'Charmander'
+      towerType = towerTypes[3]
       buildSelected = true;
     }else if(x < 300){
-      towerType = 'Squirtle'
+      towerType = towerTypes[6]
       buildSelected = true;
     }
     hoverImage = {
@@ -33,6 +34,18 @@ Demo.input.Mouse = function() {
       type: towerType
     };
     // hoverImage.type = towerType
+  }
+
+  that.evolveTower = function(){
+    if(upgrading){
+      return false;
+    }
+    upgrading = false;
+    return true
+  }
+
+  that.evolveTowerKey = function(){
+    upgrading = false;
   }
 
   that.sendCreep = function(x, y){
@@ -58,8 +71,11 @@ Demo.input.Mouse = function() {
   }
 
   function componentPrepAndHover(x, y){
-    if(x < 1000 && x > 0){
+    if(x < 700 && x > 0){
       that.buildTower(x, y);
+    }else if(x > 800 && x < 1000){
+      upgrading = false;
+      //Going to upgrade
     }else{
       x = (event.pageX - yourOffset.x) / scaleOffset;
       if(x < 400 && x > 0) {
@@ -147,9 +163,16 @@ Demo.input.Mouse = function() {
       let y = (event.pageY - myOffset.y) / scaleOffset;
       if(y > 900 && y < 1000){
         componentPrepAndHover(x, y);
+        location = undefined;
       }else {
-        if(buildSelected || creepSelected)
-        sendBuildAndSendInfo(x,y);
+        if(buildSelected || creepSelected){
+          sendBuildAndSendInfo(x,y);
+          upgrading = false;
+          location = undefined;
+        }else{
+          if(x > 1000 || x < 0 || y > 850 || y < 100) return location = undefined
+          location = {x: x, y: y}
+        }
       }
   }
 
@@ -159,6 +182,8 @@ Demo.input.Mouse = function() {
     creepSelected = false;
     creep = false;
     hoverImage = {};
+    location = undefined;
+    upgrading = false;
   }
 
   that.buildSelected = function(){
@@ -177,29 +202,13 @@ Demo.input.Mouse = function() {
     return creep;
   }
 
-  // that.buildTowerUpdate = function(val){
-  //   buildSelected = true;
-  //   if(val === 1){
-  //     towerType = 'Bulbasaur'
-  //   }else if(val ===2){
-  //     towerType = 'Squirtle'
-  //   }else if(val ===3){
-  //     towerType = 'Charmander'
-  //   }
-  // }
-  //
-  // that.sendCreepUpdate = function(val){
-  //   creepSelected = true;
-  //   if(val === 1){
-  //     creepType = 'Biker'
-  //   }else if(val === 2){
-  //     creepType = 'EyePatch'
-  //   }else if(val === 3){
-  //     creepType = 'RocketM'
-  //   }else if(val === 4){
-  //     creepType = 'Scientist'
-  //   }
-  // }
+  that.noTowerFound = function(){
+    location = undefined;
+  }
+
+  that.getUpgrading = function(){
+    return upgrading;
+  }
 
   that.getTowerToBuild = function(){
     if(buildSelected && building){
@@ -223,6 +232,13 @@ Demo.input.Mouse = function() {
     return hoverImage;
   }
 
+  that.getClickLocation = function(){
+    return location
+  }
+
+  that.setUpgrading = function(val){
+    upgrading = val;
+  }
   function mouseMove(event){
     if(creepSelected){
       let x = (event.pageX - yourOffset.x) / scaleOffset;
@@ -249,7 +265,6 @@ Demo.input.Mouse = function() {
   }
 
   function mouseDown(event){
-    // console.log(event.button)
     if(event.button == 2){
       that.resetSelection();
     }

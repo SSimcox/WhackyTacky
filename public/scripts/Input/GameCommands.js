@@ -25,8 +25,22 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
     myMouse.buildTower(250, 850);
   }
 
+  that.evolveTowerSelection = function(){
+    let location = myMouse.getClickLocation();
+    return location === undefined ? undefined : location;
+  }
+
   that.evolveTower = function(){
-    //sell tower for moneys
+    return myMouse.evolveTower();
+  }
+
+  that.evolveTowerKeyboard = function(){
+    // console.log(myMouse.getUpgrading())
+    if(myMouse.getUpgrading()){
+      myMouse.resetSelection();
+      return true;
+    }
+    return false;
   }
 
   that.sendCreeps = function(){

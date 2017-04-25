@@ -14,7 +14,7 @@ let towerCost = {
   Ivysaur: 30,
   Wartortle: 30,
   Charmeleon: 30,
-  Venosaur: 120,
+  Venusaur: 120,
   Blastoise: 120,
   Charizard: 120
 }
@@ -72,14 +72,15 @@ Events.process = function(event, emit){
     }
   }
   else if(event.event === 'upgrade'){
-    //if(towerCost[event.type] > event.player.money) return false
+    console.log(towerCost[event.type], event.type, event.player.money)
+    if(towerCost[event.type] > event.player.money) return false
     if(!Events.UpgradeTower({
           type: event.type,
           center: event.center,
           player: event.player.towers,
-          map: event.player.map
+          towerId: event.tower
         })){
-      emit('build failed')
+      emit('upgrade failed')
       return false
     }
     else{
@@ -141,7 +142,8 @@ Events.AddCreep = function(spec){
 }
 
 Events.UpgradeTower = function(spec){
-
+  spec.player[spec.towerId] = Components.Tower(Towers[spec.type], spec.center)
+  return true;
 }
 
 Events.Kill = function(spec){
