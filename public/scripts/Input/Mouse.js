@@ -57,94 +57,99 @@ Demo.input.Mouse = function() {
     };
   }
 
+  function componentPrepAndHover(x, y){
+    if(x < 1000 && x > 0){
+      that.buildTower(x, y);
+    }else{
+      x = (event.pageX - yourOffset.x) / scaleOffset;
+      if(x < 400 && x > 0) {
+        hoverImage = {
+          x: x,
+          y: y,
+          type: null
+        };
+        that.sendCreep(x);
+      }
+    }
+  }
+
+  function sendBuildAndSendInfo(x, y){
+    if(buildSelected){
+      let tX = Math.round(x/50)*50;
+      let tY = Math.round(y/50)*50;
+      if(tX < 50){
+        if (tX < 0) return
+        tX += 50
+      }
+      if(tX > 950){
+        if(tX > 1000) return
+        tX -= 50
+      }
+      if(tY < 150){
+        if (tY < 100) return
+        tY += 50
+      }
+      if(tY > 800){
+        if(tY > 850) return
+        tY -= 50
+      }
+
+      towerToBuild = {
+        x: tX,
+        y: tY,
+        type: towerType
+      };
+
+      creepToSend = {};
+      creep = false;
+      building = true;
+    }
+    else if(creepSelected){
+      x = (event.pageX - yourOffset.x) / scaleOffset;
+      y = (event.pageY - yourOffset.y) / scaleOffset;
+      let tX = Math.round(x/25)*25;
+      let tY = Math.round(y/25)*25;
+      if(tX < 25){
+        if (tX < 0) return
+        tX += 24
+      }
+      if(tX > 975){
+        if(tX > 1000) return
+        tX -= 256
+      }
+      if(tY < 875){
+        if (tY < 100) return
+        tY += 25
+      }
+      if(tY > 875){
+        if(tY > 900) return
+        tY -= 25
+      }
+      console.log("x:", tX,"y:",tY)
+
+      creepToSend = {
+        x: tX,
+        y: 875,
+        type: creepType
+      };
+      hoverImage = {
+        x: tX,
+        y: tY
+      }
+      towerToBuild = {};
+      building = false;
+      creep = true;
+    }
+  }
+
   function onClick(event){
-    // console.log(event.button)
-    // if(event.which ==3){
-    //   console.log('right click')
-    // }
       let x = (event.pageX - myOffset.x) / scaleOffset;
       let y = (event.pageY - myOffset.y) / scaleOffset;
       if(y > 900 && y < 1000){
-        if(x < 1000 && x > 0){
-          that.buildTower(x, y);
-        }else{// if(x < 2133 && x > 1133){
-          x = (event.pageX - yourOffset.x) / scaleOffset;
-          if(x < 400 && x > 0) {
-            hoverImage = {
-              x: x,
-              y: y,
-              type: null
-            };
-            that.sendCreep(x);
-          }
-        }
+        componentPrepAndHover(x, y);
       }else {
-        if(buildSelected){
-          let tX = Math.round(x/50)*50;
-          let tY = Math.round(y/50)*50;
-          if(tX < 50){
-            if (tX < 0) return
-            tX += 50
-          }
-          if(tX > 950){
-            if(tX > 1000) return
-            tX -= 50
-          }
-          if(tY < 150){
-            if (tY < 100) return
-            tY += 50
-          }
-          if(tY > 800){
-            if(tY > 850) return
-            tY -= 50
-          }
-
-          towerToBuild = {
-            x: tX,
-            y: tY,
-            type: towerType
-          };
-
-          creepToSend = {};
-          creep = false;
-          building = true;
-        }
-        else if(creepSelected){
-          x = (event.pageX - yourOffset.x) / scaleOffset;
-          y = (event.pageY - yourOffset.y) / scaleOffset;
-          let tX = Math.round(x/25)*25;
-          let tY = Math.round(y/25)*25;
-          if(tX < 25){
-            if (tX < 0) return
-            tX += 24
-          }
-          if(tX > 975){
-            if(tX > 1000) return
-            tX -= 256
-          }
-          if(tY < 875){
-            if (tY < 100) return
-            tY += 25
-          }
-          if(tY > 875){
-            if(tY > 900) return
-            tY -= 25
-          }
-          console.log("x:", tX,"y:",tY)
-
-          creepToSend = {
-            x: tX,
-            y: 875,
-            type: creepType
-          };
-          hoverImage = {
-            x: tX,
-            y: tY
-          }
-          towerToBuild = {};
-          building = false;
-          creep = true;
-        }
+        if(buildSelected || creepSelected)
+        sendBuildAndSendInfo(x,y);
       }
   }
 
