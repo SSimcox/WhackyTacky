@@ -3,7 +3,9 @@
  */
 
 Demo.components.TowerData = {}
-
+function load(){
+  return
+}
 Demo.components.TowerData.load = function() {
   Demo.components.TowerData = {
     'Bulbasaur': {
@@ -169,4 +171,5 @@ Demo.components.TowerData.load = function() {
       typeUpgrade: undefined
     }
   }
+  Demo.components.TowerData.load = this.load
 }

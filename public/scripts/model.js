@@ -774,5 +774,5 @@ function returnToMainMenu(audio, socket){
     modals[i].className = 'hidden'
   }
   document.getElementById('mask').className = 'hidden'
-  Game.game.showScreen('main-menu')
+  location.reload(true)
 }
