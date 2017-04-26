@@ -5,12 +5,12 @@ Demo.renderer.StaticImage = (function(core) {
 	that.render = function(image, p) {
 		if(image.range != undefined){
 			console.log('hovering')
-			core.drawImage2({image:Demo.assets[image.bg]},image.center.x-50,image.center.y-50,100,100,p)
+			//core.drawImage2({image:Demo.assets[image.bg]},image.center.x-50,image.center.y-50,100,100,p)
 
 			core.drawText(image.cost,p)
 			core.drawText(image.hotkey,p)
 			core.drawCircle(
-				'#ff0000',
+				'rgba(255,0,0,.2)',
 				image.center,
 				image.range,
 				p
