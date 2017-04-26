@@ -191,12 +191,12 @@ module.exports = function(player1, player2){
   that.cleanseModel = function(){
     for(var key in players){
       if(key === "gameVars") continue
-      for(let i = 0; i < players[key].towers.length; i++){
-        if(players[key].towers[i].type === "deleted") {
-          players[key].towers.splice(i, 1)
-          i--
-        }
-      }
+      // for(let i = 0; i < players[key].towers.length; i++){
+      //   if(players[key].towers[i].type === "deleted") {
+      //     players[key].towers.splice(i, 1)
+      //     i--
+      //   }
+      // }
       for(let i = 0; i < players[key].creeps.length; i++){
         if(players[key].creeps[i].type === "deleted") {
           players[key].creeps.splice(i, 1)
