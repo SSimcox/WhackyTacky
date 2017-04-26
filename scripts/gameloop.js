@@ -35,7 +35,7 @@ module.exports = function(player1, player2, io){
     if(timeSinceLastSend > 100 || sendUpdate){
       emit()
       timeSinceLastSend = 0
-      model.cleanseModel()
+      // model.cleanseModel()
       //console.log((present() - startTime)/1000)
     }
 

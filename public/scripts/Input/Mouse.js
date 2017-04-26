@@ -14,6 +14,7 @@ Demo.input.Mouse = function() {
       creepToSend,
       location,
       upgrading = false,
+      selling = false,
       towerTypes = ['Bulbasaur', 'Ivysaur', 'Venusaur', 'Charmander', 'Charmeleon', 'Charizard', 'Squirtle', 'Wartortle', 'Blastoise']
 
   that.buildTower = function(x, y){
@@ -38,15 +39,21 @@ Demo.input.Mouse = function() {
 
   that.evolveTower = function(){
     if(upgrading){
-      return false;
+      upgrading = false;
+      return true;
     }
-    upgrading = false;
-    return true
   }
 
-  that.evolveTowerKey = function(){
-    upgrading = false;
+  that.sellTower = function(){
+    if(selling){
+      selling = false;
+      return true;
+    }
   }
+
+  // that.evolveTowerKey = function(){
+  //   upgrading = false;
+  // }
 
   that.sendCreep = function(x, y){
     buildSelected = false;
@@ -74,8 +81,10 @@ Demo.input.Mouse = function() {
     if(x < 700 && x > 0){
       that.buildTower(x, y);
     }else if(x > 800 && x < 1000){
-      upgrading = false;
+      upgrading = true;
       //Going to upgrade
+    }else if(x > 700 && x < 800){
+      selling = true;
     }else{
       x = (event.pageX - yourOffset.x) / scaleOffset;
       if(x < 400 && x > 0) {
@@ -168,6 +177,7 @@ Demo.input.Mouse = function() {
         if(buildSelected || creepSelected){
           sendBuildAndSendInfo(x,y);
           upgrading = false;
+          selling = false;
           location = undefined;
         }else{
           if(x > 1000 || x < 0 || y > 850 || y < 100) return location = undefined
@@ -184,6 +194,7 @@ Demo.input.Mouse = function() {
     hoverImage = {};
     location = undefined;
     upgrading = false;
+    selling = false;
   }
 
   that.buildSelected = function(){
@@ -208,6 +219,10 @@ Demo.input.Mouse = function() {
 
   that.getUpgrading = function(){
     return upgrading;
+  }
+
+  that.getSelling = function(){
+    return selling;
   }
 
   that.getTowerToBuild = function(){
@@ -239,6 +254,11 @@ Demo.input.Mouse = function() {
   that.setUpgrading = function(val){
     upgrading = val;
   }
+
+  that.setSelling = function(val){
+    selling = val;
+  }
+
   function mouseMove(event){
     if(creepSelected){
       let x = (event.pageX - yourOffset.x) / scaleOffset;

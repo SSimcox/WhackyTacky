@@ -27,6 +27,7 @@ let creepCost = {
 
 Events.process = function(event, emit){
   if(event.event === 'build'){
+    //console.log('event',event)
     if(towerCost[event.type] > event.player.money) return false
     if(!Events.AddTower({
         type: event.type,
@@ -72,7 +73,7 @@ Events.process = function(event, emit){
     }
   }
   else if(event.event === 'upgrade'){
-    console.log(towerCost[event.type], event.type, event.player.money)
+    // console.log(towerCost[event.type], event.type, event.player.money)
     if(towerCost[event.type] > event.player.money) return false
     if(!Events.UpgradeTower({
           type: event.type,
@@ -89,7 +90,18 @@ Events.process = function(event, emit){
     }
   }
   else if(event.event === 'sell'){
-
+      console.log('selling:')
+      event.player.towers[event.tower].type = "deleted";
+      event.player.money += Math.floor(towerCost[event.type]/2);
+      for(let i = 0; i < 16; ++i){
+        for(let j = 0; j < 20; ++j){
+          if(event.player.map[i][j] === event.tower)	{
+            event.player.map[i][j] = -1;
+          }
+        }
+      }
+      console.log('sell towers:',Towers)
+      return true;
   }
   return true;
 }
@@ -120,8 +132,15 @@ Events.AddTower = function(spec){
     return false
   }
 
-  console.log(spec.type)
-  spec.player.push(Components.Tower(Towers[spec.type],spec.center))
+  spec.player.push(Components.Tower({
+    type: Towers[spec.type].type,
+    attack: {
+      damage: Towers[spec.type].attack.damage,
+      speed: Towers[spec.type].attack.speed,
+      timeSinceAttack: Towers[spec.type].attack.timeSinceAttack,
+      range: Towers[spec.type].attack.range
+    }
+  }, spec.center))
 
   // spec.player.push(Components[spec.type]({
   //   spriteCenter: spec.center

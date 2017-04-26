@@ -41,7 +41,7 @@ Demo.audio = (function(){
     //   that.sounds[whichSound].play();
     // });
 
-    that.sounds[whichSound].play();
+    // that.sounds[whichSound].play();
   };
 
   that.stop = function(){

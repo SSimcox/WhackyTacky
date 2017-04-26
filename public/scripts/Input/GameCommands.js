@@ -3,11 +3,13 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
   var that = {};
 
   that.hoverTower = function(type, center){
+    myMouse.getClickLocation();
     let tower = myMouse.getHoverImage();
     return tower
   }
 
   that.buildTower = function(){
+    myMouse.getClickLocation();
     let build = myMouse.getTowerToBuild();
     // let build = Keyboard.getTowerToBuild();
     return build
@@ -34,13 +36,16 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
     return myMouse.evolveTower();
   }
 
+  that.sellTower = function(){
+    return myMouse.sellTower();
+  }
+
   that.evolveTowerKeyboard = function(){
-    // console.log(myMouse.getUpgrading())
-    if(myMouse.getUpgrading()){
-      myMouse.resetSelection();
-      return true;
-    }
-    return false;
+      myMouse.setUpgrading(true)
+  }
+
+  that.sellTowerKeyboard = function(){
+      myMouse.setSelling(true)
   }
 
   that.sendCreeps = function(){

@@ -170,18 +170,23 @@ Components.AnimatedSprite = function (spec) {
 Components.Tower = function (spec, center) {
   'use strict';
   var facingDown = true,
+    type,
     that = {
       get type() {
-        return spec.type
+        return type
       },
       get center() {
         return center;
       },
       get attack() {
         return spec.attack;
+      },
+      set type(val) {
+        type = val
       }
     };
   spec.attack.target = -1
+  type = spec.type
 
   //------------------------------------------------------------------
   //

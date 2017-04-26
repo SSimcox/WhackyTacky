@@ -14,7 +14,7 @@ module.exports = function(player1, player2){
     towers: [],
     creeps: [],
     map: [],
-    money: 250,
+    money: 550,
     income: 1,
     lives: 10,
     path: [],
@@ -24,7 +24,7 @@ module.exports = function(player1, player2){
     towers: [],
     creeps: [],
     map: [],
-    money: 150,
+    money: 550,
     income: 1,
     lives: 10,
     path: [],
@@ -101,6 +101,7 @@ module.exports = function(player1, player2){
   // This function is used to update the state of the demo model.
   //
   // ------------------------------------------------------------------
+
   that.update = function(elapsedTime) {
     players.gameVars.totalTime += elapsedTime
     if(Math.floor(players.gameVars.totalTime / 1000) % 7 === 0 && Math.floor(players.gameVars.totalTime / 1000) / 7 !== players.gameVars.lastIncome){
@@ -114,7 +115,8 @@ module.exports = function(player1, player2){
       if(players.hasOwnProperty(key)) {
         resetMap(key)
         for (let i = 0; i < players[key].towers.length; i++) {
-          if(players[key].towers[i] === "deleted") continue
+          // if(key == player2) console.log(players[key].towers[i].type)
+          if(players[key].towers[i].type === "deleted") continue
           let attackTarget = players[key].towers[i].update(elapsedTime, players[key].creeps)
           for(let k = players[key].towers[i].center.y/50-3; k <= players[key].towers[i].center.y/50-2; k++){
             for(let j = players[key].towers[i].center.x/50-1; j <= players[key].towers[i].center.x/50; j++){
