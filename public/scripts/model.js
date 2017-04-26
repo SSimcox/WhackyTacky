@@ -69,16 +69,18 @@ Demo.model = (function(input, components, audio) {
 			// 	Blastoise: components.BlastoiseHover({imageCenter: {x: 1000, y: 1000}})
 			// },
 
+      selectedStyle = '22px Oswald, sans-serif',
+      selectedFill = 'rgba(255, 255, 255, 1)',
 			towerValues = {
-				Bulbasaur: {cost: 10, range:600, damage:5, speed: .6, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
-				Ivysaur: {cost: 30, range:600, damage:15, speed: .6, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
-				Venusaur: {cost: 120, range:600, damage:45, speed: .6, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
-				Charmander: {cost: 12, range:400, damage:10, speed: 2, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
-				Charmeleon: {cost: 30, range:400, damage:25, speed: 2, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
-				Charizard: {cost: 120, range:400, damage:57, speed: 2, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
-			  Squirtle: {cost: 15, range:300, damage:5, speed: .3, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
-			  Wartortle: {cost: 30, range:100, damage:15, speed: .3, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
-				Blastoise: {cost: 120, range:100, damage:45, speed: .3, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'}
+				Bulbasaur: {cost: 10, range:600, damage:5, speed: .6, font : selectedStyle, fill : selectedFill},
+				Ivysaur: {cost: 30, range:600, damage:15, speed: .6, font : selectedStyle, fill : selectedFill},
+				Venusaur: {cost: 120, range:600, damage:45, speed: .6, font : selectedStyle, fill : selectedFill},
+				Charmander: {cost: 12, range:400, damage:10, speed: 2, font : selectedStyle, fill : selectedFill},
+				Charmeleon: {cost: 30, range:400, damage:25, speed: 2, font : selectedStyle, fill : selectedFill},
+				Charizard: {cost: 120, range:400, damage:57, speed: 2, font : selectedStyle, fill : selectedFill},
+			  Squirtle: {cost: 15, range:300, damage:5, speed: .3, font : selectedStyle, fill : selectedFill},
+			  Wartortle: {cost: 30, range:100, damage:15, speed: .3, font : selectedStyle, fill : selectedFill},
+				Blastoise: {cost: 120, range:100, damage:45, speed: .3, font : selectedStyle, fill : selectedFill}
 			}
 	// ------------------------------------------------------------------
 	//
@@ -730,7 +732,14 @@ Demo.model = (function(input, components, audio) {
 			upgradeStats = towerValues[tower.typeUpgrade];
 			upgradeStats.position = {x:900, y:900}
 		}
+
+		renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 600,900,100,100,0)
+    renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 700,900,100,100,0)
+    renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 800,900,100,100,0)
+    renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 900,900,100,100,0)
+
 		// console.log(sellStats, upgradeStats)
+
 		if(tower.type === 'Bulbasaur'){
 			renderer.core.drawImage2({image: Demo.assets['bulbasaurHover']}, 600, 900, 100, 100, 0);
 			renderer.core.drawImage2({image: Demo.assets['ivysaurHover']}, 800, 900, 100, 100, 0);

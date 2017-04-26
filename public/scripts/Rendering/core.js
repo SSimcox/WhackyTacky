@@ -156,11 +156,11 @@ Demo.renderer.core = (function() {
 		context[p].fillText(
 			"Damage: " + spec.damage,
 			world.left + spec.position.x * world.size,
-			world.top + (spec.position.y+20) * world.size);
+			world.top + (spec.position.y+30) * world.size);
 		context[p].fillText(
 			"Speed: " + spec.speed + " s",
 			world.left + spec.position.x * world.size,
-			world.top + (spec.position.y+40) * world.size);
+			world.top + (spec.position.y+60) * world.size);
 	}
 
 	function drawTextUpgrade(spec, p){
@@ -174,11 +174,11 @@ Demo.renderer.core = (function() {
 		context[p].fillText(
 			"Damage: " + spec.damage,
 			world.left + spec.position.x * world.size,
-			world.top + (spec.position.y+20) * world.size);
+			world.top + (spec.position.y+30) * world.size);
 		context[p].fillText(
 			"Speed: " + spec.speed + " s",
 			world.left + spec.position.x * world.size,
-			world.top + (spec.position.y+40) * world.size);
+			world.top + (spec.position.y+60) * world.size);
 	}
 
 	//------------------------------------------------------------------
@@ -246,8 +246,7 @@ Demo.renderer.core = (function() {
 		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
 		var grad = context[p].createLinearGradient(center.x, center.y, 0.5 + world.left + (center.x * world.size), 0.5 + world.left + (center.y * world.size));
 		grad.addColorStop(0, lineStyle);
-		grad.addColorStop(1, '#FFFFFF')
-		// let grad = '#FFFFFF';
+		grad.addColorStop(1, 'rgba(255,255,255,.2)');
 		context[p].strokeStyle = lineStyle;
 		context[p].fillStyle = grad;
 		context[p].beginPath();
