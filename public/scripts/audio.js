@@ -37,8 +37,6 @@ Demo.audio = (function(){
       if(Math.abs(this.currentTime - 75) < 1){this.currentTime = 42.8}
     });
 
-    that.sounds['battle'].currentTime = 65
-
     that.sounds['victory'] = loadSound('/public/assets/audio/victory.mp3')
     that.sounds['victory'].playbackRate = .8
     that.sounds['victory'].addEventListener('timeupdate', function() {

@@ -66,23 +66,14 @@ module.exports = function(player1, player2){
     var sendUpdate = false
     while(events.length > 0){
       var event = events.shift()
-
-      if (event.event === 'pause'){
-        if(!players.gameVars.gamePaused && players[event.player].pauseTime > 0){
-          players.gameVars.gamePaused = true
-          players.gameVars.playerPause = event.player
-          sendUpdate =  true
-        }else if(players.gameVars.gamePaused && event.player === players.gameVars.playerPause){
-          players.gameVars.gamePaused = false
-          sendUpdate = true
-        }
-      }
-
       if(event.player === player1)
         event.opponent = players[player2]
       else
         event.opponent = players[player1]
+      event.playerVal = event.player
       event.player = players[event.player]
+
+      event.gameVars = players.gameVars
       var success = Events.process(event,emit)
       if(success) {
         sendUpdate = true
@@ -157,6 +148,9 @@ module.exports = function(player1, player2){
       }
       else{
         players.gameVars.gameStarts -= elapsedTime
+        if(players[player1].gameStart && players[player2].gameStart && players.gameVars.gameStarts > 3000){
+          players.gameVars.gameStarts = 3000
+        }
       }
     }
     if(players.gameVars.gamePaused){
@@ -237,6 +231,7 @@ function Player(){
     totalTowersBuilt: 0,
     totalTowersUpgraded: 0,
     pauseTime: 30000,
+    gameStart: false,
     kills: {
       RocketM: 0,
       Scientist: 0,
@@ -260,7 +255,7 @@ function GameVars(){
     lastIncome: 0,
     gameOver: false,
     gamePaused: false,
-    gameStarts: 3000,
+    gameStarts: 30000,
     playerPause: 0
   }
 }

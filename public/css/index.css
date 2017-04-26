@@ -115,7 +115,8 @@ li input{
     border: 3px solid black;
     border-radius: 10px;
     position: absolute;
-    width: 600px;
+    /*width: 600px;*/
+    width: 75vh;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
@@ -124,7 +125,8 @@ li input{
 
 .modal div{
     display: block;
-    width: 500px;
+    /*width: 500px;*/
+    width: 90%;
     background-color: #500000;
     border: 3px solid black;
     border-radius: 10px;
@@ -173,4 +175,11 @@ label{
 input {
     display: block;
     margin: 2px auto;
+}
+
+#tutorial-canvas {
+    width: 70vh;
+    height: 70vh;
+    padding: 5px;
+    margin: 2vh 2.5vh;
 }

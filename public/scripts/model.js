@@ -45,7 +45,7 @@ Demo.model = (function(input, components, audio) {
     lastIncome: 0,
     gameOver: false,
     gamePaused: false,
-    gameStarts: 3000
+    gameStarts: 30000
   }
 
   let paths = []
@@ -62,7 +62,7 @@ Demo.model = (function(input, components, audio) {
 	// does right now is to register the resize event with the renderer.
 	//
 	// ------------------------------------------------------------------
-	that.initialize = function() {
+	that.initialize = function(renderer) {
 
     players[0] = Player()
     players[1] = Player()
@@ -137,6 +137,7 @@ Demo.model = (function(input, components, audio) {
 		// 	input.KeyEvent.DOM_VK_W, true);
 
     audio.playSong('battle')
+    drawTutorial(renderer)
 	};
 
 	// ------------------------------------------------------------------
@@ -282,6 +283,15 @@ Demo.model = (function(input, components, audio) {
 	  socket.emit('event', {game:room, event: 'pause', player: socket.id})
   }
 
+  function ready(){
+	  socket.emit('event', {game:room, event: 'ready', player: socket.id})
+  }
+
+  function readyHelp(){
+    document.getElementById('game-timer').removeEventListener('click', readyHelp)
+    ready()
+  }
+
 	function upgradeTower(tower){
 		gameCommands.getKeyCommands();
 		// console.log('sending tower to upgrade', tower.tower.typeUpgrade)
@@ -365,8 +375,14 @@ Demo.model = (function(input, components, audio) {
         gameVars.gameStarts -= elapsedTime
         if (gameVars.gameStarts > 0) {
           document.getElementById('start-game-modal').className = "modal"
-          document.getElementById('game-timer').innerHTML = "Game Start in " + Math.ceil(gameVars.gameStarts / 1000)
           document.getElementById('mask').className = 'light'
+          if(!players[0].gameStart) {
+            document.getElementById('game-timer').innerHTML = "Game Start in " + Math.ceil(gameVars.gameStarts / 1000) + " seconds. Click here to skip the tutorial screen..."
+            document.getElementById('game-timer').addEventListener('click', readyHelp)
+          }
+          else{
+            document.getElementById('game-timer').innerHTML = "Waiting to start... (" + Math.ceil(gameVars.gameStarts / 1000) +" seconds)"
+          }
         }
         else {
           document.getElementById('start-game-modal').className = 'hidden'
@@ -524,6 +540,8 @@ Demo.model = (function(input, components, audio) {
           players[p].totalTowersBuilt = serverModel[key].totalTowersBuilt
         if(serverModel[key].hasOwnProperty("pauseTime"))
           players[p].pauseTime = serverModel[key].pauseTime
+        if(serverModel[key].hasOwnProperty("gameStart"))
+          players[p].gameStart = serverModel[key].gameStart
 
         if(serverModel[key].hasOwnProperty("totalTime")) {
           gameVars = serverModel[key]
@@ -743,6 +761,164 @@ Demo.model = (function(input, components, audio) {
     return gameVars.gameOver
   }
 
+  function drawTutorial(renderer){
+
+    let headerText = components.Text({
+      text : "Welcome to Whacky Tacky Tower Defense!",
+      font : '60px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 255, 1)',
+      position : { x : 50, y : 50 }
+    })
+
+    let towerTut = components.BulbasaurHover({
+      imageCenter: {x:100, y: 200}
+    })
+
+    let towerText1 = components.Text({
+      text : "This is a tower. Build them in your area (the left side) to protect your eggs",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 160, y : 150 }
+    })
+    let towerText2 = components.Text({
+      text : "from being stolen by your enemy!",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 160, y : 190 }
+    })
+
+    let costText = components.Text({
+      text : "This is the cost of a Tower or creep. You can't spend what you don't have!",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 50, y : 300 }
+    })
+
+    let hotkeyText = components.Text({
+      text : "This is a hot-key. You can use it instead of clicking the icon!",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 140, y : 250 }
+    })
+
+    let creepTut = components.RocketMHover({
+      imageCenter: {x: 850, y: 425}
+    })
+
+    let creepText1 = components.Text({
+      text : "This is a creep. Send them to your enemy to steal their eggs! The",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 50, y : 375 }
+    })
+
+    let creepText2 = components.Text({
+      text : "more creeps you send, the more money you will make!",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 50, y : 415 }
+    })
+
+    let sampleGoldText = components.Text({
+      text : "123",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 255, 1)',
+      position : { x : 100, y : 500 }
+    })
+
+    let goldText1 = components.Text({
+      text : "This is your gold. You need it to build towers, send creeps, and upgrade. You",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 150, y : 500 }
+    })
+
+    let goldText2 = components.Text({
+      text : "earn gold from killing enemy creeps and selling back your towers",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 150, y : 540 }
+    })
+
+    let sampleIncomeText = components.Text({
+      text : "17",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 255, 1)',
+      position : { x : 100, y : 600 }
+    })
+
+    let incomeText1 = components.Text({
+      text : "This is your income. Your gold will increase by this amount every",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 150, y : 600 }
+    })
+
+    let incomeText2 = components.Text({
+      text : "seven seconds. To raise your income, send more creeps!",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 150, y : 640 }
+    })
+
+    let livesText1 = components.Text({
+      text : "These are your eggs. There are precious baby pokemon in there! If you let your",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 100, y : 680 }
+    })
+
+    let livesText2 = components.Text({
+      text : "opponent steal all of them you lose!",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 100, y : 720 }
+    })
+
+
+    for(let i = 0; i < 20; i++){
+      for(let j = 0; j < 20; j++){
+        renderer.core.drawImage2({image: Demo.assets['buildingselectbggreen']},i*50,j*50,50,50,3)
+      }
+    }
+
+    renderer.Text.render(headerText,3)
+
+    renderer.TowerHover.render(towerTut,3)
+    renderer.Text.render(towerText1,3)
+    renderer.Text.render(towerText2,3)
+
+    renderer.CreepsHover.render(creepTut,3)
+    renderer.Text.render(creepText1,3)
+    renderer.Text.render(creepText2,3)
+
+    renderer.core.drawCurve(125,250,125,275,80,275,"rgba(255,0,0,1)",5,3)
+    renderer.core.drawCircle("rgba(255,0,0,1",{x: 137.5,y: 240}, 15,3)
+    renderer.core.drawCircle("rgba(0,0,255,1",{x: 887.5,y: 465}, 15,3)
+    renderer.core.drawCurve(800,275,902.5,465,1100,305,"rgba(0,0,255,1)",5,3)
+    renderer.Text.render(hotkeyText,3)
+
+    renderer.core.drawCurve2(45,325,50,165,0,270,0,180,"rgba(255,0,0,1)",5,3)
+    renderer.core.drawCircle("rgba(255,0,0,1",{x: 57.5,y: 160}, 15,3)
+    renderer.core.drawCircle("rgba(0,0,255,1",{x: 807.5,y: 385}, 15,3)
+    renderer.core.drawCurve(850,325,820,375,875,365,"rgba(0,0,255,1)",5,3)
+    renderer.Text.render(costText,3)
+
+    renderer.core.drawImage2({image: Demo.assets['gold']},50,500,50,50,3)
+    renderer.Text.render(sampleGoldText,3)
+    renderer.Text.render(goldText1,3)
+    renderer.Text.render(goldText2,3)
+
+    renderer.core.drawImage2({image: Demo.assets['income']},50,600,50,50,3)
+    renderer.Text.render(sampleIncomeText,3)
+    renderer.Text.render(incomeText1,3)
+    renderer.Text.render(incomeText2,3)
+
+    renderer.core.drawImage2({image: Demo.assets['egg']},50,700,50,50,3)
+    renderer.Text.render(livesText1,3)
+    renderer.Text.render(livesText2,3)
+  }
+
 	return that;
 
 }(Demo.input, Demo.components, Demo.audio));
@@ -762,6 +938,7 @@ function Player(){
     totalTowersBuilt: 0,
     totalTowersUpgraded: 0,
     pauseTime: 30000,
+    gameStart: false,
     kills: {
       RocketM: 0,
       Scientist: 0,
