@@ -106,7 +106,7 @@ module.exports = function(player1, player2){
           if (players.hasOwnProperty(key)) {
             resetMap(key)
             for (let i = 0; i < players[key].towers.length; i++) {
-              if (players[key].towers[i] === "deleted") continue
+              if (players[key].towers[i].type === "deleted") continue
               let attackTarget = players[key].towers[i].update(elapsedTime, players[key].creeps)
               for (let k = players[key].towers[i].center.y / 50 - 3; k <= players[key].towers[i].center.y / 50 - 2; k++) {
                 for (let j = players[key].towers[i].center.x / 50 - 1; j <= players[key].towers[i].center.x / 50; j++) {
@@ -116,9 +116,6 @@ module.exports = function(player1, player2){
               //do the attack, add update function with projectile component
               if (attackTarget > -1 && players[key].creeps[attackTarget].type !== "deleted") {
                 players[key].creeps[attackTarget].curHealth = players[key].towers[i].attack.damage
-                if(key === player2){
-
-                }
                 if (players[key].creeps[attackTarget].stats.curHealth <= 0) {
                   Events.Kill({
                     player: players[key],
@@ -132,7 +129,7 @@ module.exports = function(player1, player2){
               }
             }
             for (let i = 0; i < players[key].creeps.length; i++) {
-              if (players[key].creeps[i] === "deleted") continue
+              if (players[key].creeps[i].type === "deleted") continue
               players[key].creeps[i].update(elapsedTime)
               if (players[key].creeps[i].center.y > 100) {
                 players[key].map[Math.floor(players[key].creeps[i].center.y / 50) - 2][Math.floor(players[key].creeps[i].center.x / 50)] = (-i) - 2

@@ -27,7 +27,6 @@ let creepCost = {
 
 Events.process = function(event, emit){
   if(event.event === 'build'){
-    //console.log('event',event)
     if(towerCost[event.type] > event.player.money) return false
     if(!Events.AddTower({
         type: event.type,
@@ -44,7 +43,6 @@ Events.process = function(event, emit){
       event.player.paths = Path(event.player.map)
       for(let i = 0; i < event.player.creeps.length; i++){
         if(event.player.creeps[i].type === "deleted") continue
-        //event.player.paths[i] = Path(event.player.map,event.player.creeps[i].center)//,event.player.path)
         event.player.creeps[i].stats.path = Path(event.player.map,event.player.creeps[i].center)
       }
 
@@ -76,7 +74,6 @@ Events.process = function(event, emit){
     }
   }
   else if(event.event === 'upgrade'){
-    // console.log(towerCost[event.type], event.type, event.player.money)
     if(towerCost[event.type] > event.player.money) return false
     if(!Events.UpgradeTower({
           type: event.type,
@@ -94,7 +91,6 @@ Events.process = function(event, emit){
     }
   }
   else if(event.event === 'sell'){
-      console.log('selling:')
       event.player.towers[event.tower].type = "deleted";
       event.player.money += Math.floor(towerCost[event.type]/2);
       for(let i = 0; i < 16; ++i){
@@ -104,7 +100,6 @@ Events.process = function(event, emit){
           }
         }
       }
-      console.log('sell towers:',Towers)
       return true;
   }
   else if(event.event === 'pause'){
@@ -161,9 +156,6 @@ Events.AddTower = function(spec){
     }
   }, spec.center))
 
-  // spec.player.push(Components[spec.type]({
-  //   spriteCenter: spec.center
-  // }))
   return true
 }
 
