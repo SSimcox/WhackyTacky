@@ -7,6 +7,8 @@ let Path = require('./pathing')
 let Components = require('./Components')
 let Towers = require('./towerData')
 
+var count = 0
+
 module.exports = function(player1, player2){
   'use strict';
   let players = {}
@@ -65,15 +67,14 @@ module.exports = function(player1, player2){
     var sendUpdate = false
     while(events.length > 0){
       var event = events.shift()
-      if (event.event === 'pause'){
-        players.gameVars.gamePaused = true
-        return true
-      }
       if(event.player === player1)
         event.opponent = players[player2]
       else
         event.opponent = players[player1]
+      event.playerVal = event.player
       event.player = players[event.player]
+
+      event.gameVars = players.gameVars
       var success = Events.process(event,emit)
       if(success) {
         sendUpdate = true
@@ -90,9 +91,7 @@ module.exports = function(player1, player2){
 
   that.update = function(elapsedTime) {
     if(!players.gameVars.gameOver && !players.gameVars.gamePaused) {
-
       if(players.gameVars.gameStarts <= 0) {
-
         players.gameVars.totalTime += elapsedTime
         if (Math.floor(players.gameVars.totalTime / 1000) % 7 === 0 && Math.floor(players.gameVars.totalTime / 1000) / 7 !== players.gameVars.lastIncome) {
           players[player1].money += players[player1].income
@@ -151,12 +150,23 @@ module.exports = function(player1, player2){
       }
       else{
         players.gameVars.gameStarts -= elapsedTime
+        if(players[player1].gameStart && players[player2].gameStart && players.gameVars.gameStarts > 3000){
+          players.gameVars.gameStarts = 3000
+        }
       }
+    }
+    if(players.gameVars.gamePaused){
+        players[players.gameVars.playerPause].pauseTime -= elapsedTime
+        if(players[players.gameVars.playerPause].pauseTime <= 0) players.gameVars.gamePaused = false
     }
   };
 
   that.isPaused = function(){
     return players.gameVars.gamePaused || players.gameVars.gameOver
+  }
+
+  that.isGameOver = function(){
+    return players.gameVars.gameOver
   }
 
   that.timeTilStarted = function(){
@@ -181,12 +191,12 @@ module.exports = function(player1, player2){
   that.cleanseModel = function(){
     for(var key in players){
       if(key === "gameVars") continue
-      for(let i = 0; i < players[key].towers.length; i++){
-        if(players[key].towers[i].type === "deleted") {
-          players[key].towers.splice(i, 1)
-          i--
-        }
-      }
+      // for(let i = 0; i < players[key].towers.length; i++){
+      //   if(players[key].towers[i].type === "deleted") {
+      //     players[key].towers.splice(i, 1)
+      //     i--
+      //   }
+      // }
       for(let i = 0; i < players[key].creeps.length; i++){
         if(players[key].creeps[i].type === "deleted") {
           players[key].creeps.splice(i, 1)
@@ -222,6 +232,8 @@ function Player(){
     creepId: 1,
     totalTowersBuilt: 0,
     totalTowersUpgraded: 0,
+    pauseTime: 30000,
+    gameStart: false,
     kills: {
       RocketM: 0,
       Scientist: 0,
@@ -245,6 +257,7 @@ function GameVars(){
     lastIncome: 0,
     gameOver: false,
     gamePaused: false,
-    gameStarts: 3000
+    gameStarts: 30000,
+    playerPause: 0
   }
 }

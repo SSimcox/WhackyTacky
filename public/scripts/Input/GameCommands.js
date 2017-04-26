@@ -1,6 +1,9 @@
 Demo.input.GameCommands = function(myMouse, myKeyboard) {
   'use strict'
   var that = {};
+  var paused = false
+
+  var lastPauseTime = 0;
 
   that.hoverTower = function(type, center){
     myMouse.getClickLocation();
@@ -74,12 +77,21 @@ Demo.input.GameCommands = function(myMouse, myKeyboard) {
     myMouse.resetSelection()
   }
 
-  that.pause = function(){
-    //this will send creep waves
+  that.pause = function () {
+    if(performance.now() - lastPauseTime > 1000) {
+      paused = true
+      lastPauseTime = performance.now()
+    }
   }
 
-  that.getKeyCommands = function(){
-    // myKeyboard.changeCommands();
+  that.paused = function(){
+    var ret = paused;
+    paused = false
+    return ret
+  }
+
+  that.getKeyCommands = function () {
+      // myKeyboard.changeCommands();
   }
 
   return that;

@@ -243,12 +243,20 @@
     </div>
 
     <div id="start-game-modal" class="hidden">
+        <canvas id="tutorial-canvas"></canvas>
         <div>
-        <h3 id="game-timer"></h3>
+            <h3 id="game-timer"></h3>
         </div>
     </div>
 
     <div id="mask" class="hidden"></div>
+
+    <div id="pause-modal" class="hidden">
+        <div>
+            <h1>Game Paused</h1>
+            <h2 id="pause-text"></h2>
+        </div>
+    </div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
 
@@ -271,6 +279,7 @@
     <script src="/public/scripts/Rendering/Text.js"></script>
     <script src="/public/scripts/Rendering/Tower.js"></script>
     <script src="/public/scripts/Rendering/Creep.js"></script>
+    <script src="/public/scripts/Rendering/Attack.js"></script>
     <script src="/public/scripts/Rendering/TowerHover.js"></script>
     <script src="/public/scripts/Rendering/CreepsHover.js"></script>
     <script src="/public/scripts/Rendering/ParticleSystem.js"></script>
@@ -282,6 +291,8 @@
     <script src="/public/scripts/Components/StaticImage.js"></script>
     <script src="/public/scripts/Components/Tower.js"></script>
     <script src="/public/scripts/Components/TowerData.js"></script>
+    <script src="/public/scripts/Components/Attack.js"></script>
+    <script src="/public/scripts/Components/AttackData.js"></script>
     <script src="/public/scripts/Components/Creep.js"></script>
     <script src="/public/scripts/Components/TowerHover.js"></script>
     <script src="/public/scripts/Components/CreepsHover.js"></script>

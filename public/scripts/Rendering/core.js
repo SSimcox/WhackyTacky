@@ -110,6 +110,9 @@ Demo.renderer.core = (function() {
     canvas[1] = document.getElementById('your-canvas');
     context[1] = canvas[1].getContext('2d');
 
+    canvas[3] = document.getElementById('tutorial-canvas');
+    context[3] = canvas[3].getContext('2d');
+
 		// window.addEventListener('resize', function() {
 		// 	resizeCanvas();
 		// }, false);
@@ -339,6 +342,28 @@ Demo.renderer.core = (function() {
 		context[p].translate(-(center.x * world.size + world.left), -(center.y * world.size + world.top));
 	}
 
+	function drawCurve(sx,sy,dx,dy,bx,by,linecolor,width,p){
+	  context[p].save()
+    context[p].strokeStyle = linecolor
+    context[p].lineWidth = width
+    context[p].beginPath()
+    context[p].moveTo(sx,sy)
+    context[p].quadraticCurveTo(bx,by,dx,dy)
+    context[p].stroke()
+    context[p].restore()
+  }
+
+  function drawCurve2(sx,sy,dx,dy,b1x,b1y,b2x,b2y,linecolor,width,p){
+    context[p].save()
+    context[p].strokeStyle = linecolor
+    context[p].lineWidth = width
+    context[p].beginPath()
+    context[p].moveTo(sx,sy)
+    context[p].bezierCurveTo(b1x,b1y,b2x,b2y,dx,dy)
+    context[p].stroke()
+    context[p].restore()
+  }
+
 	return {
 		initialize: initialize,
 		toggleFullScreen: toggleFullScreen,
@@ -353,6 +378,8 @@ Demo.renderer.core = (function() {
 		drawCircle: drawCircle,
 		drawImage: drawImage,
 		drawImage2: drawImage2,
+    drawCurve: drawCurve,
+    drawCurve2: drawCurve2,
 		saveContext: saveContext,
 		restoreContext: restoreContext,
 		rotateCanvas: rotateCanvas,

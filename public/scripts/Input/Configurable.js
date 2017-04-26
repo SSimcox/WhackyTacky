@@ -41,6 +41,10 @@ var Persistance = (function() {
       return controls;
     }
 
+    function getControl(name){
+      return controls[name].substring(7)
+    }
+
   	function report() {
   		document.getElementById('Bulbasaur').value = controls['Bulbasaur'].substring(7)
   		document.getElementById('Charmander').value = controls['Charmander'].substring(7)
@@ -59,6 +63,7 @@ var Persistance = (function() {
     return {
       update: update,
       report : report,
+      getControl: getControl,
       getControls: getControls
     }
   }())

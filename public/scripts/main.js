@@ -88,7 +88,7 @@ Demo.main = (function(renderer, components, model) {
 		textFPS.height = renderer.core.measureTextHeight(textFPS,0);
 		textFPS.width = renderer.core.measureTextWidth(textFPS,0);
 
-		model.initialize();
+		model.initialize(renderer);
 
 		//
 		// Get the gameloop started

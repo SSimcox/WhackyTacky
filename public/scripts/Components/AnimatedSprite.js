@@ -14,7 +14,8 @@ Demo.components.AnimatedSprite = function(spec) {
 			get sprite() { return spec.sprite; },
 			get direction() {return direction; },
 			set direction(val) {direction = val;},
-			set center(val){spec.spriteCenter = val; }
+			set center(val){spec.spriteCenter = val; },
+			get attack() { return spec.attack || false }
 		};
 
 	var isAnimating = false
@@ -37,6 +38,7 @@ Demo.components.AnimatedSprite = function(spec) {
 	//
 	//------------------------------------------------------------------
 	that.update = function(elapsedTime, animating) {
+		var reset = false
 		spec.elapsedTime += elapsedTime;
 		if(animating){
 		  spec.elapsedTime = 0
@@ -60,9 +62,11 @@ Demo.components.AnimatedSprite = function(spec) {
           if (spec.sprite === spec.spriteCount){
             spec.sprite = 0
             isAnimating = false
+						reset = true
         }
       }
     }
+    return reset
 	};
 
 	return that;

@@ -151,6 +151,18 @@ Demo.loader = (function() {
 			key: 'eyepatchHover',
 			source: '/public/assets/graphics/creepsHover/eyepatchHover.png'
 		},
+    {
+      key: 'grass-hit',
+      source: '/public/assets/graphics/attacks/grass-hit.png'
+    },
+    {
+      key: 'fire-hit',
+      source: '/public/assets/graphics/attacks/fire-hit.png'
+    },
+    {
+      key: 'water-hit',
+      source: '/public/assets/graphics/attacks/water-hit.png'
+    },
 		{
 			key: 'dirt',
 			source: '/public/assets/graphics/tiles/dirt.png'

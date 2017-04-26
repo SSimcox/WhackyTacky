@@ -73,13 +73,16 @@ Game.game = (function(screens) {
 
     var myCanvas = document.getElementById('my-canvas')
     var yourCanvas = document.getElementById('your-canvas')
+    var tutorialCanvas = document.getElementById('tutorial-canvas')
 
-    myCanvas.width = yourCanvas.width = 1000;
-    myCanvas.height = yourCanvas.height = 1000;
+    myCanvas.width = yourCanvas.width = tutorialCanvas.width = 1000;
+    myCanvas.height = yourCanvas.height = tutorialCanvas.height = 1000;
+
     resizeCanvas(myCanvas, myOffset)
     resizeCanvas(yourCanvas, yourOffset)
     yourOffset.x += window.innerWidth / 2
     window.onresize = function(){
+      resizeCanvas(tutorialCanvas,yourOffset)
       resizeCanvas(myCanvas, myOffset)
       resizeCanvas(yourCanvas, yourOffset)
       yourOffset.x += window.innerWidth / 2
@@ -110,3 +113,4 @@ function resizeCanvas(canvas, offset){
   offset.y = .05 * h
 
 }
+

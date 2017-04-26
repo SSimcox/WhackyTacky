@@ -107,6 +107,21 @@ Events.process = function(event, emit){
       console.log('sell towers:',Towers)
       return true;
   }
+  else if(event.event === 'pause'){
+    if(!event.gameVars.gamePaused && event.player.pauseTime > 0){
+      event.gameVars.gamePaused = true
+      event.gameVars.playerPause = event.playerVal
+      return true
+    }else if(event.gameVars.gamePaused && event.playerVal === event.gameVars.playerPause){
+      event.gameVars.gamePaused = false
+      return true
+    }
+    return false
+  }
+  else if(event.event === 'ready'){
+    event.player.gameStart = true
+    return true;
+  }
   return true;
 }
 

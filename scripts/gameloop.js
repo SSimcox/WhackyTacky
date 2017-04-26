@@ -29,7 +29,7 @@ module.exports = function(player1, player2, io){
     var elapsedTime = currentTime - previousTime
 
     var sendUpdate = model.processEvents(events, emit)
-    if(!model.isPaused()) {
+    if(!model.isGameOver()) {
       model.update(elapsedTime)
       loopTimes.push(present() - currentTime)
     }
@@ -39,7 +39,7 @@ module.exports = function(player1, player2, io){
     if (timeSinceLastSend > 100 || sendUpdate) {
       emit()
       timeSinceLastSend = 0
-      // model.cleanseModel()
+      model.cleanseModel()
       //console.log((present() - startTime)/1000)
     }
 
