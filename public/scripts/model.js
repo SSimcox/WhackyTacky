@@ -124,6 +124,7 @@ Demo.model = (function(input, components, audio) {
 
 
     components.TowerData.load()
+    components.AttackData.load()
 
     //Example of how upgrading could work
     // towers[i] = components.Charmeleon({
@@ -309,6 +310,7 @@ Demo.model = (function(input, components, audio) {
 	    document.getElementById('mask').className = 'hidden'
       document.getElementById('pause-modal').className = 'hidden'
       if (gameVars.gameStarts <= 0) {
+        document.getElementById('start-game-modal').className = 'hidden'
         if (!diffed) {
           gameVars.totalTime += elapsedTime
           if (Math.floor(gameVars.totalTime / 1000) % 7 === 0 && Math.floor(gameVars.totalTime / 1000) / 7 !== gameVars.lastIncome) {
@@ -326,6 +328,20 @@ Demo.model = (function(input, components, audio) {
                   players[p].map[k][j] = i
                 }
               }
+              if(attackTarget > -1){
+                var data = components.AttackData[components.AttackData.keys[players[p].towers[i].type]]
+                players[p].attacks.push(components.Attack({
+                  type: data.type,
+                  spriteMove: data.spriteMove,
+                  spriteHit: data.spriteHit,
+                  spriteCountMove: data.spriteCountMove,
+                  spriteTimeMove: data.spriteTimeMove,
+                  spriteCountHit: data.spriteCountHit,
+                  spriteTimeHit: data.spriteTimeHit,
+                  spriteSize: data.spriteSize,
+                  attack: data.attack,
+                },players[p].creeps[attackTarget].center))
+              }
             }
             for (let i = 0; i < players[p].creeps.length; i++) {
               if (players[p].creeps[i].type === "deleted") continue
@@ -336,6 +352,12 @@ Demo.model = (function(input, components, audio) {
                 if (players[p].creeps[i].type !== "deleted")
                   players[p].lives--
                 players[p].creeps[i].type = "deleted"
+              }
+            }
+            for (let i = 0; i < players[p].attacks.length; i++){
+              if(players[p].attacks[i].update(elapsedTime)){
+                players[p].attacks.splice(i,1)
+                i--
               }
             }
             for (let i = 0; i < players[p].buildTowers.length; i++) {
@@ -436,6 +458,9 @@ Demo.model = (function(input, components, audio) {
         renderer.Creep.render(players[p].creeps[i],p)
       }
 
+      for (let i = 0; i < players[p].attacks.length; i++){
+        renderer.Attack.render(players[p].attacks[i],p)
+      }
 
 			for(let i = 0; i < players[p].buildTowers.length; i++){
 				renderer.TowerHover.render(players[p].buildTowers[i],p)
@@ -927,6 +952,7 @@ function Player(){
   return{
     buildTowers: [],
     sendCreeps: [],
+    attacks: [],
     towers: [],
     creeps: [],
     map: [],
