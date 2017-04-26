@@ -16,6 +16,7 @@ module.exports = function(player1, player2){
   players[player2] = {}
   players.gameVars = {}
 
+
   let that = {};
 
   // ------------------------------------------------------------------
@@ -87,6 +88,7 @@ module.exports = function(player1, player2){
   // This function is used to update the state of the demo model.
   //
   // ------------------------------------------------------------------
+
   that.update = function(elapsedTime) {
     if(!players.gameVars.gameOver && !players.gameVars.gamePaused) {
       if(players.gameVars.gameStarts <= 0) {

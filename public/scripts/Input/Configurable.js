@@ -9,11 +9,12 @@ var Persistance = (function() {
         Bulbasaur: 'DOM_VK_1',
         Charmander: 'DOM_VK_2',
         Squirtle: 'DOM_VK_3',
-        Evolve: 'DOM_VK_E',
-        Biker: 'DOM_VK_D',
-        Pirate: 'DOM_VK_I',
-        Rocket: 'DOM_VK_R',
-        Scientist: 'DOM_VK_S',
+        Evolve: 'DOM_VK_A',
+        Sell: 'DOM_VK_S',
+        Biker: 'DOM_VK_Q',
+        Pirate: 'DOM_VK_W',
+        Rocket: 'DOM_VK_E',
+        Scientist: 'DOM_VK_R',
         Pause: 'DOM_VK_P',
         Cancel: 'DOM_VK_ESCAPE'
       };
@@ -25,6 +26,7 @@ var Persistance = (function() {
         Charmander: 'DOM_VK_' + document.getElementById('Charmander').value.toUpperCase(),
         Squirtle: 'DOM_VK_' + document.getElementById('Squirtle').value.toUpperCase(),
         Evolve: 'DOM_VK_' + document.getElementById('Evolve').value.toUpperCase(),
+        Sell: 'DOM_VK_' + document.getElementById('Sell').value.toUpperCase(),
         Biker: 'DOM_VK_' + document.getElementById('Biker').value.toUpperCase(),
         Pirate: 'DOM_VK_' + document.getElementById('Pirate').value.toUpperCase(),
         Rocket: 'DOM_VK_' + document.getElementById('Rocket').value.toUpperCase(),
@@ -48,6 +50,7 @@ var Persistance = (function() {
   		document.getElementById('Charmander').value = controls['Charmander'].substring(7)
   		document.getElementById('Squirtle').value = controls['Squirtle'].substring(7)
   		document.getElementById('Evolve').value = controls['Evolve'].substring(7)
+  		document.getElementById('Sell').value = controls['Sell'].substring(7)
   		document.getElementById('Biker').value = controls['Biker'].substring(7)
   		document.getElementById('Pirate').value = controls['Pirate'].substring(7)
   		document.getElementById('Rocket').value = controls['Rocket'].substring(7)

@@ -24,6 +24,7 @@ Demo.input.Keyboard = function() {
 		that.registerCommand(KeyEvent[Persistance.getControls()['Charmander']], gameCommands.buildTower2)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Squirtle']], gameCommands.buildTower3)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Evolve']], gameCommands.evolveTowerKeyboard)
+		that.registerCommand(KeyEvent[Persistance.getControls()['Sell']], gameCommands.sellTowerKeyboard)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Biker']], gameCommands.sendBiker)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Pirate']], gameCommands.sendPirate)
 		that.registerCommand(KeyEvent[Persistance.getControls()['Rocket']], gameCommands.sendRocket)
@@ -40,6 +41,10 @@ Demo.input.Keyboard = function() {
 	that.registerCommand = function(key, handler) {
 		handlers[key] = handler;
 	};
+
+  that.clearBuffer = function(){
+    keys = {};
+  }
 
 	// ------------------------------------------------------------------
 	//
@@ -60,6 +65,10 @@ Demo.input.Keyboard = function() {
 	that.buildTower = function(){
 		return true;
 	}
+
+  that.sellTower = function(){
+    return true;
+  }
 	//
 	// These are used to keep track of which keys are currently pressed
 	window.addEventListener('keydown', keyPress);

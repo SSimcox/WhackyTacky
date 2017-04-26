@@ -145,6 +145,42 @@ Demo.renderer.core = (function() {
 			world.top + spec.position.y * world.size);
 	}
 
+	function drawTextSell(spec, p){
+		context[p].font = spec.font;
+		context[p].fillStyle = spec.fill;
+		context[p].textBaseline = 'top';
+		context[p].fillText(
+			"Sell: " + spec.cost/2,
+			world.left + spec.position.x * world.size,
+			world.top + spec.position.y * world.size);
+		context[p].fillText(
+			"Damage: " + spec.damage,
+			world.left + spec.position.x * world.size,
+			world.top + (spec.position.y+20) * world.size);
+		context[p].fillText(
+			"Speed: " + spec.speed + " s",
+			world.left + spec.position.x * world.size,
+			world.top + (spec.position.y+40) * world.size);
+	}
+
+	function drawTextUpgrade(spec, p){
+		context[p].font = spec.font;
+		context[p].fillStyle = spec.fill;
+		context[p].textBaseline = 'top';
+		context[p].fillText(
+			"Cost: " + spec.cost,
+			world.left + spec.position.x * world.size,
+			world.top + spec.position.y * world.size);
+		context[p].fillText(
+			"Damage: " + spec.damage,
+			world.left + spec.position.x * world.size,
+			world.top + (spec.position.y+20) * world.size);
+		context[p].fillText(
+			"Speed: " + spec.speed + " s",
+			world.left + spec.position.x * world.size,
+			world.top + (spec.position.y+40) * world.size);
+	}
+
 	//------------------------------------------------------------------
 	//
 	// This returns the height of the specified font, in world units.
@@ -205,16 +241,23 @@ Demo.renderer.core = (function() {
 	// Draw a circle within the unit world.
 	//
 	//------------------------------------------------------------------
-	function drawCircle(style, center, radius, p) {
+	function drawCircle(lineStyle, center, radius, p) {
 		//
 		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
-		context[p].strokeStyle = style;
+		var grad = context[p].createLinearGradient(center.x, center.y, 0.5 + world.left + (center.x * world.size), 0.5 + world.left + (center.y * world.size));
+		grad.addColorStop(0, lineStyle);
+		grad.addColorStop(1, '#FFFFFF')
+		// let grad = '#FFFFFF';
+		context[p].strokeStyle = lineStyle;
+		context[p].fillStyle = grad;
 		context[p].beginPath();
 		context[p].arc(
 			0.5 + world.left + (center.x * world.size),
 			0.5 + world.top + (center.y * world.size),
 			radius * world.size,
 			0, 2 * Math.PI);
+
+		context[p].fill();
 		context[p].stroke();
 	}
 
@@ -326,6 +369,8 @@ Demo.renderer.core = (function() {
 		toggleFullScreen: toggleFullScreen,
 		clearCanvas: clearCanvas,
 		drawText: drawText,
+		drawTextSell: drawTextSell,
+		drawTextUpgrade: drawTextUpgrade,
 		measureTextHeight: measureTextHeight,
 		measureTextWidth: measureTextWidth,
 		drawLine: drawLine,

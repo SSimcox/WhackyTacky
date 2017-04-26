@@ -50,12 +50,36 @@ Demo.model = (function(input, components, audio) {
 
   let paths = []
 
-	var hover;
-	var imageHovering = false;
-	var towerToEvolve;
-	var upgrading = false;
-	var location;
+	var hover,
+	    imageHovering = false,
+	    towerToEvolve,
+	    upgrading = false,
+	    selling = false,
+	    location,
+	    selectedTower = false,
+			// staticImageValues = {
+			// 	Bulbasaur: components.BulbasaurHover({imageCenter: {x: 1000, y: 1000}}),
+			// 	Ivysaur: components.IvysaurHover({imageCenter: {x: 1000, y: 1000}}),
+			// 	Venusaur: components.VenusaurHover({imageCenter: {x: 1000, y: 1000}}),
+			// 	Charmander: components.CharmanderHover({imageCenter: {x: 1000, y: 1000}}),
+			// 	Charmeleon: components.CharmeleonHover({imageCenter: {x: 1000, y: 1000}}),
+			// 	Charizard: components.CharizardHover({imageCenter: {x: 1000, y: 1000}}),
+			//   Squirtle: components.SquirtleHover({imageCenter: {x: 1000, y: 1000}}),
+			//   Wartortle: components.WartortleHover({imageCenter: {x: 1000, y: 1000}}),
+			// 	Blastoise: components.BlastoiseHover({imageCenter: {x: 1000, y: 1000}})
+			// },
 
+			towerValues = {
+				Bulbasaur: {cost: 10, range:600, damage:5, speed: .6, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
+				Ivysaur: {cost: 30, range:600, damage:15, speed: .6, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
+				Venusaur: {cost: 120, range:600, damage:45, speed: .6, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
+				Charmander: {cost: 12, range:400, damage:10, speed: 2, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
+				Charmeleon: {cost: 30, range:400, damage:25, speed: 2, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
+				Charizard: {cost: 120, range:400, damage:57, speed: 2, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
+			  Squirtle: {cost: 15, range:300, damage:5, speed: .3, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
+			  Wartortle: {cost: 30, range:100, damage:15, speed: .3, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'},
+				Blastoise: {cost: 120, range:100, damage:45, speed: .3, font : '16px Oswald, sans-serif', fill : 'rgba(255, 255, 255, 1)'}
+			}
 	// ------------------------------------------------------------------
 	//
 	// This function initializes the input demo model.  Only thing it
@@ -122,20 +146,8 @@ Demo.model = (function(input, components, audio) {
 		}
 		myKeyboard.changeCommands(gameCommands);
 
-
     components.TowerData.load()
     components.AttackData.load()
-
-    //Example of how upgrading could work
-    // towers[i] = components.Charmeleon({
-    //   center: towers[i].center,
-    //   exp: towers[i].exp
-    // })
-
-		// myKeyboard.registerHandler(function(elapsedTime) {
-		// 		birdLittle.moveForward(elapsedTime);
-		// 	},
-		// 	input.KeyEvent.DOM_VK_W, true);
 
     audio.playSong('battle')
     drawTutorial(renderer)
@@ -161,20 +173,20 @@ Demo.model = (function(input, components, audio) {
       if (build || wave) {
         if (build) buildTower(build.type, build.x, build.y);
         if (wave) sendCreeps(wave.type, wave.x, wave.y);
-      } else if (towerToEvolve) {
+      } else if (selectedTower && towerToEvolve) {
         // do we want to evolve it?
-        upgrading = gameCommands.evolveTower(myMouse);
-        // upgrading = gameCommands.evolveTowerKeyboard(myMouse)
 
-        if (upgrading) {// || gameCommands.evolveTowerKey()){
-          console.log('upgrading Tower')
-          upgradeTower(towerToEvolve)
-        }
-      }
-      resetHover();
-      buildingHovering();
-      mouseHovering();
-    }
+			if(gameCommands.evolveTower(myMouse)){
+				console.log('upgrading Tower')
+				upgradeTower(towerToEvolve)
+			}else if(gameCommands.sellTower(myMouse)){
+				console.log('selling Tower')
+				sellTower(towerToEvolve)
+			}
+		}
+		resetHover();
+		buildingHovering();
+		mouseHovering();
 	};
 
 	function resetHover(){
@@ -263,19 +275,19 @@ Demo.model = (function(input, components, audio) {
 	function selectTowerToEvolve(location){
 		let mapX = Math.floor(location.x /50)
 		let mapY = Math.floor(location.y /50) - 2;
-		console.log('map', mapX, mapY)
+		// console.log('map', mapX, mapY)
 
 		let playerTower  = players[0].map[mapY][mapX];
 		if(playerTower === -1){
-			console.log('first if')
-			myMouse.noTowerFound();
-			towerToEvolve = undefined;
-			upgrading = false;
-			myMouse.setUpgrading(false)
+			clearAndReset();
 		}else if(players[0].towers[playerTower].typeUpgrade){
-			console.log('second if',players[0].towers[playerTower])
-			myMouse.setUpgrading(true)
 			towerToEvolve = {tower: players[0].towers[playerTower], id: playerTower};
+			// console.log('selecting tower', towerToEvolve.tower)
+			selectedTower = true;
+		}else if(players[0].towers[playerTower].type){
+			towerToEvolve = {tower: players[0].towers[playerTower], id: playerTower};
+			// console.log('selecting tower', towerToEvolve.tower)
+			selectedTower = true;
 		}
 
 	}
@@ -294,11 +306,30 @@ Demo.model = (function(input, components, audio) {
   }
 
 	function upgradeTower(tower){
+		if(tower.tower.typeUpgrade){
 		gameCommands.getKeyCommands();
-		// console.log('sending tower to upgrade', tower.tower.typeUpgrade)
-		socket.emit('event', {game:room, event: 'upgrade', type: tower.tower.typeUpgrade, center: {x:tower.tower.center.x, y:tower.tower.center.y}, player: socket.id, tower: tower.id})
+			// console.log('Upgrading model')
+			socket.emit('event', {game:room, event: 'upgrade', type: tower.tower.typeUpgrade, center: {x:tower.tower.center.x, y:tower.tower.center.y}, player: socket.id, tower: tower.id})
+		}
+		clearAndReset();
+	}
+
+	function sellTower(tower){
+		gameCommands.getKeyCommands();
+		// console.log('Selling in Model', tower)
+		socket.emit('event', {game:room, event: 'sell', type: tower.tower.type, center: {x:tower.tower.center.x, y:tower.tower.center.y}, player: socket.id, tower: tower.id})
+		clearAndReset();
+	}
+
+	function clearAndReset(){
+		myMouse.noTowerFound();
 		towerToEvolve = undefined;
-		upgrading = false;
+		selectedTower = false;
+		selling = false;
+		myMouse.setUpgrading(false)
+		myMouse.setSelling(false)
+		selectedTower = false;
+		myKeyboard.clearBuffer()
 	}
 	// ------------------------------------------------------------------
 	//
@@ -435,10 +466,6 @@ Demo.model = (function(input, components, audio) {
 
     drawBackground(renderer)
 
-    // for(let i = 0; i < path.length; i++){
-    //  renderer.core.drawRectangle('rgba(0,200,50,.5)',path[i].x*50 + 5,(path[i].y + 2)*50 + 5,40,40,false,0)
-    // }
-
 		for(let p = 0; p < players.length; ++p) {
       for (let i = 0; i < players[p].towers.length; i++) {
         if(players[p].towers[i].type === "deleted") continue
@@ -480,6 +507,10 @@ Demo.model = (function(input, components, audio) {
 	    }
     }
 
+		if(selectedTower && towerToEvolve){
+			drawSellUpgrade(renderer, towerToEvolve.tower)
+		}
+
     drawHeader(renderer)
 
 	};
@@ -497,9 +528,9 @@ Demo.model = (function(input, components, audio) {
           for (let i = 0; i < serverModel[key].towers.length; i++) {
             if (players[p].towers[i] === undefined || players[p].towers[i].type != serverModel[key].towers[i].type) {
               if (serverModel[key].towers[i].type === "deleted") {
-                //players[p].towers[i] = {type: "deleted"}
-                players[p].towers.splice(i, 1)
-                serverModel[key].towers.splice(i, 1)
+                players[p].towers[i].type = "deleted"
+                // players[p].towers.splice(i, 1)
+                // serverModel[key].towers.splice(i, 1)
                 i--
               }
               else {
@@ -508,9 +539,9 @@ Demo.model = (function(input, components, audio) {
               }
             }
           }
-          while (players[p].towers.length > serverModel[key].towers.length) {
-            players[p].towers.splice(players[p].towers.length - 1, 1)
-          }
+          // while (players[p].towers.length > serverModel[key].towers.length) {
+          //   players[p].towers.splice(players[p].towers.length - 1, 1)
+          // }
         }
         if(serverModel[key].hasOwnProperty("creeps")) {
           for (let i = 0; i < serverModel[key].creeps.length; i++) {
@@ -580,11 +611,25 @@ Demo.model = (function(input, components, audio) {
 
   function createTowerFromServer(tower){
 
-	  return components.Tower(components.TowerData[tower.type], tower.center)
+	  return components.Tower({
+			type: components.TowerData[tower.type].type,
+			spriteSheetFront:components.TowerData[tower.type].spriteSheetFront,
+			spriteSheetBack: components.TowerData[tower.type].spriteSheetBack,
+			spriteCountFront: components.TowerData[tower.type].spriteCountFront,
+			spriteTimeFront: components.TowerData[tower.type].spriteTimeFront,
+			spriteCountBack: components.TowerData[tower.type].spriteCountBack,
+      spriteTimeBack: components.TowerData[tower.type].spriteTimeBack,
+      animationScale: components.TowerData[tower.type].animationScale,
+      spriteSize: components.TowerData[tower.type].spriteSize,
+	    attack: {
+	      damage: components.TowerData[tower.type].attack.damage,
+	      speed: components.TowerData[tower.type].attack.speed,
+	      timeSinceAttack: components.TowerData[tower.type].attack.timeSinceAttack,
+	      range: components.TowerData[tower.type].attack.range
+	    },
+			typeUpgrade: components.TowerData[tower.type].typeUpgrade
 
-    // return components[tower.type]({
-	   //  spriteCenter: tower.center
-    // })
+	  }, tower.center)
   }
 
   function createCreepFromServer(creep){
@@ -674,6 +719,45 @@ Demo.model = (function(input, components, audio) {
     }
 
   }
+
+	function drawSellUpgrade(renderer, tower){
+		let sellVal = Math.floor(towerValues[tower.type].cost/2);
+		let sellStats = towerValues[tower.type]
+		sellStats.position = {x:700, y:900}
+		let upgradeStats = undefined;
+		if(tower.typeUpgrade){
+			upgradeStats = towerValues[tower.typeUpgrade];
+			upgradeStats.position = {x:900, y:900}
+		}
+		// console.log(sellStats, upgradeStats)
+		if(tower.type === 'Bulbasaur'){
+			renderer.core.drawImage2({image: Demo.assets['bulbasaurHover']}, 600, 900, 100, 100, 0);
+			renderer.core.drawImage2({image: Demo.assets['ivysaurHover']}, 800, 900, 100, 100, 0);
+		}else if(tower.type === 'Ivysaur'){
+			renderer.core.drawImage2({image: Demo.assets['ivysaurHover']}, 600, 900, 100, 100, 0);
+			renderer.core.drawImage2({image: Demo.assets['venusaurHover']}, 800, 900, 100, 100, 0);
+		}else if(tower.type === 'Venusaur'){
+			renderer.core.drawImage2({image: Demo.assets['venusaurHover']}, 600, 900, 100, 100, 0);
+		}else if(tower.type === 'Charmander'){
+			renderer.core.drawImage2({image: Demo.assets['charmanderHover']}, 600, 900, 100, 100, 0);
+			renderer.core.drawImage2({image: Demo.assets['charmeleonHover']}, 800, 900, 100, 100, 0);
+		}else if(tower.type === 'Charmeleon'){
+			renderer.core.drawImage2({image: Demo.assets['charmeleonHover']}, 600, 900, 100, 100, 0);
+			renderer.core.drawImage2({image: Demo.assets['charizardHover']}, 800, 900, 100, 100, 0);
+		}else if(tower.type === 'Charizard'){
+			renderer.core.drawImage2({image: Demo.assets['charizardHover']}, 600, 900, 100, 100, 0);
+		}else if(tower.type === 'Squirtle'){
+			renderer.core.drawImage2({image: Demo.assets['squirtleHover']}, 600, 900, 100, 100, 0);
+			renderer.core.drawImage2({image: Demo.assets['wartortleHover']}, 800, 900, 100, 100, 0);
+		}else if(tower.type === 'Wartortle'){
+			renderer.core.drawImage2({image: Demo.assets['wartortleHover']}, 600, 900, 100, 100, 0);
+			renderer.core.drawImage2({image: Demo.assets['blastoiseHover']}, 800, 900, 100, 100, 0);
+		}else if(tower.type === 'Blastoise'){
+			renderer.core.drawImage2({image: Demo.assets['blastoiseHover']}, 600, 900, 100, 100, 0);
+		}
+		renderer.core.drawTextSell(sellStats, 0)
+		if(upgradeStats) renderer.core.drawTextUpgrade(upgradeStats, 0)
+	}
 
   that.setSocket = function(s){
     socket = s;
