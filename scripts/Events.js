@@ -39,6 +39,7 @@ Events.process = function(event, emit){
       return false
     }
     else{
+      event.player.totalTowersBuilt++
       event.player.money -= towerCost[event.type]
       event.player.paths = Path(event.player.map)
       for(let i = 0; i < event.player.creeps.length; i++){
@@ -66,6 +67,8 @@ Events.process = function(event, emit){
       return false
     }
     else{
+      event.player.sent[event.type]++
+      event.player.sent.total++
       event.opponent.creepId += 1
       event.player.money -= creepCost[event.type][0]
       event.player.income += creepCost[event.type][1]
@@ -85,6 +88,7 @@ Events.process = function(event, emit){
       return false
     }
     else{
+      event.player.totalTowersUpgraded++
       event.player.money -= towerCost[event.type]
       return true
     }
@@ -167,6 +171,7 @@ Events.UpgradeTower = function(spec){
 
 Events.Kill = function(spec){
   spec.player.money += creepCost[spec.creep.type][1]*2
+  spec.player.totalMoney += creepCost[spec.creep.type][1]*2
 }
 
 module.exports = Events;

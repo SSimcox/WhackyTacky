@@ -222,9 +222,9 @@ Components.Tower = function (spec, center) {
           }
         }
       }
-      if(returnTarget !== -1){
-        spec.attack.timeSinceAttack = 0
-      }
+    }
+    if(returnTarget !== -1){
+      spec.attack.timeSinceAttack = 0
     }
     return returnTarget
   };

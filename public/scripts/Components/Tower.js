@@ -141,6 +141,7 @@ Demo.components.Tower = function(spec, center) {
           if (creeps[i].id === spec.attack.target && creeps[i].type !== "deleted" && distance(creeps[i].center, center) < spec.attack.range) {
             sameTarget = true
             returnTarget = i
+            console.log(spec.attack.timeSinceAttack)
           }
         }
       }
@@ -154,6 +155,7 @@ Demo.components.Tower = function(spec, center) {
               shortestCreepPath = creeps[i].stats.path.length
               spec.attack.target = creeps[i].id;
               returnTarget = i
+              console.log(spec.attack.timeSinceAttack)
             }
           }
         }
@@ -201,7 +203,7 @@ Demo.components.Tower = function(spec, center) {
     spriteCount: spec.spriteCountBack,
     spriteTime: spec.spriteTimeBack,
     animationScale: spec.animationScale,
-    spriteSize: { width: 75, height: 75},			// Maintain the size on the sprite
+    spriteSize: spec.spriteSize || { width: 75, height: 75},			// Maintain the size on the sprite
     spriteCenter: center		// Maintain the center on the sprite
 
   })
