@@ -7,6 +7,8 @@ let Path = require('./pathing')
 let Components = require('./Components')
 let Towers = require('./towerData')
 
+var count = 0
+
 module.exports = function(player1, player2){
   'use strict';
   let players = {}
@@ -64,10 +66,18 @@ module.exports = function(player1, player2){
     var sendUpdate = false
     while(events.length > 0){
       var event = events.shift()
+
       if (event.event === 'pause'){
-        players.gameVars.gamePaused = true
-        return true
+        if(!players.gameVars.gamePaused && players[event.player].pauseTime > 0){
+          players.gameVars.gamePaused = true
+          players.gameVars.playerPause = event.player
+          sendUpdate =  true
+        }else if(players.gameVars.gamePaused && event.player === players.gameVars.playerPause){
+          players.gameVars.gamePaused = false
+          sendUpdate = true
+        }
       }
+
       if(event.player === player1)
         event.opponent = players[player2]
       else
@@ -88,9 +98,7 @@ module.exports = function(player1, player2){
   // ------------------------------------------------------------------
   that.update = function(elapsedTime) {
     if(!players.gameVars.gameOver && !players.gameVars.gamePaused) {
-
       if(players.gameVars.gameStarts <= 0) {
-
         players.gameVars.totalTime += elapsedTime
         if (Math.floor(players.gameVars.totalTime / 1000) % 7 === 0 && Math.floor(players.gameVars.totalTime / 1000) / 7 !== players.gameVars.lastIncome) {
           players[player1].money += players[player1].income
@@ -151,10 +159,18 @@ module.exports = function(player1, player2){
         players.gameVars.gameStarts -= elapsedTime
       }
     }
+    if(players.gameVars.gamePaused){
+        players[players.gameVars.playerPause].pauseTime -= elapsedTime
+        if(players[players.gameVars.playerPause].pauseTime <= 0) players.gameVars.gamePaused = false
+    }
   };
 
   that.isPaused = function(){
     return players.gameVars.gamePaused || players.gameVars.gameOver
+  }
+
+  that.isGameOver = function(){
+    return players.gameVars.gameOver
   }
 
   that.timeTilStarted = function(){
@@ -220,6 +236,7 @@ function Player(){
     creepId: 1,
     totalTowersBuilt: 0,
     totalTowersUpgraded: 0,
+    pauseTime: 30000,
     kills: {
       RocketM: 0,
       Scientist: 0,
@@ -243,6 +260,7 @@ function GameVars(){
     lastIncome: 0,
     gameOver: false,
     gamePaused: false,
-    gameStarts: 3000
+    gameStarts: 3000,
+    playerPause: 0
   }
 }

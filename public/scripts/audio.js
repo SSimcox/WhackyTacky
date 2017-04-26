@@ -31,39 +31,38 @@ Demo.audio = (function(){
   that.initialize = function(){
     // that.sounds['audio/sound-1'] = loadSound('audio/sound-1.mp3');
     // that.sounds['audio/sound-2'] = loadSound('audio/sound-2.mp3');
-    that.sounds['battle'] = loadSound('/public/assets/audio/song1.ogg');
+    that.sounds['battle'] = loadSound('/public/assets/audio/song1.mp3');
     that.sounds['battle'].addEventListener('timeupdate', function() {
       // console.log(`${source} time update: ${this.currentTime}`);
-      if(Math.abs(this.currentTime - 75) < 1){this.currentTime = 15}
+      if(Math.abs(this.currentTime - 75) < 1){this.currentTime = 42.8}
     });
+
+    that.sounds['battle'].currentTime = 65
 
     that.sounds['victory'] = loadSound('/public/assets/audio/victory.mp3')
     that.sounds['victory'].playbackRate = .8
     that.sounds['victory'].addEventListener('timeupdate', function() {
       // console.log(`${source} time update: ${this.currentTime}`);
-      if(Math.abs(this.currentTime - 75) < 1){this.currentTime = 15}
+      //if(Math.abs(this.currentTime - 75) < 1){this.currentTime = 15}
     });
 
     that.sounds['defeat'] = loadSound('/public/assets/audio/defeat.mp3')
     that.sounds['defeat'].addEventListener('timeupdate', function() {
       // console.log(`${source} time update: ${this.currentTime}`);
-      if(Math.abs(this.currentTime - 75) < 1){this.currentTime = 15}
+      //if(Math.abs(this.currentTime - 75) < 1){this.currentTime = 15}
     });
 
   }
 
   that.playSound = function(whichSound) {
-
-    // that.sounds[whichSound].addEventListener('ended', function() {
-    //   that.sounds[whichSound].play();
-    // });
-
-
     that.sounds[whichSound].play();
   };
 
   that.playSong = function(whichSong){
     that.stopAll()
+    that.sounds[whichSong].addEventListener('ended', function() {
+      that.sounds[whichSong].play();
+    });
     that.sounds[whichSong].play()
   }
 

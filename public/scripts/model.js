@@ -146,28 +146,33 @@ Demo.model = (function(input, components, audio) {
 	// ------------------------------------------------------------------
 	that.processInput = function(elapsedTime) {
 		myKeyboard.update(elapsedTime);
-		let build = gameCommands.buildTower(myMouse);
-		let wave = gameCommands.sendCreeps(myMouse);
-		location = gameCommands.evolveTowerSelection(myMouse);
-		if(location){
-			selectTowerToEvolve(location);
-		}
-		if(build || wave){
-			if(build) buildTower(build.type, build.x, build.y);
-			if(wave) sendCreeps(wave.type, wave.x, wave.y);
-		}else if(towerToEvolve){
-			// do we want to evolve it?
-			upgrading = gameCommands.evolveTower(myMouse);
-			// upgrading = gameCommands.evolveTowerKeyboard(myMouse)
+		if(gameCommands.paused()){
+		  pause()
+    }
+    if(!gameVars.gamePaused && gameVars.gameStarts <= 0) {
+      let build = gameCommands.buildTower(myMouse);
+      let wave = gameCommands.sendCreeps(myMouse);
+      location = gameCommands.evolveTowerSelection(myMouse);
+      if (location) {
+        selectTowerToEvolve(location);
+      }
+      if (build || wave) {
+        if (build) buildTower(build.type, build.x, build.y);
+        if (wave) sendCreeps(wave.type, wave.x, wave.y);
+      } else if (towerToEvolve) {
+        // do we want to evolve it?
+        upgrading = gameCommands.evolveTower(myMouse);
+        // upgrading = gameCommands.evolveTowerKeyboard(myMouse)
 
-			if(upgrading){// || gameCommands.evolveTowerKey()){
-				console.log('upgrading Tower')
-				upgradeTower(towerToEvolve)
-			}
-		}
-		resetHover();
-		buildingHovering();
-		mouseHovering();
+        if (upgrading) {// || gameCommands.evolveTowerKey()){
+          console.log('upgrading Tower')
+          upgradeTower(towerToEvolve)
+        }
+      }
+      resetHover();
+      buildingHovering();
+      mouseHovering();
+    }
 	};
 
 	function resetHover(){
@@ -273,6 +278,10 @@ Demo.model = (function(input, components, audio) {
 
 	}
 
+	function pause(){
+	  socket.emit('event', {game:room, event: 'pause', player: socket.id})
+  }
+
 	function upgradeTower(tower){
 		gameCommands.getKeyCommands();
 		// console.log('sending tower to upgrade', tower.tower.typeUpgrade)
@@ -287,6 +296,8 @@ Demo.model = (function(input, components, audio) {
 	// ------------------------------------------------------------------
 	that.update = function(elapsedTime) {
 	  if(!gameVars.gameOver && !gameVars.gamePaused) {
+	    document.getElementById('mask').className = 'hidden'
+      document.getElementById('pause-modal').className = 'hidden'
       if (gameVars.gameStarts <= 0) {
         if (!diffed) {
           gameVars.totalTime += elapsedTime
@@ -355,7 +366,7 @@ Demo.model = (function(input, components, audio) {
         if (gameVars.gameStarts > 0) {
           document.getElementById('start-game-modal').className = "modal"
           document.getElementById('game-timer').innerHTML = "Game Start in " + Math.ceil(gameVars.gameStarts / 1000)
-          document.getElementById('mask').className = ''
+          document.getElementById('mask').className = 'light'
         }
         else {
           document.getElementById('start-game-modal').className = 'hidden'
@@ -365,6 +376,14 @@ Demo.model = (function(input, components, audio) {
     }else{
 	    if(gameVars.gameOver){
 	      that.stop()
+      }else{
+	      document.getElementById('mask').className = 'dark'
+        if(gameVars.playerPause === socket.id){
+	        document.getElementById('pause-text').innerHTML = "Game will resume in " + Math.ceil(players[0].pauseTime / 1000) + " seconds. Press the 'Pause' key (" + Persistance.getControl('Pause') + ") to continue..."
+        }else{
+          document.getElementById('pause-text').innerHTML = "Waiting for other Player to resume the game.\nGame will resume in " + Math.ceil(players[1].pauseTime / 1000) + " seconds."
+        }
+        document.getElementById('pause-modal').className = 'modal'
       }
     }
 	};
@@ -503,6 +522,8 @@ Demo.model = (function(input, components, audio) {
           players[p].totalMoney = serverModel[key].totalMoney
         if(serverModel[key].hasOwnProperty("totalTowersBuilt"))
           players[p].totalTowersBuilt = serverModel[key].totalTowersBuilt
+        if(serverModel[key].hasOwnProperty("pauseTime"))
+          players[p].pauseTime = serverModel[key].pauseTime
 
         if(serverModel[key].hasOwnProperty("totalTime")) {
           gameVars = serverModel[key]
@@ -629,9 +650,9 @@ Demo.model = (function(input, components, audio) {
     gameVars.gameOver = true
     gameVars.gamePause = true
 
-    document.getElementById('mask').className = ''
+    document.getElementById('mask').className = 'light'
     if(players[0].lives <= 0){
-      //audio.playSong('defeat')
+      audio.playSong('defeat')
       //audio.stopAll()
       document.getElementById("final-score-lost").innerHTML = (players[0].totalMoney + players[0].totalTowersBuilt + players[0].sent.total + (players[0].kills.total * 2) + (players[0].lives*100))
 
@@ -672,7 +693,7 @@ Demo.model = (function(input, components, audio) {
 
       document.getElementById('game-lost').className = 'modal'
     }else{
-      //audio.playSong('victory')
+      audio.playSong('victory')
       //audio.stopAll()
       document.getElementById("final-score").innerHTML = (players[0].totalMoney + players[0].totalTowersBuilt + (players[0].totalTowersUpgraded * 2) + players[0].sent.total + (players[0].kills.total * 2) + (players[0].lives*100))
 
@@ -740,6 +761,7 @@ function Player(){
     lives: 10,
     totalTowersBuilt: 0,
     totalTowersUpgraded: 0,
+    pauseTime: 30000,
     kills: {
       RocketM: 0,
       Scientist: 0,
