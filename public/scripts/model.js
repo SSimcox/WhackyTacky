@@ -176,18 +176,19 @@ Demo.model = (function(input, components, audio) {
       } else if (selectedTower && towerToEvolve) {
         // do we want to evolve it?
 
-			if(gameCommands.evolveTower(myMouse)){
-				console.log('upgrading Tower')
-				upgradeTower(towerToEvolve)
-			}else if(gameCommands.sellTower(myMouse)){
-				console.log('selling Tower')
-				sellTower(towerToEvolve)
-			}
-		}
-		resetHover();
-		buildingHovering();
-		mouseHovering();
-	};
+        if (gameCommands.evolveTower(myMouse)) {
+          console.log('upgrading Tower')
+          upgradeTower(towerToEvolve)
+        } else if (gameCommands.sellTower(myMouse)) {
+          console.log('selling Tower')
+          sellTower(towerToEvolve)
+        }
+      }
+      resetHover();
+      buildingHovering();
+      mouseHovering();
+    }
+	}
 
 	function resetHover(){
 		if(!myMouse.buildSelected() || !myMouse.creepSelected() && imageHovering){
