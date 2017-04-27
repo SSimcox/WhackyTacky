@@ -78,12 +78,12 @@ Demo.input.Mouse = function() {
   }
 
   function componentPrepAndHover(x, y){
-    if(x < 700 && x > 0){
+    if(x < 600 && x > 0){
       that.buildTower(x, y);
     }else if(x > 800 && x < 1000){
       upgrading = true;
       //Going to upgrade
-    }else if(x > 700 && x < 800){
+    }else if(x > 600 && x < 800){
       selling = true;
     }else{
       x = (event.pageX - yourOffset.x) / scaleOffset;
