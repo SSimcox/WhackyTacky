@@ -18,16 +18,17 @@ var mimeTypes = {
   '.css' : 'text/css'
 };
 
-//var exampleRoute = require('./scripts/exampleRoute');
+var highScores = require('./scripts/highScores');
 
 
 app.use('/public', express.static('public'));
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.set('/views', __dirname + '/views');
 
 
 //app.use('/example', exampleRoute);
-//app.use(handleRequest)
+app.use(highScores)
 
 app.get('/', function (req, res) {
  res.sendFile(__dirname + '/views/index.html')

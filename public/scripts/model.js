@@ -832,7 +832,8 @@ Demo.model = (function(input, components, audio) {
     }else{
       audio.playSong('victory')
       //audio.stopAll()
-      document.getElementById("final-score").innerHTML = (players[0].totalMoney + players[0].totalTowersBuilt + (players[0].totalTowersUpgraded * 2) + players[0].sent.total + (players[0].kills.total * 2) + (players[0].lives*100))
+      players[0].finalScore = (players[0].totalMoney + players[0].totalTowersBuilt + (players[0].totalTowersUpgraded * 2) + players[0].sent.total + (players[0].kills.total * 2) + (players[0].lives*100))
+      document.getElementById("final-score").innerHTML = players[0].finalScore
 
       document.getElementById("your-gold-farmed-winner").innerHTML = players[0].totalMoney
       document.getElementById("enemy-gold-farmed-winner").innerHTML = players[1].totalMoney
@@ -867,7 +868,7 @@ Demo.model = (function(input, components, audio) {
       document.getElementById("your-total-killed-winner").innerHTML = players[0].kills.total
       document.getElementById("enemy-total-killed-winner").innerHTML = players[1].kills.total
 
-      document.getElementById('game-won-submit').addEventListener('click',function(){saveScore(audio,socket)})
+      document.getElementById('game-won-submit').addEventListener('click',function(){saveScore(audio,socket,players)})
       document.getElementById('game-won').className = 'modal'
     }
     //audio.stop()
@@ -1076,9 +1077,17 @@ function Player(){
   }
 }
 
-function saveScore(audio,socket){
+function saveScore(audio,socket,players){
 
   // send score to server
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  var myInit = { method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify({name: document.getElementById('winner-name').value, score: players[0].finalScore})
+  };
+
+  fetch('/highScores',myInit)
 
   returnToMainMenu(audio,socket)
 }

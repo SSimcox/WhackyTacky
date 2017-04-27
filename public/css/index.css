@@ -183,3 +183,8 @@ input {
     padding: 5px;
     margin: 2vh 2.5vh;
 }
+
+#score-table{
+    background-color: #500000;
+    border-radius: 10px;
+}
