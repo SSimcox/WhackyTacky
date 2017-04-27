@@ -266,7 +266,28 @@ Demo.loader = (function() {
     {
       key: 'pokeballred',
       source: '/public/assets/graphics/tiles/pokeballred.png'
-    }
+    },
+    {
+      key: 'rock1',
+      source: '/public/assets/graphics/tiles/rock1.png'
+    },
+    {
+      key: 'rock2',
+      source: '/public/assets/graphics/tiles/rock2.png'
+    },
+    {
+      key: 'rock3',
+      source: '/public/assets/graphics/tiles/rock3.png'
+    },
+    {
+      key: 'rock4',
+      source: '/public/assets/graphics/tiles/rock4.png'
+    },
+    {
+      key: 'rock5',
+      source: '/public/assets/graphics/tiles/rock5.png'
+    },
+
   ];
 
 	//------------------------------------------------------------------
