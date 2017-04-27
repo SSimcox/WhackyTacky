@@ -260,6 +260,21 @@ Demo.renderer.core = (function() {
 		context[p].stroke();
 	}
 
+  function drawCircle2(lineStyle, center, radius, p) {
+    //
+    // 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
+
+    context[p].strokeStyle = lineStyle;
+    context[p].beginPath();
+    context[p].arc(
+      0.5 + world.left + (center.x * world.size),
+      0.5 + world.top + (center.y * world.size),
+      radius * world.size,
+      0, 2 * Math.PI);
+
+    context[p].stroke();
+  }
+
 	//------------------------------------------------------------------
 	//
 	// Draws a rectangle relative to the 'unit world'.
@@ -375,6 +390,7 @@ Demo.renderer.core = (function() {
 		drawLine: drawLine,
 		drawRectangle: drawRectangle,
 		drawCircle: drawCircle,
+    drawCircle2: drawCircle2,
 		drawImage: drawImage,
 		drawImage2: drawImage2,
     drawCurve: drawCurve,

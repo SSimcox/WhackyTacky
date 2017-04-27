@@ -141,7 +141,6 @@ Demo.components.Tower = function(spec, center) {
           if (creeps[i].id === spec.attack.target && creeps[i].type !== "deleted" && distance(creeps[i].center, center) < spec.attack.range) {
             sameTarget = true
             returnTarget = i
-            console.log(spec.attack.timeSinceAttack)
           }
         }
       }
@@ -155,7 +154,6 @@ Demo.components.Tower = function(spec, center) {
               shortestCreepPath = creeps[i].stats.path.length
               spec.attack.target = creeps[i].id;
               returnTarget = i
-              console.log(spec.attack.timeSinceAttack)
             }
           }
         }

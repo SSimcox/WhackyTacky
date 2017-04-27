@@ -168,6 +168,42 @@ Demo.loader = (function() {
 			source: '/public/assets/graphics/tiles/dirt.png'
 		},
     {
+      key: 'loadingdirt',
+      source: '/public/assets/graphics/tiles/loadingdirt.png'
+    },
+    {
+      key: 'brick',
+      source: '/public/assets/graphics/tiles/brick.png'
+    },
+    {
+      key: 'loadingbrick',
+      source: '/public/assets/graphics/tiles/loadingbrick.png'
+    },
+    {
+      key: 'gravel',
+      source: '/public/assets/graphics/tiles/gravel.png'
+    },
+    {
+      key: 'loadinggravel',
+      source: '/public/assets/graphics/tiles/loadinggravel.png'
+    },
+    {
+      key: 'sand',
+      source: '/public/assets/graphics/tiles/sand.png'
+    },
+    {
+      key: 'loadingsand',
+      source: '/public/assets/graphics/tiles/loadingsand.png'
+    },
+    {
+      key: 'white',
+      source: '/public/assets/graphics/tiles/white.png'
+    },
+    {
+      key: 'loadingwhite',
+      source: '/public/assets/graphics/tiles/loadingwhite.png'
+    },
+    {
       key: 'fence',
       source: '/public/assets/graphics/tiles/fence.png'
     },
@@ -190,10 +226,6 @@ Demo.loader = (function() {
     {
       key: 'bggrass',
       source: '/public/assets/graphics/tiles/bggrass.png'
-    },
-    {
-      key: 'loadingdirt',
-      source: '/public/assets/graphics/tiles/loadingdirt.png'
     },
     {
       key: 'buildingselectbg',

@@ -45,9 +45,9 @@ Demo.components.AttackData.load = function() {
       spriteMove: Demo.assets['water-hit'],
       spriteHit: Demo.assets['water-hit'],
       spriteCountMove: 6,
-      spriteTimeMove: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
+      spriteTimeMove: [20, 20, 20, 20, 20, 20],
       spriteCountHit: 6,
-      spriteTimeHit: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
+      spriteTimeHit: [20, 20, 20, 20, 20, 20],
       spriteSize: {width: 100, height: 100},
       attack: {
         damage: 5,

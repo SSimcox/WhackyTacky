@@ -49,8 +49,10 @@ Demo.model = (function(input, components, audio) {
   }
 
   let paths = []
+  let particles
+  let bgs = ['brick','dirt','gravel','sand','white'], bg
 
-	var hover,
+  var hover,
 	    imageHovering = false,
 	    towerToEvolve,
 	    upgrading = false,
@@ -95,6 +97,8 @@ Demo.model = (function(input, components, audio) {
     myKeyboard = input.Keyboard()
     myMouse = input.Mouse()
     gameCommands = input.GameCommands(myMouse, myKeyboard)
+
+    bg = bgs[Math.floor(Math.random()*bgs.length)]
 
     gameVars = {
       totalTime: 0,
@@ -385,6 +389,9 @@ Demo.model = (function(input, components, audio) {
               } else {
                 if (players[p].creeps[i].type !== "deleted")
                   players[p].lives--
+                let particle = components.ParticleSystem()
+                particle.create('egg',{center: {x: 975 - 25 * players[p].lives, y: 25}})
+                players[p].particles.push(particle)
                 players[p].creeps[i].type = "deleted"
               }
             }
@@ -498,6 +505,7 @@ Demo.model = (function(input, components, audio) {
 			for(let i = 0; i < players[p].sendCreeps.length; i++){
 				renderer.CreepsHover.render(players[p].sendCreeps[i],p)
 			}
+			drawHeader(renderer)
 			for(let i = 0; i < players[p].particles.length; i++){
 				renderer.ParticleSystem.render(players[p].particles[i],p)
 			}
@@ -514,7 +522,7 @@ Demo.model = (function(input, components, audio) {
 			drawSellUpgrade(renderer, towerToEvolve.tower)
 		}
 
-    drawHeader(renderer)
+
 
 	};
 
@@ -551,8 +559,8 @@ Demo.model = (function(input, components, audio) {
             if (players[p].creeps[i] === undefined || players[p].creeps[i].type != serverModel[key].creeps[i].type) {
               if (serverModel[key].creeps[i].type === "deleted") {
                 if(serverModel[key].creeps[i].killed) {
-                  let particle = components.ParticleSystem(serverModel[key].creeps[i])
-                  particle.create()
+                  let particle = components.ParticleSystem()
+                  particle.create('creep',serverModel[key].creeps[i])
                   players[p].particles.push(particle)
                 }
                 players[p].creeps.splice(i, 1)
@@ -648,34 +656,34 @@ Demo.model = (function(input, components, audio) {
 
 
     for(let p = 0; p < 2; p++) {
-      renderer.core.drawImage(Demo.assets['dirt'], 0, 0, 32, 32, 0, 100, 50, 50, p)
+      renderer.core.drawImage(Demo.assets[bg], 0, 0, 32, 32, 0, 100, 50, 50, p)
       for (let j = 1; j < 19; j++) {
-        renderer.core.drawImage(Demo.assets['dirt'], 32, 0, 32, 32, j * 50, 100, 50, 50, p)
+        renderer.core.drawImage(Demo.assets[bg], 32, 0, 32, 32, j * 50, 100, 50, 50, p)
       }
-      renderer.core.drawImage(Demo.assets['dirt'], 64, 0, 32, 32, 950, 100, 50, 50, p)
+      renderer.core.drawImage(Demo.assets[bg], 64, 0, 32, 32, 950, 100, 50, 50, p)
 
       // draw middle of grass/dirt
       for (let i = 3; i < 16; i++) {
-        renderer.core.drawImage(Demo.assets['dirt'], 0, 32, 32, 32, 0, (i * 50), 50, 50, p)
+        renderer.core.drawImage(Demo.assets[bg], 0, 32, 32, 32, 0, (i * 50), 50, 50, p)
         for (let j = 1; j < 19; j++) {
-          renderer.core.drawImage(Demo.assets['dirt'], 32, 32, 32, 32, j * 50, (i * 50), 50, 50, p)
+          renderer.core.drawImage(Demo.assets[bg], 32, 32, 32, 32, j * 50, (i * 50), 50, 50, p)
         }
-        renderer.core.drawImage(Demo.assets['dirt'], 64, 32, 32, 32, 950, (i * 50), 50, 50, p)
+        renderer.core.drawImage(Demo.assets[bg], 64, 32, 32, 32, 950, (i * 50), 50, 50, p)
       }
 
       //draw bottom row of grass/dirt
-      renderer.core.drawImage(Demo.assets['dirt'], 0, 64, 32, 32, 0, 800, 50, 50, p)
+      renderer.core.drawImage(Demo.assets[bg], 0, 64, 32, 32, 0, 800, 50, 50, p)
       for (let j = 1; j < 19; j++) {
-        renderer.core.drawImage(Demo.assets['dirt'], 32, 64, 32, 32, j * 50, 800, 50, 50, p)
+        renderer.core.drawImage(Demo.assets[bg], 32, 64, 32, 32, j * 50, 800, 50, 50, p)
       }
-      renderer.core.drawImage(Demo.assets['dirt'], 64, 64, 32, 32, 950, 800, 50, 50, p)
+      renderer.core.drawImage(Demo.assets[bg], 64, 64, 32, 32, 950, 800, 50, 50, p)
 
       // Draw "landing dirt" for creeps
-      renderer.core.drawImage(Demo.assets['loadingdirt'], 0, 0, 32, 32, 0, 850, 50, 50, p)
+      renderer.core.drawImage(Demo.assets['loading' + bg], 0, 0, 32, 32, 0, 850, 50, 50, p)
       for (let j = 1; j < 19; j++) {
-        renderer.core.drawImage(Demo.assets['loadingdirt'], 32, 0, 32, 32, j * 50, 850, 50, 50, p)
+        renderer.core.drawImage(Demo.assets['loading' + bg], 32, 0, 32, 32, j * 50, 850, 50, 50, p)
       }
-      renderer.core.drawImage(Demo.assets['loadingdirt'], 64, 0, 32, 32, 950, 850, 50, 50, p)
+      renderer.core.drawImage(Demo.assets['loading' + bg], 64, 0, 32, 32, 950, 850, 50, 50, p)
 
 
       // Draw Background grass at top under building and fences
@@ -737,6 +745,9 @@ Demo.model = (function(input, components, audio) {
     renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 700,900,100,100,0)
     renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 800,900,100,100,0)
     renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 900,900,100,100,0)
+
+    renderer.core.drawRectangle("rgba(0,0,0,1",600,900,200,100,true,0)
+    renderer.core.drawRectangle("rgba(0,0,0,1",800,900,200,100,true,0)
 
 		// console.log(sellStats, upgradeStats)
 
@@ -1013,14 +1024,14 @@ Demo.model = (function(input, components, audio) {
     renderer.Text.render(creepText2,3)
 
     renderer.core.drawCurve(125,250,125,275,80,275,"rgba(255,0,0,1)",5,3)
-    renderer.core.drawCircle("rgba(255,0,0,1",{x: 137.5,y: 240}, 15,3)
-    renderer.core.drawCircle("rgba(0,0,255,1",{x: 887.5,y: 465}, 15,3)
+    renderer.core.drawCircle2("rgba(255,0,0,1",{x: 137.5,y: 240}, 15,3)
+    renderer.core.drawCircle2("rgba(0,0,255,1",{x: 887.5,y: 465}, 15,3)
     renderer.core.drawCurve(800,275,902.5,465,1100,305,"rgba(0,0,255,1)",5,3)
     renderer.Text.render(hotkeyText,3)
 
     renderer.core.drawCurve2(45,325,50,165,0,270,0,180,"rgba(255,0,0,1)",5,3)
-    renderer.core.drawCircle("rgba(255,0,0,1",{x: 57.5,y: 160}, 15,3)
-    renderer.core.drawCircle("rgba(0,0,255,1",{x: 807.5,y: 385}, 15,3)
+    renderer.core.drawCircle2("rgba(255,0,0,1",{x: 57.5,y: 160}, 15,3)
+    renderer.core.drawCircle2("rgba(0,0,255,1",{x: 807.5,y: 385}, 15,3)
     renderer.core.drawCurve(850,325,820,375,875,365,"rgba(0,0,255,1)",5,3)
     renderer.Text.render(costText,3)
 
