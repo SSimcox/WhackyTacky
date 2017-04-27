@@ -13,7 +13,14 @@ Demo.renderer.TowerHover = (function(core) {
     core.saveContext(p);
     image.bg = 'buildingselectbgblue'
     Demo.renderer.StaticImage.render(image,p);
-    core.restoreContext(p);
+    if(image.range == undefined) {
+      core.drawRectangle("rgba(0,0,0,1",
+        image.center.x - 50,
+        image.center.y - 50,
+        100, 100, true, p);
+    }
+      core.restoreContext(p);
+
   }
 
   return that;

@@ -1,20 +1,24 @@
-Demo.components.ParticleSystem = function(spec){
+Demo.components.ParticleSystem = function(){
   'use strict';
 	var that = {},
 		nextName = 1,	// unique identifier for the next particle
 		particles = {}	// Set of all active particles
 
+	let images = {
+		'creep': [Demo.assets['pokeball'], Demo.assets['pokeballred']],
+		'egg': [Demo.assets['egg']]
+	}
 	//------------------------------------------------------------------
 	//
 	// This creates one new particle
 	//
 	//------------------------------------------------------------------
-	that.create = function() {
+	that.create = function(source, spec) {
 		console.log('creating particles')
-    let image = [Demo.assets['pokeball'], Demo.assets['pokeballred']];
+    let image = images[source];
 		for(let i = 0; i < 50; ++i){
 			var p = Demo.components.Particle({
-				image: image[i%2],
+				image: image[i%image.length],
 				imageCenter: {x: spec.center.x, y: spec.center.y}, // How long the particle should live, in seconds
 				alive: 0	// How long the particle has been alive, in seconds
 			});

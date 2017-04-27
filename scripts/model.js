@@ -57,23 +57,6 @@ module.exports = function(player1, player2){
     }
     players.gameVars.obsticles = obsticles;
 
-
-
-    // Debugging check all images
-    players[player1].towers.push(Components.Tower(Towers['Ivysaur'],{x:550, y: 350}))
-    players[player1].towers.push(Components.Tower(Towers['Venusaur'],{x:150, y: 350}))
-
-    players[player1].towers.push(Components.Tower(Towers['Charmeleon'],{x:550, y: 550}))
-    players[player1].towers.push(Components.Tower(Towers['Charizard'],{x:150, y: 550}))
-
-    players[player1].towers.push(Components.Tower(Towers['Wartortle'],{x:550, y: 750}))
-    players[player1].towers.push(Components.Tower(Towers['Blastoise'],{x:150, y: 750}))
-
-    //Example of how upgrading could work
-    // towers[i] = components.Charmeleon({
-    //   center: towers[i].center,
-    //   exp: towers[i].exp
-    // })
   };
 
   // ------------------------------------------------------------------
@@ -244,8 +227,8 @@ function Player(){
     towers: [],
     creeps: [],
     map: [],
-    money: 250,
-    totalMoney: 250,
+    money: 15,
+    totalMoney: 15,
     income: 1,
     lives: 10,
     path: [],
