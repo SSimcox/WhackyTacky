@@ -15,6 +15,7 @@ module.exports = function(player1, player2){
   players[player1] = {}
   players[player2] = {}
   players.gameVars = {}
+  let obsticles = []
 
 
   let that = {};
@@ -30,6 +31,8 @@ module.exports = function(player1, player2){
     players[player1] = Player()
     players[player2] = Player()
 
+    let obsticleCount = Math.floor(Math.random()*20)
+
     for(let i = 0; i < 16; i++){
       players[player1].map.push([])
       players[player2].map.push([])
@@ -38,6 +41,21 @@ module.exports = function(player1, player2){
         players[player2].map[i].push(-1)
       }
     }
+
+    for(let i = 0; i < 15; i++){
+      for(let j = 0; j < 20; j++){
+        if(obsticleCount > 0 && Math.floor(Math.random()*1001) < 75){
+          players[player1].map[i][j] = -2
+          players[player2].map[i][j] = -2
+          players[player1].map[i][j] = -1
+          players[player2].map[i][j] = -1
+          obsticleCount--;
+          obsticles.push({i: i, j: j})
+          console.log('putting obsticles', i, j)
+        }
+      }
+    }
+    players.gameVars.obsticles = obsticles;
 
 
 
@@ -209,6 +227,11 @@ module.exports = function(player1, player2){
       players[p].map.push([])
       for(let j = 0; j < 20; j++){
         players[p].map[i].push(-1)
+        for(let k = 0; k < obsticles.length; k++){
+          if(obsticles[k].i === i && obsticles[k].j == j){
+            players[p].map[i][j] = -2
+          }
+        }
       }
     }
   }

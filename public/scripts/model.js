@@ -461,6 +461,7 @@ Demo.model = (function(input, components, audio) {
     drawBackground(renderer)
 
 		for(let p = 0; p < players.length; ++p) {
+			drawObsticles(renderer, p)
       for (let i = 0; i < players[p].towers.length; i++) {
         if(players[p].towers[i].type === "deleted") continue
         renderer.Tower.render(players[p].towers[i],p)
@@ -501,16 +502,13 @@ Demo.model = (function(input, components, audio) {
 								if(Math.abs(hover.center.y - players[0].towers[k].center.y) <=50){
 									blocked = true;
 									renderer.core.drawRectangle(noBuildFill, hover.center.x - 50, hover.center.y - 50, 100, 100, false, 0)
-									console.log('too close')
 								}
 							}
 						}
 						if(!blocked){
 							let path = buildPathBlocked(hover)
-							console.log('checking if blocked', path)
 							if(path === false){
 								renderer.core.drawRectangle(noBuildFill, hover.center.x - 50, hover.center.y - 50, 100, 100, false, 0)
-								console.log('pathing')
 							}
 						}
 					}
@@ -537,6 +535,7 @@ Demo.model = (function(input, components, audio) {
 		var y = (hover.center.y - 100) / 50
 		for(let i = y-1; i <= y; i++){
 			for(let j = x-1; j <=x ; j++){
+				console.log(players[0].map)
 				if(players[0].map[i][j] != -1) return false;
 			}
 		}
@@ -803,7 +802,19 @@ Demo.model = (function(input, components, audio) {
 		if(upgradeStats) renderer.core.drawTextUpgrade(upgradeStats, 0)
 	}
 
-  that.setSocket = function(s){
+	function drawObsticles(renderer,p){
+		console.log(players[p].map)
+		for(let i = 0; i < gameVars.obsticles.length; i++){
+			renderer.core.drawImage2({image: Demo.assets['loadingdirt']}, gameVars.obsticles[i].j*50, (gameVars.obsticles[i].i+2)*50,  50, 50, p)
+		}
+		// for(let i = 0; i < 15; ++i){
+		// 	for(let j = 0; j < 20; ++j){
+		// 		if(players[p].map[i][j] === -2)	renderer.core.drawImage2({image: Demo.assets['loadingdirt']}, (j)*50, (i+2)*50,  50, 50, p)
+		// 	}
+		// }
+	}
+
+	that.setSocket = function(s){
     socket = s;
   }
 
@@ -812,7 +823,12 @@ Demo.model = (function(input, components, audio) {
     for(let i = 0; i < 16; i++){
       players[p].map.push([])
       for(let j = 0; j < 20; j++){
-        players[p].map[i].push(-1)
+				players[p].map[i].push(-1)
+				for(let k = 0; k < gameVars.obsticles.length; k++){
+					if(gameVars.obsticles[k].i === i && gameVars.obsticles[k].j === j){
+						players[p].map[i][j] = -2;
+					}
+				}
       }
     }
   }
