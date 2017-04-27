@@ -44,7 +44,7 @@ module.exports = function(player1, player2){
 
     for(let i = 0; i < 15; i++){
       for(let j = 0; j < 20; j++){
-        if(obsticleCount > 0 && Math.floor(Math.random()*1001) < 75){
+        if(obsticleCount > 0 && Math.floor(Math.random()*1001) < 50){
           players[player1].map[i][j] = -2
           players[player2].map[i][j] = -2
           players[player1].map[i][j] = -1

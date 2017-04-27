@@ -767,6 +767,7 @@ Demo.model = (function(input, components, audio) {
 		let sellVal = Math.floor(towerValues[tower.type].cost/2);
 		let sellStats = towerValues[tower.type]
 		sellStats.position = {x:700, y:900}
+
 		let upgradeStats = undefined;
 		if(tower.typeUpgrade){
 			upgradeStats = towerValues[tower.typeUpgrade];
@@ -816,10 +817,11 @@ Demo.model = (function(input, components, audio) {
 	}
 
 	function drawObsticles(renderer,p){
-		console.log(players[p].map)
-		for(let i = 0; i < gameVars.obsticles.length; i++){
-			renderer.core.drawImage2({image: Demo.assets[obs[gameVars.obsticles[i].img]]}, gameVars.obsticles[i].j*50, (gameVars.obsticles[i].i+2)*50,  50, 50, p)
-		}
+    if(gameVars.obsticles) {
+      for (let i = 0; i < gameVars.obsticles.length; i++) {
+        renderer.core.drawImage2({image: Demo.assets[obs[gameVars.obsticles[i].img]]}, gameVars.obsticles[i].j * 50, (gameVars.obsticles[i].i + 2) * 50, 50, 50, p)
+      }
+    }
 		// for(let i = 0; i < 15; ++i){
 		// 	for(let j = 0; j < 20; ++j){
 		// 		if(players[p].map[i][j] === -2)	renderer.core.drawImage2({image: Demo.assets['loadingdirt']}, (j)*50, (i+2)*50,  50, 50, p)
@@ -950,112 +952,112 @@ Demo.model = (function(input, components, audio) {
       text : "Welcome to Whacky Tacky Tower Defense!",
       font : '60px Oswald, sans-serif',
       fill : 'rgba(0, 0, 255, 1)',
-      position : { x : 50, y : 50 }
+      position : { x : 50, y : 0 }
     })
 
     let towerTut = components.BulbasaurHover({
-      imageCenter: {x:100, y: 200}
+      imageCenter: {x:100, y: 150}
     })
 
     let towerText1 = components.Text({
       text : "This is a tower. Build them in your area (the left side) to protect your eggs",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 160, y : 150 }
+      position : { x : 160, y : 100 }
     })
     let towerText2 = components.Text({
       text : "from being stolen by your enemy!",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 160, y : 190 }
+      position : { x : 160, y : 140 }
     })
 
     let costText = components.Text({
       text : "This is the cost of a Tower or creep. You can't spend what you don't have!",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 50, y : 300 }
+      position : { x : 50, y : 250 }
     })
 
     let hotkeyText = components.Text({
       text : "This is a hot-key. You can use it instead of clicking the icon!",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 140, y : 250 }
+      position : { x : 140, y : 200 }
     })
 
     let creepTut = components.RocketMHover({
-      imageCenter: {x: 850, y: 425}
+      imageCenter: {x: 850, y: 375}
     })
 
     let creepText1 = components.Text({
       text : "This is a creep. Send them to your enemy to steal their eggs! The",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 50, y : 375 }
+      position : { x : 50, y : 325 }
     })
 
     let creepText2 = components.Text({
       text : "more creeps you send, the more money you will make!",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 50, y : 415 }
+      position : { x : 50, y : 365 }
     })
 
     let sampleGoldText = components.Text({
       text : "123",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 255, 1)',
-      position : { x : 100, y : 500 }
+      position : { x : 100, y : 450 }
     })
 
     let goldText1 = components.Text({
       text : "This is your gold. You need it to build towers, send creeps, and upgrade. You",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 150, y : 500 }
+      position : { x : 150, y : 450 }
     })
 
     let goldText2 = components.Text({
       text : "earn gold from killing enemy creeps and selling back your towers",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 150, y : 540 }
+      position : { x : 150, y : 490 }
     })
 
     let sampleIncomeText = components.Text({
       text : "17",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 255, 1)',
-      position : { x : 100, y : 600 }
+      position : { x : 100, y : 550 }
     })
 
     let incomeText1 = components.Text({
       text : "This is your income. Your gold will increase by this amount every",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 150, y : 600 }
+      position : { x : 150, y : 550 }
     })
 
     let incomeText2 = components.Text({
       text : "seven seconds. To raise your income, send more creeps!",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 150, y : 640 }
+      position : { x : 150, y : 590 }
     })
 
     let livesText1 = components.Text({
       text : "These are your eggs. There are precious baby pokemon in there! If you let your",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 100, y : 680 }
+      position : { x : 100, y : 630 }
     })
 
     let livesText2 = components.Text({
       text : "opponent steal all of them you lose!",
       font : '30px Oswald, sans-serif',
       fill : 'rgba(0, 0, 0, 1)',
-      position : { x : 100, y : 720 }
+      position : { x : 100, y : 670 }
     })
 
 
@@ -1075,31 +1077,102 @@ Demo.model = (function(input, components, audio) {
     renderer.Text.render(creepText1,3)
     renderer.Text.render(creepText2,3)
 
-    renderer.core.drawCurve(125,250,125,275,80,275,"rgba(255,0,0,1)",5,3)
-    renderer.core.drawCircle2("rgba(255,0,0,1",{x: 137.5,y: 240}, 15,3)
-    renderer.core.drawCircle2("rgba(0,0,255,1",{x: 887.5,y: 465}, 15,3)
-    renderer.core.drawCurve(800,275,902.5,465,1100,305,"rgba(0,0,255,1)",5,3)
+    renderer.core.drawCurve(125,200,125,220,80,220,"rgba(255,0,0,1)",5,3)
+    renderer.core.drawCircle2("rgba(255,0,0,1",{x: 137.5,y: 190}, 15,3)
+    renderer.core.drawCircle2("rgba(0,0,255,1",{x: 887.5,y: 415}, 15,3)
+    renderer.core.drawCurve(800,225,902.5,415,1100,255,"rgba(0,0,255,1)",5,3)
     renderer.Text.render(hotkeyText,3)
 
-    renderer.core.drawCurve2(45,325,50,165,0,270,0,180,"rgba(255,0,0,1)",5,3)
-    renderer.core.drawCircle2("rgba(255,0,0,1",{x: 57.5,y: 160}, 15,3)
-    renderer.core.drawCircle2("rgba(0,0,255,1",{x: 807.5,y: 385}, 15,3)
-    renderer.core.drawCurve(850,325,820,375,875,365,"rgba(0,0,255,1)",5,3)
+    renderer.core.drawCurve2(45,275,50,115,0,270,0,130,"rgba(255,0,0,1)",5,3)
+    renderer.core.drawCircle2("rgba(255,0,0,1",{x: 57.5,y: 110}, 15,3)
+    renderer.core.drawCircle2("rgba(0,0,255,1",{x: 807.5,y: 335}, 15,3)
+    renderer.core.drawCurve(850,275,820,325,875,315,"rgba(0,0,255,1)",5,3)
     renderer.Text.render(costText,3)
 
-    renderer.core.drawImage2({image: Demo.assets['gold']},50,500,50,50,3)
+    renderer.core.drawImage2({image: Demo.assets['gold']},50,450,50,50,3)
     renderer.Text.render(sampleGoldText,3)
     renderer.Text.render(goldText1,3)
     renderer.Text.render(goldText2,3)
 
-    renderer.core.drawImage2({image: Demo.assets['income']},50,600,50,50,3)
+    renderer.core.drawImage2({image: Demo.assets['income']},50,550,50,50,3)
     renderer.Text.render(sampleIncomeText,3)
     renderer.Text.render(incomeText1,3)
     renderer.Text.render(incomeText2,3)
 
-    renderer.core.drawImage2({image: Demo.assets['egg']},50,700,50,50,3)
+    renderer.core.drawImage2({image: Demo.assets['egg']},50,650,50,50,3)
     renderer.Text.render(livesText1,3)
     renderer.Text.render(livesText2,3)
+
+    renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 50,725,100,100,3)
+    renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 150,725,100,100,3)
+    renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 250,725,100,100,3)
+    renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 350,725,100,100,3)
+
+    let sellStats = towerValues['Wartortle']
+    let upgradeStats = towerValues['Blastoise']
+    renderer.core.drawImage2({image: Demo.assets['wartortleHover']}, 50, 725, 100, 100, 3);
+    renderer.core.drawImage2({image: Demo.assets['blastoiseHover']}, 250, 725, 100, 100, 3);
+
+    let evolveText = components.Text({
+      text : "Make your Towers more powerful by evolving",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 450, y : 715 }
+    })
+
+    let sellText = components.Text({
+      text : "them so they can better protect the eggs! Sell",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 450, y : 755 }
+    })
+
+    let sellText2 = components.Text({
+      text : "them if you need some gold!",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 450, y : 795 }
+    })
+
+    sellStats.position = {x:150, y:725}
+    upgradeStats.position = {x:350, y:725}
+    renderer.core.drawTextSell(sellStats, 3)
+    renderer.core.drawTextUpgrade(upgradeStats, 3)
+    renderer.Text.render(evolveText,3)
+    renderer.Text.render(sellText,3)
+    renderer.Text.render(sellText2,3)
+
+    renderer.core.drawImage2({image: Demo.assets['rock1']},850,875,50,50,3)
+    renderer.core.drawImage2({image: Demo.assets['rock2']},900,875,50,50,3)
+    renderer.core.drawImage2({image: Demo.assets['rock3']},850,925,50,50,3)
+    renderer.core.drawImage2({image: Demo.assets['rock4']},900,925,50,50,3)
+    renderer.core.drawImage2({image: Demo.assets['rock5']},800,900,50,50,3)
+
+    let rockText = components.Text({
+      text : "Rocks are randomly scattered throughout the map at the",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 150, y : 865 }
+    })
+
+    let rockText2 = components.Text({
+      text : "beginning of every game. You can't build towers on them,",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 150, y : 905 }
+    })
+
+    let rockText3 = components.Text({
+      text : " but watch out, Creeps can walk right over them!",
+      font : '30px Oswald, sans-serif',
+      fill : 'rgba(0, 0, 0, 1)',
+      position : { x : 150, y : 945 }
+    })
+
+
+    renderer.Text.render(rockText,3)
+    renderer.Text.render(rockText2,3)
+    renderer.Text.render(rockText3,3)
   }
 
 	return that;

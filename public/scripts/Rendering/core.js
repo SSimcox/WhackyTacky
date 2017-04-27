@@ -150,7 +150,7 @@ Demo.renderer.core = (function() {
 		context[p].fillStyle = spec.fill;
 		context[p].textBaseline = 'top';
 		context[p].fillText(
-			"Sell: " + spec.cost/2,
+			"Sell: " + Math.floor(spec.cost/2),
 			world.left + spec.position.x * world.size,
 			world.top + spec.position.y * world.size);
 		context[p].fillText(
