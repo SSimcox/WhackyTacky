@@ -45,12 +45,14 @@ Demo.model = (function(input, components, audio) {
     lastIncome: 0,
     gameOver: false,
     gamePaused: false,
-    gameStarts: 30000
+    gameStarts: 30000,
+	  obsticles: []
   }
 
   let paths = []
   let particles
   let bgs = ['brick','dirt','gravel','sand','white'], bg
+	let obs = ['rock1', 'rock2','rock3','rock4','rock1']
 
   var hover,
 	    imageHovering = false,
@@ -816,7 +818,7 @@ Demo.model = (function(input, components, audio) {
 	function drawObsticles(renderer,p){
 		console.log(players[p].map)
 		for(let i = 0; i < gameVars.obsticles.length; i++){
-			renderer.core.drawImage2({image: Demo.assets['loadingdirt']}, gameVars.obsticles[i].j*50, (gameVars.obsticles[i].i+2)*50,  50, 50, p)
+			renderer.core.drawImage2({image: Demo.assets[obs[gameVars.obsticles[i].img]]}, gameVars.obsticles[i].j*50, (gameVars.obsticles[i].i+2)*50,  50, 50, p)
 		}
 		// for(let i = 0; i < 15; ++i){
 		// 	for(let j = 0; j < 20; ++j){

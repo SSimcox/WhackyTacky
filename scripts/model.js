@@ -50,7 +50,8 @@ module.exports = function(player1, player2){
           players[player1].map[i][j] = -1
           players[player2].map[i][j] = -1
           obsticleCount--;
-          obsticles.push({i: i, j: j})
+          let r = Math.floor(Math.random() * 5)
+          obsticles.push({i: i, j: j, img: r})
           console.log('putting obsticles', i, j)
         }
       }
@@ -261,6 +262,7 @@ function GameVars(){
     gameOver: false,
     gamePaused: false,
     gameStarts: 30000,
-    playerPause: 0
+    playerPause: 0,
+    obsticles: []
   }
 }
