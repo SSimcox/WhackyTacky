@@ -57,17 +57,7 @@ Demo.model = (function(input, components, audio) {
 	    selling = false,
 	    location,
 	    selectedTower = false,
-			// staticImageValues = {
-			// 	Bulbasaur: components.BulbasaurHover({imageCenter: {x: 1000, y: 1000}}),
-			// 	Ivysaur: components.IvysaurHover({imageCenter: {x: 1000, y: 1000}}),
-			// 	Venusaur: components.VenusaurHover({imageCenter: {x: 1000, y: 1000}}),
-			// 	Charmander: components.CharmanderHover({imageCenter: {x: 1000, y: 1000}}),
-			// 	Charmeleon: components.CharmeleonHover({imageCenter: {x: 1000, y: 1000}}),
-			// 	Charizard: components.CharizardHover({imageCenter: {x: 1000, y: 1000}}),
-			//   Squirtle: components.SquirtleHover({imageCenter: {x: 1000, y: 1000}}),
-			//   Wartortle: components.WartortleHover({imageCenter: {x: 1000, y: 1000}}),
-			// 	Blastoise: components.BlastoiseHover({imageCenter: {x: 1000, y: 1000}})
-			// },
+			noBuildFill = 'rgba(255,0,0,.3)',
 
       selectedStyle = '22px Oswald, sans-serif',
       selectedFill = 'rgba(255, 255, 255, 1)',
@@ -301,6 +291,7 @@ Demo.model = (function(input, components, audio) {
 
   function ready(){
 	  socket.emit('event', {game:room, event: 'ready', player: socket.id})
+		clearAndReset();
   }
 
   function readyHelp(){
@@ -502,6 +493,28 @@ Demo.model = (function(input, components, audio) {
 				renderer.ParticleSystem.render(players[p].particles[i],p)
 			}
 			if(hover && (myMouse.buildSelected() || myMouse.creepSelected())){
+				if(hover.center.y <= 800 && hover.center.x > 0){
+					if(myMouse.buildSelected() && p === 0 ){
+						let blocked = false;
+						for(let k = 0; k < players[0].towers.length; ++k){
+							if(Math.abs(hover.center.x - players[0].towers[k].center.x) <=50){
+								if(Math.abs(hover.center.y - players[0].towers[k].center.y) <=50){
+									blocked = true;
+									renderer.core.drawRectangle(noBuildFill, hover.center.x - 50, hover.center.y - 50, 100, 100, false, 0)
+									console.log('too close')
+								}
+							}
+						}
+						if(!blocked){
+							let path = buildPathBlocked(hover)
+							console.log('checking if blocked', path)
+							if(path === false){
+								renderer.core.drawRectangle(noBuildFill, hover.center.x - 50, hover.center.y - 50, 100, 100, false, 0)
+								console.log('pathing')
+							}
+						}
+					}
+				}
 				if(myMouse.buildSelected()){
 					renderer.TowerHover.render(hover, 0);
 				}else{
@@ -511,12 +524,30 @@ Demo.model = (function(input, components, audio) {
     }
 
 		if(selectedTower && towerToEvolve){
+
 			drawSellUpgrade(renderer, towerToEvolve.tower)
 		}
 
     drawHeader(renderer)
 
 	};
+
+	function buildPathBlocked(hover){
+		var x = (hover.center.x) / 50
+		var y = (hover.center.y - 100) / 50
+		for(let i = y-1; i <= y; i++){
+			for(let j = x-1; j <=x ; j++){
+				if(players[0].map[i][j] != -1) return false;
+			}
+		}
+		for(let i = y-1; i <= y; i++){
+			for(let j = x-1; j <= x; j++){
+				players[0].map[i][j] = players[0].towers.length + 1;
+			}
+		}
+		return setPath(players[0])
+
+	}
 
 	that.diffModels = function(serverModel){
 	  var p = 0;
@@ -732,6 +763,9 @@ Demo.model = (function(input, components, audio) {
 			upgradeStats = towerValues[tower.typeUpgrade];
 			upgradeStats.position = {x:900, y:900}
 		}
+
+		console.log(tower)
+		renderer.core.drawCircle('rgba(255,0,0,.2)',tower.center, tower.attack.range, 0)
 
 		renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 600,900,100,100,0)
     renderer.core.drawImage2({image: Demo.assets['buildingselectbgpurple']}, 700,900,100,100,0)
